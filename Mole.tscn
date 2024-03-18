@@ -1,10 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0yyh8sgwxyyy"]
+[gd_scene load_steps=3 format=3 uid="uid://d0yyh8sgwxyyy"]
+
+[ext_resource type="Script" path="res://Mole.cs" id="1_d2lq5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u7yo"]
 
 [node name="Area2D" type="Area2D"]
+script = ExtResource("1_d2lq5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_2u7yo")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
