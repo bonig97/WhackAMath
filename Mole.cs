@@ -29,6 +29,11 @@ public partial class Mole : Area2D
 		Connect("update_score", new Callable(this, GetParent().Name + "_on_Mole_update_score"));
 		collision_shape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<Sprite2D>("Sprite2D");
+		if (sprite == null)
+		{
+			GD.Print("sprite is null");
+		}
+		GD.Randomize();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,19 +57,23 @@ public partial class Mole : Area2D
 		
 	}
 
-    private void move_up()
-    {
-        collision_shape.Disabled = false;
-		tween.TweenProperty(sprite, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+	private void move_up()
+	{
+		GD.Print("move up");
+		collision_shape.Disabled = false;
+		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
-    }
+		sprite.Visible = true;
+	}
 
 	private void move_down()
-    {
-        collision_shape.Disabled = true;
-		tween.TweenProperty(sprite, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+	{
+		GD.Print("move down");
+		collision_shape.Disabled = true;
+		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
-    }
+		sprite.Visible = false;
+	}
 
 	private void _input(InputEvent @event)
 	{
