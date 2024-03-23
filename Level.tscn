@@ -1244,28 +1244,28 @@ layer_2/tile_data = PackedInt32Array(1835061, 12, 1)
 script = ExtResource("12_4wv6t")
 
 [node name="Area2D" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(991, 543)
+position = Vector2(1024, 579)
 
 [node name="Area2D2" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(590, 547)
+position = Vector2(623, 578)
 
 [node name="Area2D3" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(157, 551)
+position = Vector2(191, 578)
 
 [node name="Area2D4" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(799, 306)
+position = Vector2(834, 336)
 
 [node name="Area2D5" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(365, 308)
+position = Vector2(399, 337)
 
 [node name="Area2D6" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(1000, 110)
+position = Vector2(1024, 145)
 
 [node name="Area2D7" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(589, 107)
+position = Vector2(623, 146)
 
 [node name="Area2D8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(161, 105)
+position = Vector2(191, 145)
 
 [node name="ScoreLabel" type="Label" parent="."]
 unique_name_in_owner = true

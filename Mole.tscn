@@ -4,19 +4,25 @@
 [ext_resource type="Texture2D" uid="uid://drs1nr7cbxpwi" path="res://icon.svg" id="2_k3ukk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u7yo"]
-size = Vector2(126, 129)
+size = Vector2(62, 67)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_d2lq5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(-32.5, -32.5)
+scale = Vector2(0.492188, 0.492188)
 texture = ExtResource("2_k3ukk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -1.5)
+position = Vector2(-32, -32.5)
 shape = SubResource("RectangleShape2D_2u7yo")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
