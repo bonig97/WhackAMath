@@ -10,7 +10,7 @@ public partial class Mole : Area2D
 	Signal update_score;
 	Timer timer;
 	CollisionShape2D collision_shape;
-	Sprite2D sprite;
+	AnimatedSprite2D sprite;
 	Tween tween = new Tween();
 	int bonk_height = 50;
 	float ease_value = 0.5f;
@@ -28,7 +28,7 @@ public partial class Mole : Area2D
 		init_pos = GlobalPosition;
 		Connect("update_score", new Callable(this, GetParent().Name + "_on_Mole_update_score"));
 		collision_shape = GetNode<CollisionShape2D>("CollisionShape2D");
-		sprite = GetNode<Sprite2D>("Sprite2D");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		if (sprite == null)
 		{
 			GD.Print("sprite is null");
@@ -63,6 +63,9 @@ public partial class Mole : Area2D
 		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
 		sprite.Visible = true;
+		sprite.Play("rising");
+		sprite.Pause();
+		sprite.Play("new_animation");
 	}
 
 	private void move_down()
@@ -70,6 +73,8 @@ public partial class Mole : Area2D
 		collision_shape.Disabled = true;
 		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
+		sprite.Pause();
+		sprite.Play("hiding");
 		sprite.Visible = false;
 	}
 
