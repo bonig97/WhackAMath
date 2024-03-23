@@ -10,7 +10,7 @@ public partial class MoleHouse : Node
 
 	public override void _Ready()
 	{
-		score_label = GetNode<Label>("ScoreLabel");
+		score_label = GetNode<Label>("%ScoreLabel");
 		score_label.Text = "Score: " + score;
 	}
 

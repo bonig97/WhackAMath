@@ -59,7 +59,6 @@ public partial class Mole : Area2D
 
 	private void move_up()
 	{
-		GD.Print("move up");
 		collision_shape.Disabled = false;
 		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
@@ -68,14 +67,13 @@ public partial class Mole : Area2D
 
 	private void move_down()
 	{
-		GD.Print("move down");
 		collision_shape.Disabled = true;
 		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
 		timer.Start();
 		sprite.Visible = false;
 	}
 
-	private void _input(InputEvent @event)
+	private void _on_input_event(Node viewport, InputEvent @event, long shape_idx)
 	{
 		if (@event is InputEventMouseButton && hittable && mouse_in)
 		{
@@ -85,14 +83,21 @@ public partial class Mole : Area2D
 		}
 	}
 
-	private void _on_Mole_mouse_entered()
+	private void _on_mouse_entered()
 	{
 		mouse_in = true;
 	}
 
-	private void _on_Mole_mouse_exited()
+
+	private void _on_mouse_exited()
 	{
 		mouse_in = false;
 	}
 
 }
+
+
+
+
+
+
