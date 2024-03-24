@@ -5,25 +5,27 @@ public partial class Mole : Area2D
 {
 	[Signal]
 	public delegate void UpdateScoreEventHandler();
-	Timer timer;
-	CollisionShape2D collision_shape;
-	AnimatedSprite2D sprite;
-	Tween tween = new Tween();
-	int bonk_height = 50;
-	float ease_value = 0.5f;
-	int rand_int;
-	bool hittable = false;
-	bool mouse_in = false;
-	Vector2 init_pos;
+
+	private Timer timer;
+	private CollisionShape2D collisionShape;
+	private AnimatedSprite2D sprite;
+	private Tween tween = new();
+	private const int BonkHeight = 50;
+	private readonly Random random = new();
+	private bool isHittable = false;
+	private bool isMouseInside = false;
+	private Vector2 initialPosition;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
-		timer.Connect("timeout", new Callable(this, nameof(_on_Timer_timeout)));
+		timer.Connect("timeout", new Callable(this, nameof(_on_timer_timeout)));
 		timer.Start();
-		init_pos = GlobalPosition;
-		collision_shape = GetNode<CollisionShape2D>("CollisionShape2D");
+		SetProcessInput(true);
+		initialPosition = GlobalPosition;
+		Connect("input_event", new Callable(this, nameof(_on_input_event)));
+		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		if (sprite == null)
@@ -39,47 +41,43 @@ public partial class Mole : Area2D
 	{
 	}
 
-	public void _on_Timer_timeout()
+	public void _on_timer_timeout()
 	{
-		rand_int = new Random().Next(0, 10);
-		if (rand_int > 5 && !hittable)
+		int randInt = random.Next(0, 10);
+		if (randInt > 5 && !isHittable)
 		{
-			hittable = true;
+			isHittable = true;
 			move_up();
 		}
-		else if (rand_int <= 5 && hittable)
+		else if (randInt <= 5 && isHittable)
 		{
-			hittable = false;
+			isHittable = false;
 			move_down();
 		}
 	}
 
 	private void move_up()
 	{
-		collision_shape.Disabled = false;
-		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+		collisionShape.Disabled = false;
 		timer.Start();
 		sprite.Visible = true;
 		sprite.Play("rising");
-		sprite.Pause();
-		sprite.Play("new_animation");
 	}
 
 	private void move_down()
 	{
-		collision_shape.Disabled = true;
-		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+		collisionShape.Disabled = true;
 		timer.Start();
-		sprite.Pause();
 		sprite.Play("hiding");
 		sprite.Visible = false;
 	}
 
 	private void _on_input_event(Node viewport, InputEvent @event, long shape_idx)
 	{
-		if (@event is InputEventMouseButton && hittable && mouse_in)
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
-			hittable = false;
+			GD.Print("Input event received");
+			isHittable = false;
 			move_down();
 			EmitSignal(nameof(UpdateScoreEventHandler));
 		}
@@ -87,12 +85,12 @@ public partial class Mole : Area2D
 
 	private void _on_mouse_entered()
 	{
-		mouse_in = true;
+		isMouseInside = true;
 	}
 
 
 	private void _on_mouse_exited()
 	{
-		mouse_in = false;
+		isMouseInside = false;
 	}
 }
