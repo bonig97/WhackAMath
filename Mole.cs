@@ -1,13 +1,10 @@
 using Godot;
 using System;
 
-
-
 public partial class Mole : Area2D
 {
-
-	// Declare member variables here. Examples:
-	Signal update_score;
+	[Signal]
+	public delegate void UpdateScoreEventHandler();
 	Timer timer;
 	CollisionShape2D collision_shape;
 	AnimatedSprite2D sprite;
@@ -23,16 +20,17 @@ public partial class Mole : Area2D
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
-		timer.Connect("timeout", new Callable(this, "_on_Timer_timeout"));
+		timer.Connect("timeout", new Callable(this, nameof(_on_Timer_timeout)));
 		timer.Start();
 		init_pos = GlobalPosition;
-		Connect("update_score", new Callable(this, GetParent().Name + "_on_Mole_update_score"));
 		collision_shape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
 		if (sprite == null)
 		{
 			GD.Print("sprite is null");
 		}
+
 		GD.Randomize();
 	}
 
@@ -54,7 +52,6 @@ public partial class Mole : Area2D
 			hittable = false;
 			move_down();
 		}
-		
 	}
 
 	private void move_up()
@@ -84,7 +81,7 @@ public partial class Mole : Area2D
 		{
 			hittable = false;
 			move_down();
-			EmitSignal("update_score");
+			EmitSignal(nameof(UpdateScoreEventHandler));
 		}
 	}
 
@@ -98,11 +95,4 @@ public partial class Mole : Area2D
 	{
 		mouse_in = false;
 	}
-
 }
-
-
-
-
-
-
