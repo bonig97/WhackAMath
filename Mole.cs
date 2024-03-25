@@ -18,17 +18,17 @@ public partial class Mole : Area2D
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
-		timer.Connect("timeout", new Callable(this, nameof(_on_timer_timeout)));
+		timer.Connect("timeout", new Callable(this, nameof(OnTimerTimeout)));
 		timer.Start();
 		SetProcessInput(true);
 		initialPosition = GlobalPosition;
-		Connect("input_event", new Callable(this, nameof(_on_input_event)));
+		Connect("input_event", new Callable(this, nameof(OnInputEvent)));
 		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		if (sprite == null)
 		{
-			GD.Print("sprite is null");
+			GD.Print("Sprite is null");
 		}
 
 		GD.Randomize();
@@ -39,22 +39,22 @@ public partial class Mole : Area2D
 	{
 	}
 
-	public void _on_timer_timeout()
+	private void OnTimerTimeout()
 	{
 		int randInt = random.Next(0, 10);
 		if (randInt > 5 && !isHittable)
 		{
 			isHittable = true;
-			move_up();
+			MoveUp();
 		}
 		else if (randInt <= 5 && isHittable)
 		{
 			isHittable = false;
-			move_down();
+			MoveDown();
 		}
 	}
 
-	private void move_up()
+	private void MoveUp()
 	{
 		collisionShape.Disabled = false;
 		timer.Start();
@@ -62,7 +62,7 @@ public partial class Mole : Area2D
 		sprite.Play("rising");
 	}
 
-	private void move_down()
+	private void MoveDown()
 	{
 		collisionShape.Disabled = true;
 		timer.Start();
@@ -70,23 +70,22 @@ public partial class Mole : Area2D
 		sprite.Visible = false;
 	}
 
-	private void _on_input_event(Node viewport, InputEvent @event, long shape_idx)
+	private void OnInputEvent(Node viewport, InputEvent @event, long shape_idx)
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
 			isHittable = false;
-			move_down();
+			MoveDown();
 			MoleHit?.Invoke();
 		}
 	}
 
-	private void _on_mouse_entered()
+	private void OnMouseEntered()
 	{
 		isMouseInside = true;
 	}
 
-
-	private void _on_mouse_exited()
+	private void OnMouseExited()
 	{
 		isMouseInside = false;
 	}
