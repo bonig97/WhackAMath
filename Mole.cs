@@ -3,9 +3,7 @@ using System;
 
 public partial class Mole : Area2D
 {
-	[Signal]
-	public delegate void UpdateScoreEventHandler();
-
+	public event Action MoleHit;
 	private Timer timer;
 	private CollisionShape2D collisionShape;
 	private AnimatedSprite2D sprite;
@@ -76,10 +74,9 @@ public partial class Mole : Area2D
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
-			GD.Print("Input event received");
 			isHittable = false;
 			move_down();
-			EmitSignal(nameof(UpdateScoreEventHandler));
+			MoleHit?.Invoke();
 		}
 	}
 

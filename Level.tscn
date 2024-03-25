@@ -1267,7 +1267,7 @@ position = Vector2(623, 146)
 [node name="Area2D8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(191, 145)
 
-[node name="ScoreLabel" type="Label" parent="."]
+[node name="ScoreLabel" type="Label" parent="MoleHouse"]
 unique_name_in_owner = true
 offset_left = 31.0
 offset_top = 19.0
