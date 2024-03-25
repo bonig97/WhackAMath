@@ -16,20 +16,30 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.Connect(nameof(Mole.UpdateScoreEventHandler), new Callable(this, nameof(_on_mole_update_score)));
+				mole.MoleHit += OnMoleHit;
 			}
 		}
 	}
 
-	private void _on_mole_update_score()
+	private void OnMoleHit()
 	{
-		GD.Print("Score update signal received");
 		score += 1;
-		scoreLabel.Text = "Score: " + score;
+		scoreLabel.Text = $"Score: {score}";
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	public override void _ExitTree()
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.MoleHit -= OnMoleHit;
+			}
+		}
 	}
 }
