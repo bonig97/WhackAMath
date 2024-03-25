@@ -1243,28 +1243,28 @@ layer_2/tile_data = PackedInt32Array(1835061, 12, 1)
 [node name="MoleHouse" type="Node" parent="."]
 script = ExtResource("12_4wv6t")
 
-[node name="Area2D" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(1024, 579)
 
-[node name="Area2D2" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole2" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(623, 578)
 
-[node name="Area2D3" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole3" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(191, 578)
 
-[node name="Area2D4" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole4" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(834, 336)
 
-[node name="Area2D5" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole5" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(399, 337)
 
-[node name="Area2D6" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole6" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(1024, 145)
 
-[node name="Area2D7" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole7" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(623, 146)
 
-[node name="Area2D8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
+[node name="Mole8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(191, 145)
 
 [node name="ScoreLabel" type="Label" parent="MoleHouse"]
@@ -1274,3 +1274,28 @@ offset_top = 19.0
 offset_right = 130.0
 offset_bottom = 54.0
 text = "Score:"
+
+[connection signal="input_event" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole2" to="MoleHouse/Mole2" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole2" to="MoleHouse/Mole2" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole2" to="MoleHouse/Mole2" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole3" to="MoleHouse/Mole3" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole3" to="MoleHouse/Mole3" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole3" to="MoleHouse/Mole3" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole4" to="MoleHouse/Mole4" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole4" to="MoleHouse/Mole4" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole4" to="MoleHouse/Mole4" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole5" to="MoleHouse/Mole5" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole5" to="MoleHouse/Mole5" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole5" to="MoleHouse/Mole5" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole6" to="MoleHouse/Mole6" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole6" to="MoleHouse/Mole6" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole6" to="MoleHouse/Mole6" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole7" to="MoleHouse/Mole7" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole7" to="MoleHouse/Mole7" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole7" to="MoleHouse/Mole7" method="OnMouseExited"]
+[connection signal="input_event" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnInputEvent"]
+[connection signal="mouse_entered" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnMouseExited"]
