@@ -1,9 +1,17 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Represents a mole in the Whack-A-Math game.
+/// Handles the behavior of the mole popping up and being hit.
+/// </summary>
 public partial class Mole : Area2D
 {
+	/// <summary>
+	/// Event triggered when the mole is hit.
+	/// </summary>
 	public event Action MoleHit;
+
 	private Timer timer;
 	private CollisionShape2D collisionShape;
 	private AnimatedSprite2D sprite;
@@ -14,7 +22,10 @@ public partial class Mole : Area2D
 	private bool isMouseInside = false;
 	private Vector2 initialPosition;
 
-	// Called when the node enters the scene tree for the first time.
+	/// <summary>
+	/// Initialization method called when the node enters the scene tree.
+	/// Sets up the mole and hides it by default.
+	/// </summary>
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
@@ -32,13 +43,17 @@ public partial class Mole : Area2D
 		}
 
 		GD.Randomize();
+		MoveDown(); // Ensure the mole starts in a hidden state.
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	// Regular update loop for frame-dependent behavior.
 	public override void _Process(double delta)
 	{
 	}
 
+	/// <summary>
+	/// Timer event that randomly decides whether to make the mole hittable (pop up) or not (hide).
+	/// </summary>
 	private void OnTimerTimeout()
 	{
 		int randInt = random.Next(0, 10);
@@ -54,22 +69,30 @@ public partial class Mole : Area2D
 		}
 	}
 
+	/// <summary>
+	/// Moves the mole up and makes it visible and hittable.
+	/// </summary>
 	private void MoveUp()
 	{
 		collisionShape.Disabled = false;
-		timer.Start();
 		sprite.Visible = true;
 		sprite.Play("rising");
+		timer.Start(); // Start the timer to schedule next hide.
 	}
 
+	/// <summary>
+	/// Hides the mole by moving it down, making it invisible and not hittable.
+	/// </summary>
 	private void MoveDown()
 	{
 		collisionShape.Disabled = true;
-		timer.Start();
-		sprite.Play("hiding");
 		sprite.Visible = false;
+		sprite.Play("hiding");
 	}
 
+	/// <summary>
+	/// Input event handler to detect mouse clicks on the mole, invoking the hit event.
+	/// </summary>
 	private void OnInputEvent(Node viewport, InputEvent @event, long shape_idx)
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
@@ -80,11 +103,13 @@ public partial class Mole : Area2D
 		}
 	}
 
+	// Detects when the mouse cursor enters the mole's area.
 	private void OnMouseEntered()
 	{
 		isMouseInside = true;
 	}
 
+	// Detects when the mouse cursor exits the mole's area.
 	private void OnMouseExited()
 	{
 		isMouseInside = false;
