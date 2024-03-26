@@ -1,108 +1,123 @@
 using Godot;
 using System;
 
-
-
+/// <summary>
+/// Represents a mole in the Whack-A-Math game.
+/// Handles the behavior of the mole popping up and being hit.
+/// </summary>
 public partial class Mole : Area2D
 {
+	/// <summary>
+	/// Event triggered when the mole is hit.
+	/// </summary>
+	public event Action MoleHit;
 
-	// Declare member variables here. Examples:
-	Signal update_score;
-	Timer timer;
-	CollisionShape2D collision_shape;
-	AnimatedSprite2D sprite;
-	Tween tween = new Tween();
-	int bonk_height = 50;
-	float ease_value = 0.5f;
-	int rand_int;
-	bool hittable = false;
-	bool mouse_in = false;
-	Vector2 init_pos;
+	private Timer timer;
+	private Timer timer2;
+	private CollisionShape2D collisionShape;
+	private AnimatedSprite2D sprite;
+	private Tween tween = new();
+	private const int BonkHeight = 50;
+	private readonly Random random = new();
+	private bool isHittable = false;
+	private bool isMouseInside = false;
+	private Vector2 initialPosition;
 
-	// Called when the node enters the scene tree for the first time.
+	/// <summary>
+	/// Initialization method called when the node enters the scene tree.
+	/// Sets up the mole and hides it by default.
+	/// </summary>
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
-		timer.Connect("timeout", new Callable(this, "_on_Timer_timeout"));
+		timer2 = GetNode<Timer>("Timer2");
+		timer2.OneShot = true;
+		timer.Connect("timeout", new Callable(this, nameof(OnTimerTimeout)));
+		timer2.Connect("timeout", new Callable(this, nameof(OnTimerTimeout)));
 		timer.Start();
-		init_pos = GlobalPosition;
-		Connect("update_score", new Callable(this, GetParent().Name + "_on_Mole_update_score"));
-		collision_shape = GetNode<CollisionShape2D>("CollisionShape2D");
+		timer2.Start();
+		timer.WaitTime = random.Next(3, 5);
+		SetProcessInput(true);
+		initialPosition = GlobalPosition;
+		Connect("input_event", new Callable(this, nameof(OnInputEvent)));
+		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
 		if (sprite == null)
 		{
-			GD.Print("sprite is null");
+			GD.Print("Sprite is null");
 		}
+
 		GD.Randomize();
+		MoveDown(); // Ensure the mole starts in a hidden state.
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	// Regular update loop for frame-dependent behavior.
 	public override void _Process(double delta)
 	{
 	}
 
-	public void _on_Timer_timeout()
+	/// <summary>
+	/// Timer event that randomly decides whether to make the mole hittable (pop up) or not (hide).
+	/// </summary>
+	private void OnTimerTimeout()
 	{
-		rand_int = new Random().Next(0, 10);
-		if (rand_int > 5 && !hittable)
+		int randInt = random.Next(0, 10);
+		if (randInt > 5 && !isHittable)
 		{
-			hittable = true;
-			move_up();
+			isHittable = true;
+			MoveUp();
 		}
-		else if (rand_int <= 5 && hittable)
+		else if (randInt <= 5 && isHittable)
 		{
-			hittable = false;
-			move_down();
+			isHittable = false;
+			MoveDown();
 		}
-		
 	}
 
-	private void move_up()
+	/// <summary>
+	/// Moves the mole up and makes it visible and hittable.
+	/// </summary>
+	private void MoveUp()
 	{
-		collision_shape.Disabled = false;
-		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y - bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-		timer.Start();
+		collisionShape.Disabled = false;
 		sprite.Visible = true;
 		sprite.Play("rising");
-		sprite.Pause();
-		sprite.Play("new_animation");
+		timer.Start(); // Start the timer to schedule next hide.
 	}
 
-	private void move_down()
+	/// <summary>
+	/// Hides the mole by moving it down, making it invisible and not hittable.
+	/// </summary>
+	private void MoveDown()
 	{
-		collision_shape.Disabled = true;
-		//tween.TweenProperty(this, "global_position", new Vector2(sprite.GlobalPosition.X, sprite.GlobalPosition.Y + bonk_height), 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
-		timer.Start();
-		sprite.Pause();
-		sprite.Play("hiding");
+		collisionShape.Disabled = true;
 		sprite.Visible = false;
+		sprite.Play("hiding");
 	}
 
-	private void _on_input_event(Node viewport, InputEvent @event, long shape_idx)
+	/// <summary>
+	/// Input event handler to detect mouse clicks on the mole, invoking the hit event.
+	/// </summary>
+	private void OnInputEvent(Node viewport, InputEvent @event, long shape_idx)
 	{
-		if (@event is InputEventMouseButton && hittable && mouse_in)
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
-			hittable = false;
-			move_down();
-			EmitSignal("update_score");
+			isHittable = false;
+			MoveDown();
+			MoleHit?.Invoke();
 		}
 	}
 
-	private void _on_mouse_entered()
+	// Detects when the mouse cursor enters the mole's area.
+	private void OnMouseEntered()
 	{
-		mouse_in = true;
+		isMouseInside = true;
 	}
 
-
-	private void _on_mouse_exited()
+	// Detects when the mouse cursor exits the mole's area.
+	private void OnMouseExited()
 	{
-		mouse_in = false;
+		isMouseInside = false;
 	}
-
 }
-
-
-
-
-
-
