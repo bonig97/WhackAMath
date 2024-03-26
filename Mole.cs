@@ -13,6 +13,7 @@ public partial class Mole : Area2D
 	public event Action MoleHit;
 
 	private Timer timer;
+	private Timer timer2;
 	private CollisionShape2D collisionShape;
 	private AnimatedSprite2D sprite;
 	private Tween tween = new();
@@ -29,8 +30,13 @@ public partial class Mole : Area2D
 	public override void _Ready()
 	{
 		timer = GetNode<Timer>("Timer");
+		timer2 = GetNode<Timer>("Timer2");
+		timer2.OneShot = true;
 		timer.Connect("timeout", new Callable(this, nameof(OnTimerTimeout)));
+		timer2.Connect("timeout", new Callable(this, nameof(OnTimerTimeout)));
 		timer.Start();
+		timer2.Start();
+		timer.WaitTime = random.Next(3, 5);
 		SetProcessInput(true);
 		initialPosition = GlobalPosition;
 		Connect("input_event", new Callable(this, nameof(OnInputEvent)));
