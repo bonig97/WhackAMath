@@ -16,6 +16,8 @@ public partial class Mole : Area2D
 	private Timer timer2;
 	private CollisionShape2D collisionShape;
 	private AnimatedSprite2D sprite;
+	private Label label;
+	private Panel panel;
 	private Tween tween = new();
 	private const int BonkHeight = 50;
 	private readonly Random random = new();
@@ -42,6 +44,8 @@ public partial class Mole : Area2D
 		Connect("input_event", new Callable(this, nameof(OnInputEvent)));
 		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		panel = GetNode<Panel>("Panel");
+		label = GetNode<Label>("Panel/Label");
 
 		if (sprite == null)
 		{
@@ -82,6 +86,8 @@ public partial class Mole : Area2D
 	{
 		collisionShape.Disabled = false;
 		sprite.Visible = true;
+		panel.Visible = true;
+		label.Text = random.Next(1, 10).ToString();
 		sprite.Play("rising");
 		timer.Start(); // Start the timer to schedule next hide.
 	}
@@ -93,6 +99,7 @@ public partial class Mole : Area2D
 	{
 		collisionShape.Disabled = true;
 		sprite.Visible = false;
+		panel.Visible = false;
 		sprite.Play("hiding");
 	}
 
