@@ -21,7 +21,7 @@ project/assembly_name="WhackAMath"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/copilot/plugin.cfg")
+enabled=PackedStringArray()
 
 [rendering]
 
