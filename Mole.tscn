@@ -200,7 +200,7 @@ animations = [{
 size = Vector2(62, 67)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tx1kk"]
-bg_color = Color(0.0520747, 0.582874, 0.817723, 1)
+bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -245,6 +245,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tx1kk")
 
 [node name="Label" type="Label" parent="Panel"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 32.0
 offset_top = 8.0
 offset_right = 80.0
