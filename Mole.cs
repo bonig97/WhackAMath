@@ -147,6 +147,5 @@ public partial class Mole : Area2D
 			this.isCorrect = true;
 		}
 		label.Text = answer.ToString();
-		GD.Print("Answer set to: " + answer);
 	}
 }
