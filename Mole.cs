@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 /// <summary>
 /// Represents a mole in the Whack-A-Math game.
@@ -10,7 +11,8 @@ public partial class Mole : Area2D
 	/// <summary>
 	/// Event triggered when the mole is hit.
 	/// </summary>
-	public event Action MoleHit;
+	public event Action<bool> MoleHit;
+	public event Action SwitchAnswers;
 
 	private Timer timer;
 	private Timer timer2;
@@ -24,6 +26,10 @@ public partial class Mole : Area2D
 	private bool isHittable = false;
 	private bool isMouseInside = false;
 	private Vector2 initialPosition;
+	private bool isCorrect = false;
+
+	
+
 
 	/// <summary>
 	/// Initialization method called when the node enters the scene tree.
@@ -87,7 +93,6 @@ public partial class Mole : Area2D
 		collisionShape.Disabled = false;
 		sprite.Visible = true;
 		panel.Visible = true;
-		label.Text = random.Next(1, 10).ToString();
 		sprite.Play("rising");
 		timer.Start(); // Start the timer to schedule next hide.
 	}
@@ -101,6 +106,7 @@ public partial class Mole : Area2D
 		sprite.Visible = false;
 		panel.Visible = false;
 		sprite.Play("hiding");
+		SwitchAnswers?.Invoke();
 	}
 
 	/// <summary>
@@ -112,7 +118,8 @@ public partial class Mole : Area2D
 		{
 			isHittable = false;
 			MoveDown();
-			MoleHit?.Invoke();
+			// Emit the MoleHit event when the mole is hit and send the isCorrect value to it.
+			MoleHit?.Invoke(isCorrect);
 		}
 	}
 
@@ -126,5 +133,20 @@ public partial class Mole : Area2D
 	private void OnMouseExited()
 	{
 		isMouseInside = false;
+	}
+
+	public bool IsHittable()
+	{
+		return isHittable;
+	}
+
+	internal void SetAnswer(int answer, bool isCorrect = false)
+	{
+		if (isCorrect)
+		{
+			this.isCorrect = true;
+		}
+		label.Text = answer.ToString();
+		GD.Print("Answer set to: " + answer);
 	}
 }
