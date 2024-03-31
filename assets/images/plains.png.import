@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qqcq36pjtfon"
-path="res://.godot/imported/Tilled_Dirt.png-7ce524e6811acb36b262fdea8d925c1f.ctex"
+uid="uid://c8eyp3jac0e7"
+path="res://.godot/imported/plains.png-34bd29e7d8d19fb8e003ba60d106aa5c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tilled_Dirt.png"
-dest_files=["res://.godot/imported/Tilled_Dirt.png-7ce524e6811acb36b262fdea8d925c1f.ctex"]
+source_file="res://assets/images/plains.png"
+dest_files=["res://.godot/imported/plains.png-34bd29e7d8d19fb8e003ba60d106aa5c.ctex"]
 
 [params]
 

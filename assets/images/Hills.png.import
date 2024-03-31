@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6u5ax6lr02sm"
-path="res://.godot/imported/objects.png-b2708fe6754e3b7124ffb60a67d390df.ctex"
+uid="uid://ptjwq6ul0uju"
+path="res://.godot/imported/Hills.png-ca9654512f8a9e0a7a5edab47f97dde6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://objects.png"
-dest_files=["res://.godot/imported/objects.png-b2708fe6754e3b7124ffb60a67d390df.ctex"]
+source_file="res://assets/images/Hills.png"
+dest_files=["res://.godot/imported/Hills.png-ca9654512f8a9e0a7a5edab47f97dde6.ctex"]
 
 [params]
 
