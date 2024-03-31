@@ -5,12 +5,23 @@ using System.IO;
 using System.Linq;
 
 /// <summary>
+/// Enum to represent the different mathematical operations.
+/// </summary>
+public enum MathOperation
+{
+    Add,
+    Subtract,
+    Multiply,
+    Divide
+}
+
+/// <summary>
 /// Controls the logic for generating and managing level questions,
 /// including operations, range, and interaction with moles for answer selection.
 /// </summary>
 public partial class LevelController : Node
 {
-	private string operation; // Operation type: "Add", "Subtract", "Multiply", "Divide".
+	private MathOperation operation;
     private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
     private int correctAnswer; // Stores the correct answer to the current question.
     private MoleHouse moleHouse; // Reference to the MoleHouse node.
@@ -61,7 +72,7 @@ public partial class LevelController : Node
 				switch (parts[0].Trim())
 				{
 					case "operation":
-						operation = parts[1].Trim();
+						operation = Enum.Parse<MathOperation>(parts[1].Trim(), true);
 						break;
 					case "range":
 						var rangeParts = parts[1].Trim().Split('-');
@@ -118,13 +129,13 @@ public partial class LevelController : Node
 	{
 		switch (operation)
 		{
-			case "add":
+			case MathOperation.Add:
 				return random.Next(minRange + minRange, maxRange + maxRange + 1);
-			case "subtract":
+			case MathOperation.Subtract:
 				return random.Next(minRange - maxRange, maxRange - minRange + 1);
-			case "multiply":
+			case MathOperation.Multiply:
 				return random.Next(minRange * minRange, maxRange * maxRange + 1);
-			case "divide":
+			case MathOperation.Divide:
 				int dividend = random.Next(minRange, maxRange + 1);
 				int divisor = random.Next(minRange, maxRange + 1);
 				return dividend / Math.Max(1, divisor); // Avoid division by zero.
@@ -143,7 +154,7 @@ public partial class LevelController : Node
 		int y = random.Next(minRange, maxRange + 1);
 		int answer = 0;
 
-		if (operation == "add")
+		if (operation == MathOperation.Add)
 		{
 			answer = x + y;
 			DisplayQuestion($"{x} + {y} = ?");
