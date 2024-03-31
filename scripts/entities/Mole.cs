@@ -28,9 +28,6 @@ public partial class Mole : Area2D
 	private Vector2 initialPosition;
 	private bool isCorrect = false;
 
-	
-
-
 	/// <summary>
 	/// Initialization method called when the node enters the scene tree.
 	/// Sets up the mole and hides it by default.

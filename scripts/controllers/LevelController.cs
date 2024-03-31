@@ -1,0 +1,154 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+/// <summary>
+/// Controls the logic for generating and managing level questions,
+/// including operations, range, and interaction with moles for answer selection.
+/// </summary>
+public partial class LevelController : Node
+{
+	private string operation; // Operation type: "Add", "Subtract", "Multiply", "Divide".
+    private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
+    private int correctAnswer; // Stores the correct answer to the current question.
+    private MoleHouse moleHouse; // Reference to the MoleHouse node.
+    private List<Mole> moleList; // List to keep track of mole instances.
+	private readonly Random random = new();
+
+	/// <summary>
+    /// Initializes the controller by reading the question format, generating a question, and setting up moles.
+    /// </summary>
+    public override void _Ready()
+    {
+        moleHouse = GetNode<MoleHouse>("MoleHouse");
+        ReadQuestionFormat("data/levels/AddLevelEasy.txt");
+        correctAnswer = GenerateQuestion();
+        moleList = new List<Mole>();
+
+        // Initialize moles and subscribe to their answer switching event.
+        for (int i = 0; i < moleHouse.GetChildCount(); i++)
+        {
+            if (moleHouse.GetChild(i) is Mole mole)
+            {
+                moleList.Add(mole);
+                moleList[i].SwitchAnswers += SetMoleAnswers;
+            }
+        }
+        SetMoleAnswers();
+    }
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+
+	}
+
+	/// <summary>
+	/// Reads question format from a specified file. The file specifies the operation and range for the questions.
+	/// </summary>
+	/// <param name="filePath">Path to the question format file.</param>
+	private void ReadQuestionFormat(string filePath)
+	{
+		try
+		{
+			string[] lines = File.ReadAllLines(filePath);
+
+			foreach (string line in lines)
+			{
+				var parts = line.Split(':');
+				switch (parts[0].Trim())
+				{
+					case "operation":
+						operation = parts[1].Trim();
+						break;
+					case "range":
+						var rangeParts = parts[1].Trim().Split('-');
+						minRange = int.Parse(rangeParts[0]);
+						maxRange = int.Parse(rangeParts[1]);
+						break;
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"Failed to read question format from {filePath}: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+    /// Displays the generated question on the UI.
+    /// </summary>
+    /// <param name="questionText">The text of the question to display.</param>
+    private void DisplayQuestion(string questionText)
+    {
+        var questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
+        questionLabel.Text = questionText;
+    }
+
+	/// <summary>
+	/// Assigns correct and incorrect answers to the moles randomly.
+	/// </summary>
+	private void SetMoleAnswers()
+	{
+		var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
+
+		if (invisibleMoles.Count == 0) return; // No invisible moles to set answers for.
+
+		// Randomly select an invisible mole to set the correct answer.
+		var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
+		correctMole.SetAnswer(correctAnswer, true);
+
+		// Remove the mole with the correct answer from the list of candidates for incorrect answers.
+		invisibleMoles.Remove(correctMole);
+
+		// Set random answers to the rest of the moles.
+		foreach (var mole in invisibleMoles)
+		{
+			mole.SetAnswer(GenerateRandomAnswer(), false);
+		}
+	}
+
+	/// <summary>
+	/// Generates a random incorrect answer based on the operation and the range.
+	/// </summary>
+	/// <returns>A randomly generated incorrect answer.</returns>
+	private int GenerateRandomAnswer()
+	{
+		switch (operation)
+		{
+			case "add":
+				return random.Next(minRange + minRange, maxRange + maxRange + 1);
+			case "subtract":
+				return random.Next(minRange - maxRange, maxRange - minRange + 1);
+			case "multiply":
+				return random.Next(minRange * minRange, maxRange * maxRange + 1);
+			case "divide":
+				int dividend = random.Next(minRange, maxRange + 1);
+				int divisor = random.Next(minRange, maxRange + 1);
+				return dividend / Math.Max(1, divisor); // Avoid division by zero.
+			default:
+				throw new InvalidOperationException("Unknown operation.");
+		}
+	}
+
+	/// <summary>
+    /// Generates a new question based on the operation and range, displaying it to the player.
+    /// </summary>
+    /// <returns>The correct answer to the generated question.</returns>
+	private int GenerateQuestion()
+	{
+		int x = random.Next(minRange, maxRange + 1);
+		int y = random.Next(minRange, maxRange + 1);
+		int answer = 0;
+
+		if (operation == "add")
+		{
+			answer = x + y;
+			DisplayQuestion($"{x} + {y} = ?");
+		}
+
+		return answer;
+	}
+}
