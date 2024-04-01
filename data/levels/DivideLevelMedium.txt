@@ -1,0 +1,2 @@
+operation: divide
+range: 10-100

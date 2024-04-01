@@ -1,0 +1,2 @@
+operation: multiply
+range: 10-100
