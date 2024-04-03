@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvqg4anvn5nj4"]
+
+[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="1_k747g"]
+[ext_resource type="Script" path="res://settingsUI.cs" id="2_yujon"]
+
+[node name="Background" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = -152.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_k747g")
+stretch_mode = 2
+
+[node name="mainUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -4.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_yujon")
+
+[node name="Settings" type="Window" parent="mainUI"]
+title = "Settings"
+initial_position = 1
+size = Vector2i(800, 500)
+visible = false
+
+[node name="TutorialButton" type="Button" parent="mainUI"]
+layout_mode = 2
+offset_left = 653.0
+offset_top = 181.0
+offset_right = 722.0
+offset_bottom = 212.0
+text = "Tutorial"
+
+[node name="CenterContainer" type="CenterContainer" parent="mainUI"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="mainUI"]
+visible = false
+layout_mode = 2
+
+[node name="MusicEffectsUI_Settings_VBoxContainer_TopBar#BackButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 41.0
+offset_top = 16.0
+offset_right = 59.0
+offset_bottom = 47.0
+text = "<"
