@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpdhft0x0tsvx"]
+
+[ext_resource type="Script" path="res://settingsUI.cs" id="1"]
+[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="2"]
+
+[node name="Background" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = -152.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2")
+stretch_mode = 2
+
+[node name="MusicEffectsUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -4.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Settings" type="Window" parent="MusicEffectsUI"]
+title = "Settings"
+initial_position = 1
+size = Vector2i(800, 500)
+visible = false
+
+[node name="TutorialButton" type="Button" parent="MusicEffectsUI"]
+layout_mode = 2
+offset_left = 879.0
+offset_top = 18.0
+offset_right = 948.0
+offset_bottom = 49.0
+text = "Tutorial"
+
+[node name="CenterContainer" type="CenterContainer" parent="MusicEffectsUI"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MusicEffectsUI"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="MusicEffectsUI"]
+layout_mode = 2
+offset_left = 268.0
+offset_top = 311.0
+offset_right = 314.0
+offset_bottom = 334.0
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="MusicEffectsUI"]
+layout_mode = 2
+anchor_right = 0.045
+anchor_bottom = 0.071
+offset_left = 343.0
+offset_top = 369.0
+offset_right = 496.865
+offset_bottom = 336.578
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -80.0
+max_value = 20.0
+value = -20.0
+
+[node name="EffectsLabel" type="Label" parent="MusicEffectsUI"]
+layout_mode = 2
+offset_left = 267.0
+offset_top = 364.0
+offset_right = 319.0
+offset_bottom = 387.0
+text = "Effects"
+
+[node name="EffectsSlider" type="HSlider" parent="MusicEffectsUI"]
+layout_mode = 2
+offset_left = 341.0
+offset_top = 311.0
+offset_right = 536.0
+offset_bottom = 327.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -80.0
+max_value = 20.0
+value = -20.0
+
+[node name="MusicEffectsUI_Settings_VBoxContainer_TopBar#BackButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 41.0
+offset_top = 16.0
+offset_right = 59.0
+offset_bottom = 47.0
+text = "<"
