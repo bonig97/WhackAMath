@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy22u4031po41"]
+[gd_scene load_steps=5 format=3 uid="uid://dy22u4031po41"]
 
-[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="1_wdsqy"]
+[ext_resource type="Texture2D" path="res://lightblue.jpg" id="1_wdsqy"]
+[ext_resource type="Script" path="res://LanguageSelect.gd" id="2_moa23"]
 [ext_resource type="Texture2D" uid="uid://xy6ltsew3n3n" path="res://saudiFlag.png" id="3_4rt60"]
 [ext_resource type="Texture2D" uid="uid://cnbap6crqvdsd" path="res://italianflag.png" id="3_ccflh"]
 
@@ -9,47 +10,56 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -16.0
-offset_right = -152.0
+offset_right = 6.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_wdsqy")
-stretch_mode = 2
+stretch_mode = 6
 
-[node name="CountryFlags" type="VBoxContainer" parent="."]
+[node name="LanguageSelect" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = 66.0
+offset_bottom = 66.0
+script = ExtResource("2_moa23")
+
+[node name="CountryFlags" type="VBoxContainer" parent="LanguageSelect"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.452
-offset_left = 225.0
-offset_top = 207.0
-offset_right = -233.0
-offset_bottom = 172.208
+offset_left = 199.0
+offset_top = 181.0
+offset_right = 159.0
+offset_bottom = 162.92
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Italianflag" type="Sprite2D" parent="CountryFlags"]
+[node name="Italianflag" type="Sprite2D" parent="LanguageSelect/CountryFlags"]
 position = Vector2(273, 31)
 scale = Vector2(0.612745, 0.685294)
 texture = ExtResource("3_ccflh")
 
-[node name="SaudiFlag" type="Sprite2D" parent="CountryFlags"]
+[node name="SaudiFlag" type="Sprite2D" parent="LanguageSelect/CountryFlags"]
 position = Vector2(275, 210)
 scale = Vector2(0.171, 0.202586)
 texture = ExtResource("3_4rt60")
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="Backbutton" type="Button" parent="LanguageSelect"]
 layout_mode = 0
-offset_left = 429.0
-offset_top = 75.0
-offset_right = 540.0
-offset_bottom = 98.0
+offset_right = 47.0
+offset_bottom = 77.0
+theme_override_font_sizes/font_size = 50
+text = "<"
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 256.0
+offset_top = 39.0
+offset_right = 811.0
+offset_bottom = 149.0
+theme_override_font_sizes/font_size = 80
 text = "Whack-A-Mole"
 
-[node name="MusicEffectsUI_Settings_VBoxContainer_TopBar#BackButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 29.0
-offset_top = 18.0
-offset_right = 47.0
-offset_bottom = 49.0
-text = "<"
+[connection signal="pressed" from="LanguageSelect/Backbutton" to="LanguageSelect" method="_on_backbutton_pressed"]

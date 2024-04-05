@@ -1,19 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvqg4anvn5nj4"]
+[gd_scene load_steps=6 format=3 uid="uid://bvqg4anvn5nj4"]
 
-[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="1_k747g"]
-[ext_resource type="Script" path="res://settingsUI.cs" id="2_yujon"]
+[ext_resource type="Texture2D" path="res://lightblue.jpg" id="1_k747g"]
+[ext_resource type="PackedScene" uid="uid://d0yyh8sgwxyyy" path="res://Mole.tscn" id="3_mwtxl"]
+[ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://usaFlag.png" id="4_7b4kp"]
+[ext_resource type="Texture2D" uid="uid://cvnnljbt7lnuq" path="res://settingsicon.png" id="4_uvksj"]
 
-[node name="Background" type="TextureRect"]
+[sub_resource type="GDScript" id="GDScript_vgnf8"]
+script/source = "extends Control
+
+var languageSelection: PackedScene
+var endlessmode: PackedScene
+var settingsOption: PackedScene
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	languageSelection = load(\"res://languageChoice.tscn\")
+	endlessmode = load(\"res://Level.tscn\")
+	settingsOption = load(\"res://settingsUI.tscn\")
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_flagselection_pressed():
+	get_tree().change_scene_to_packed(languageSelection)
+
+
+func _on_endlessmode_pressed():
+	get_tree().change_scene_to_packed(endlessmode)
+
+
+func _on_settings_button_pressed():
+	get_tree().change_scene_to_packed(settingsOption)
+"
+
+[node name="Background3" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -16.0
-offset_right = -152.0
+offset_right = -4.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_k747g")
-stretch_mode = 2
+stretch_mode = 6
 
 [node name="mainUI" type="Control" parent="."]
 layout_mode = 1
@@ -25,21 +56,13 @@ offset_top = -4.0
 offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_yujon")
+script = SubResource("GDScript_vgnf8")
 
 [node name="Settings" type="Window" parent="mainUI"]
 title = "Settings"
 initial_position = 1
 size = Vector2i(800, 500)
 visible = false
-
-[node name="TutorialButton" type="Button" parent="mainUI"]
-layout_mode = 2
-offset_left = 653.0
-offset_top = 181.0
-offset_right = 722.0
-offset_bottom = 212.0
-text = "Tutorial"
 
 [node name="CenterContainer" type="CenterContainer" parent="mainUI"]
 visible = false
@@ -50,10 +73,85 @@ size_flags_vertical = 3
 visible = false
 layout_mode = 2
 
-[node name="MusicEffectsUI_Settings_VBoxContainer_TopBar#BackButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 41.0
-offset_top = 16.0
-offset_right = 59.0
-offset_bottom = 47.0
-text = "<"
+[node name="Mole8" parent="mainUI" instance=ExtResource("3_mwtxl")]
+position = Vector2(180, 239)
+script = null
+
+[node name="Mole9" parent="mainUI" instance=ExtResource("3_mwtxl")]
+position = Vector2(467, 296)
+script = null
+
+[node name="Mole10" parent="mainUI" instance=ExtResource("3_mwtxl")]
+position = Vector2(289, 409)
+script = null
+
+[node name="Endlessmode" type="Button" parent="mainUI"]
+layout_mode = 0
+offset_left = 614.0
+offset_top = 296.0
+offset_right = 752.0
+offset_bottom = 360.0
+text = "Endless mode"
+
+[node name="Levelselect" type="Button" parent="mainUI"]
+layout_mode = 0
+offset_left = 611.0
+offset_top = 205.0
+offset_right = 749.0
+offset_bottom = 269.0
+text = "Level Select"
+
+[node name="CustomizeButton" type="Button" parent="mainUI"]
+layout_mode = 0
+offset_left = 615.0
+offset_top = 385.0
+offset_right = 753.0
+offset_bottom = 449.0
+text = "Customize
+"
+
+[node name="Flagselection" type="Button" parent="mainUI"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 22.0
+offset_right = 100.0
+offset_bottom = 102.0
+
+[node name="settingsButton" type="Button" parent="mainUI"]
+layout_mode = 0
+offset_left = 895.0
+offset_top = 19.0
+offset_right = 996.0
+offset_bottom = 101.0
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 42.0
+offset_right = 758.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 80
+text = "Whack-A-Math"
+
+[node name="UsaFlag" type="Sprite2D" parent="."]
+position = Vector2(54.25, 58.0001)
+scale = Vector2(0.0699218, 0.112759)
+texture = ExtResource("4_7b4kp")
+
+[node name="Settingsicon" type="Sprite2D" parent="."]
+position = Vector2(948.25, 53)
+scale = Vector2(0.233399, 0.195313)
+texture = ExtResource("4_uvksj")
+
+[connection signal="input_event" from="mainUI/Mole8" to="mainUI/Mole8" method="OnInputEvent"]
+[connection signal="mouse_entered" from="mainUI/Mole8" to="mainUI/Mole8" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="mainUI/Mole8" to="mainUI/Mole8" method="OnMouseExited"]
+[connection signal="input_event" from="mainUI/Mole9" to="mainUI/Mole9" method="OnInputEvent"]
+[connection signal="mouse_entered" from="mainUI/Mole9" to="mainUI/Mole9" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="mainUI/Mole9" to="mainUI/Mole9" method="OnMouseExited"]
+[connection signal="input_event" from="mainUI/Mole10" to="mainUI/Mole10" method="OnInputEvent"]
+[connection signal="mouse_entered" from="mainUI/Mole10" to="mainUI/Mole10" method="OnMouseEntered"]
+[connection signal="mouse_exited" from="mainUI/Mole10" to="mainUI/Mole10" method="OnMouseExited"]
+[connection signal="pressed" from="mainUI/Endlessmode" to="mainUI" method="_on_endlessmode_pressed"]
+[connection signal="pressed" from="mainUI/Flagselection" to="mainUI" method="_on_flagselection_pressed"]
+[connection signal="pressed" from="mainUI/settingsButton" to="mainUI" method="_on_settings_button_pressed"]
