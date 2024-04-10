@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxornxtid5gs0"]
 
-[ext_resource type="Texture2D" path="res://lightblue.jpg" id="2"]
+[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="2"]
 [ext_resource type="Script" path="res://loginpage.gd" id="2_348ll"]
 
 [node name="Background2" type="TextureRect"]

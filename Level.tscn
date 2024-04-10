@@ -1306,15 +1306,22 @@ position = Vector2(624, 210)
 position = Vector2(191, 210)
 
 [node name="ScoreLabel" type="Label" parent="MoleHouse"]
-unique_name_in_owner = true
-offset_left = 31.0
-offset_top = 19.0
-offset_right = 105.0
-offset_bottom = 47.0
+offset_left = 87.0
+offset_top = 30.0
+offset_right = 186.0
+offset_bottom = 58.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("14_f7tw6")
 theme_override_font_sizes/font_size = 21
 text = "Score:"
+
+[node name="Backbutton" type="Button" parent="."]
+offset_left = 38.0
+offset_top = 17.0
+offset_right = 64.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 30
+text = "<"
 
 [connection signal="input_event" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnInputEvent"]
 [connection signal="mouse_entered" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnMouseEntered"]
@@ -1340,3 +1347,4 @@ text = "Score:"
 [connection signal="input_event" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnInputEvent"]
 [connection signal="mouse_entered" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnMouseEntered"]
 [connection signal="mouse_exited" from="MoleHouse/Mole8" to="MoleHouse/Mole8" method="OnMouseExited"]
+[connection signal="pressed" from="Backbutton" to="." method="_on_backbutton_pressed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bvqg4anvn5nj4"]
 
-[ext_resource type="Texture2D" path="res://lightblue.jpg" id="1_k747g"]
+[ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="1_k747g"]
 [ext_resource type="PackedScene" uid="uid://d0yyh8sgwxyyy" path="res://Mole.tscn" id="3_mwtxl"]
 [ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://usaFlag.png" id="4_7b4kp"]
 [ext_resource type="Texture2D" uid="uid://cvnnljbt7lnuq" path="res://settingsicon.png" id="4_uvksj"]
