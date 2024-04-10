@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxornxtid5gs0"]
+
+[ext_resource type="Texture2D" path="res://lightblue.jpg" id="2"]
+[ext_resource type="Script" path="res://loginpage.gd" id="2_348ll"]
+
+[node name="Background2" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 8.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2")
+stretch_mode = 6
+
+[node name="loginpage" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 5.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_348ll")
+
+[node name="TitleLabel" type="Label" parent="loginpage"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 146.0
+offset_right = 811.0
+offset_bottom = 256.0
+theme_override_font_sizes/font_size = 80
+text = "Whack-A-Mole"
+
+[node name="PasswordInput" type="LineEdit" parent="loginpage"]
+layout_mode = 0
+offset_left = 307.0
+offset_top = 331.0
+offset_right = 766.0
+offset_bottom = 362.0
+placeholder_text = "Password"
+
+[node name="EmailInput" type="LineEdit" parent="loginpage"]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 274.0
+offset_right = 761.0
+offset_bottom = 305.0
+placeholder_text = "Email"
+
+[node name="LoginButton" type="Button" parent="loginpage"]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 382.0
+offset_right = 563.0
+offset_bottom = 413.0
+text = "Login
+"
+
+[connection signal="pressed" from="loginpage/LoginButton" to="loginpage" method="_on_login_button_pressed"]
