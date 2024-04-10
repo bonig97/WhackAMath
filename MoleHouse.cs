@@ -23,7 +23,7 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.MoleHit += OnMoleHit; // Explicitly cast OnMoleHit to Action<bool>.
+				mole.MoleHit += new Action<bool>(OnMoleHit); // Explicitly cast OnMoleHit to Action<bool>.
 			}
 		}
 	}
@@ -31,14 +31,10 @@ public partial class MoleHouse : Node
 	/// <summary>
 	/// Increments the score and updates the score label when a mole is hit.
 	/// </summary>
-	private void OnMoleHit(bool isCorrect)
+	private void OnMoleHit(bool hit)
 	{
-		// Increment the score and update the score label.
-		if (isCorrect)
-		{
-			score += 1;
-			scoreLabel.Text = $"Score: {score}";
-		}
+		score += 1;
+		scoreLabel.Text = $"Score: {score}";
 	}
 
 	/// <summary>
