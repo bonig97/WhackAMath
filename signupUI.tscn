@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwd1frkhx7ng1"]
+
+[ext_resource type="Texture2D" path="res://lightblue.jpg" id="2"]
+[ext_resource type="Script" path="res://SignUpPage.gd" id="2_aaana"]
+
+[node name="Background2" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2")
+stretch_mode = 2
+
+[node name="SignUpPage" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 2.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_aaana")
+
+[node name="TitleLabel" type="Label" parent="SignUpPage"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 86.0
+offset_right = 737.0
+offset_bottom = 196.0
+theme_override_font_sizes/font_size = 80
+text = "Whack-A-Math"
+
+[node name="SignUpButton" type="Button" parent="SignUpPage"]
+layout_mode = 2
+offset_left = 447.0
+offset_top = 398.0
+offset_right = 514.0
+offset_bottom = 429.0
+text = "Sign Up"
+
+[node name="gotoLogin" type="Button" parent="SignUpPage"]
+layout_mode = 2
+offset_left = 355.0
+offset_top = 442.0
+offset_right = 607.0
+offset_bottom = 473.0
+text = "Already have an account? Login"
+
+[node name="EmailInput" type="LineEdit" parent="SignUpPage"]
+layout_mode = 2
+offset_left = 251.0
+offset_top = 240.0
+offset_right = 708.0
+offset_bottom = 271.0
+placeholder_text = "Email"
+
+[node name="PasswordInput" type="LineEdit" parent="SignUpPage"]
+layout_mode = 2
+offset_left = 254.0
+offset_top = 342.0
+offset_right = 713.0
+offset_bottom = 373.0
+placeholder_text = "Password"
+
+[node name="ConfirmPasswordInput" type="LineEdit" parent="SignUpPage"]
+layout_mode = 2
+offset_left = 254.0
+offset_top = 290.0
+offset_right = 713.0
+offset_bottom = 321.0
+placeholder_text = "Confirm Password"
+
+[connection signal="pressed" from="SignUpPage/SignUpButton" to="SignUpPage" method="_on_sign_up_button_pressed"]
+[connection signal="pressed" from="SignUpPage/gotoLogin" to="SignUpPage" method="_on_goto_login_pressed"]
