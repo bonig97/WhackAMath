@@ -1,68 +1,61 @@
 using Godot;
 using System;
-using WhackAMath;
 
 /// <summary>
-/// 
+/// Login page for the Whack-A-Math game.
 /// </summary>
-public partial class LoginPage : Control
+public partial class loginUI : Control
 {
-    // Input Fields
-    private LineEdit emailInput;
-    private LineEdit passwordInput;
+	// Input Fields
+	private LineEdit emailInput;
+	private LineEdit passwordInput;
 
-    // Login Button
-    private Button loginButton;
+	// Login Button
+	private Button loginButton;
 
-    // "Sign Up" Text
-    private Label signUpLabel;
+	// "Sign Up" Text
+	private Button goToSignUpButton;
 
-    public override void _Ready()
-    {
-        // Create the input fields
-        emailInput = GetNode<LineEdit>("EmailInput");
-        passwordInput = GetNode<LineEdit>("PasswordInput");
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		// Create the input fields
+		emailInput = GetNode<LineEdit>("EmailInput");
+		passwordInput = GetNode<LineEdit>("PasswordInput");
 
-        // Create the login button
-        loginButton = GetNode<Button>("LoginButton");
-        // loginButton.Connect("pressed", this, nameof(OnLoginButtonPressed));
+		// Create the login button
+		loginButton = GetNode<Button>("LoginButton");
+		loginButton.Connect("pressed", new Callable(this, nameof(OnLoginButtonPressed)));
 
-        // Create the "Sign Up" text
-        signUpLabel = GetNode<Label>("SignUpLabel");
+		// Create the "Sign Up" text
+		goToSignUpButton = GetNode<Button>("GoToSignUpButton");
+		goToSignUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
 
-        // signUpLabel.Connect("gui_input", this, nameof(OnSignUpLabelClicked));
+		// signUpLabel.Connect("gui_input", this, nameof(OnSignUpLabelClicked));
 
-        // Load the SignUpPage scene
-        // signUpScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");        
-    }
+		// Load the SignUpPage scene
+		// signUpScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");  
+	}
 
-    private async void OnLoginButtonPressed()
-    {
-        string email = emailInput.Text;
-        string password = passwordInput.Text;
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+	
+	private void OnLoginButtonPressed()
+	{
+		string email = emailInput.Text;
+		string password = passwordInput.Text;
 
-        // Implement your login logic here
-        await FirestoreHelper.AuthenticateUser(email, password);
-    }
+		// Implement your login logic here
+		//await FirestoreHelper.AuthenticateUser(email, password);
+		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://mainUI.tscn");
+		GetTree().ChangeSceneToPacked(mainScene);
+	}
 
-    // private void OnSignUpLabelClicked(InputEvent inputEvent)
-    // {
-    //     if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == (int)ButtonList.Left)
-    //     {
-    //         // Switch to the sign up page
-    //         SwitchToSignUpPage();
-    //     }
-    // }
-
-    // private void SwitchToSignUpPage()
-    // {
-    //     // Create a new instance of the SignUpPage scene
-    //     Node signUpPage = signUpScene.Instance();
-
-    //     // Add the SignUpPage to the scene tree
-    //     GetTree().Root.AddChild(signUpPage);
-
-    //     // Remove the LoginPage from the scene tree
-    //     QueueFree();
-    // }
+	private void OnSignUpButtonPressed()
+	{
+		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");
+		GetTree().ChangeSceneToPacked(mainScene);
+	}
 }
