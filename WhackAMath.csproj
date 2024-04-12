@@ -5,7 +5,4 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="FirebaseAdmin" Version="2.4.1" />
-  </ItemGroup>
 </Project>
