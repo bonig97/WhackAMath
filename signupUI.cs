@@ -1,60 +1,60 @@
 using Godot;
 using System;
-using WhackAMath;
 
-/// <summary>
-/// Login page for the Whack-A-Math game.
-/// </summary>
-public partial class SignupPage : Control
+public partial class signupUI : Control
 {
-    // Input Fields
-    private LineEdit emailInput;
-    private LineEdit passwordInput;
+	// Input Fields
+	private LineEdit emailInput;
+	private LineEdit passwordInput;
+	private LineEdit confirmPasswordInput;
 
-    // Sign Up Button
-    private Button signUpButton;
+	// Sign Up Button
+	private Button signUpButton;
+	private Button goToLoginButton;
 
-    // "Sign Up" Text
-    private Label signUpLabel;
 
-    public override void _Ready()
-    {
-        //Sets up the database environment
-        FirestoreHelper.SetEnvironmentVariable();
-        
-        // Create the title label
-        var titleLabel = new Label();
-        titleLabel.Text = "Whack-A-Math";
-        AddChild(titleLabel);
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		//Sets up the database environment
+		//FirestoreHelper.SetEnvironmentVariable();
 
-        // Create the input fields
-        emailInput = new LineEdit();
-        emailInput.PlaceholderText = "Email";
-        AddChild(emailInput);
+		// Create the login button
+		emailInput = GetNode<LineEdit>("EmailInput");
+		passwordInput = GetNode<LineEdit>("PasswordInput");
+		confirmPasswordInput = GetNode<LineEdit>("ConfirmPasswordInput");
+		signUpButton = GetNode<Button>("signUpButton");
+		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
+		goToLoginButton = GetNode<Button>("goToLoginButton");
+		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
+	}
 
-        passwordInput = new LineEdit();
-        passwordInput.PlaceholderText = "Password";
-        passwordInput.Secret = true;
-        AddChild(passwordInput);
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
 
-        // Create the login button
-        signUpButton = new Button();
-        signUpButton.Text = "Login";
-        // loginButton.Connect("pressed", this, nameof(OnLoginButtonPressed));
-        AddChild(signUpButton);
+	private void OnSignUpButtonPressed()
+	{
+		string email = emailInput.Text;
+		string password = passwordInput.Text;
+		string confirmPassword = confirmPasswordInput.Text;
 
-        // Create the "Already have an account? Sign up" text
-        signUpLabel = new Label();
-        signUpLabel.Text = "Already have an account? Login";
-        AddChild(signUpLabel);
-    }
+		if (password != confirmPassword)
+		{
+			// Display an error message
+			return;
+		}
 
-    private async void OnSignUpButtonPressed()
-    {
-        string email = emailInput.Text;
-        string password = passwordInput.Text;
+		// Implement your login logic here
+		//await FirestoreHelper.CreateUser(email, password);
+		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
+		GetTree().ChangeSceneToPacked(mainScene);
+	}
 
-        // Implement your login logic here
-        await FirestoreHelper.CreateUser(email, password);
-    }
+	private void OnGoToLoginButtonPressed()
+	{
+		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
+		GetTree().ChangeSceneToPacked(loginScene);
+	}
 }
