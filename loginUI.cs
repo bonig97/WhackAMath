@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 /// <summary>
 /// 
@@ -35,13 +36,13 @@ public partial class LoginPage : Control
         // signUpScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");        
     }
 
-    private void OnLoginButtonPressed()
+    private async void OnLoginButtonPressed()
     {
         string email = emailInput.Text;
         string password = passwordInput.Text;
 
         // Implement your login logic here
-        AuthenticateUser(email, password);
+        await FirestoreHelper.AuthenticateUser(email, password);
     }
 
     // private void OnSignUpLabelClicked(InputEvent inputEvent)
@@ -64,11 +65,4 @@ public partial class LoginPage : Control
     //     // Remove the LoginPage from the scene tree
     //     QueueFree();
     // }
-
-    private void AuthenticateUser(string email, string password)
-    {
-        // Your authentication logic goes here
-        // For example, you could make an API call to a server
-        // and check the response to determine if the login is successful
-    }
 }

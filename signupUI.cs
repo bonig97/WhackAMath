@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 /// <summary>
 /// Login page for the Whack-A-Math game.
@@ -10,14 +11,17 @@ public partial class SignupPage : Control
     private LineEdit emailInput;
     private LineEdit passwordInput;
 
-    // Login Button
-    private Button loginButton;
+    // Sign Up Button
+    private Button signUpButton;
 
     // "Sign Up" Text
     private Label signUpLabel;
 
     public override void _Ready()
     {
+        //Sets up the database environment
+        FirestoreHelper.SetEnvironmentVariable();
+        
         // Create the title label
         var titleLabel = new Label();
         titleLabel.Text = "Whack-A-Math";
@@ -34,30 +38,23 @@ public partial class SignupPage : Control
         AddChild(passwordInput);
 
         // Create the login button
-        loginButton = new Button();
-        loginButton.Text = "Login";
+        signUpButton = new Button();
+        signUpButton.Text = "Login";
         // loginButton.Connect("pressed", this, nameof(OnLoginButtonPressed));
-        AddChild(loginButton);
+        AddChild(signUpButton);
 
         // Create the "Already have an account? Sign up" text
         signUpLabel = new Label();
-        signUpLabel.Text = "Already have an account? Sign up";
+        signUpLabel.Text = "Already have an account? Login";
         AddChild(signUpLabel);
     }
 
-    private void OnLoginButtonPressed()
+    private async void OnSignUpButtonPressed()
     {
         string email = emailInput.Text;
         string password = passwordInput.Text;
 
         // Implement your login logic here
-        AuthenticateUser(email, password);
-    }
-
-    private void AuthenticateUser(string email, string password)
-    {
-        // Your authentication logic goes here
-        // For example, you could make an API call to a server
-        // and check the response to determine if the login is successful
+        await FirestoreHelper.CreateUser(email, password);
     }
 }
