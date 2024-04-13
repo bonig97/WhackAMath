@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy22u4031po41"]
+[gd_scene load_steps=6 format=3 uid="uid://dy22u4031po41"]
 
 [ext_resource type="Script" path="res://languageChoice.cs" id="1_m7dxn"]
 [ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="1_wdsqy"]
 [ext_resource type="Texture2D" uid="uid://xy6ltsew3n3n" path="res://saudiFlag.png" id="3_4rt60"]
 [ext_resource type="Texture2D" uid="uid://cnbap6crqvdsd" path="res://italianflag.png" id="3_ccflh"]
+[ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://usaFlag.png" id="5_gtb2j"]
 
 [node name="LanguageSelect" type="Control"]
 layout_mode = 3
@@ -37,28 +38,6 @@ offset_bottom = 124.0
 theme_override_font_sizes/font_size = 80
 text = "Whack-A-Mole"
 
-[node name="CountryFlags" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.452
-offset_left = 199.0
-offset_top = 181.0
-offset_right = 159.0
-offset_bottom = 162.92
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Italianflag" type="Sprite2D" parent="CountryFlags"]
-position = Vector2(273, 31)
-scale = Vector2(0.612745, 0.685294)
-texture = ExtResource("3_ccflh")
-
-[node name="SaudiFlag" type="Sprite2D" parent="CountryFlags"]
-position = Vector2(275, 210)
-scale = Vector2(0.171, 0.202586)
-texture = ExtResource("3_4rt60")
-
 [node name="BackButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
@@ -66,5 +45,32 @@ offset_right = 47.0
 offset_bottom = 77.0
 theme_override_font_sizes/font_size = 50
 text = "<"
+
+[node name="ItalianButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 142.0
+offset_right = 598.0
+offset_bottom = 246.0
+icon = ExtResource("3_ccflh")
+expand_icon = true
+
+[node name="ArabicButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 262.0
+offset_right = 598.0
+offset_bottom = 366.0
+icon = ExtResource("3_4rt60")
+expand_icon = true
+
+[node name="EnglishButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 382.0
+offset_right = 598.0
+offset_bottom = 486.0
+icon = ExtResource("5_gtb2j")
+expand_icon = true
 
 [connection signal="pressed" from="BackButton" to="." method="_on_backbutton_pressed"]
