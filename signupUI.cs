@@ -53,18 +53,25 @@ public partial class signupUI : Control
 		else
 		{
 			//Implement your login logic here
-			UserCredential user = await FirestoreHelper.CreateUser(email, password);
+			try
+			{
+				UserCredential user = await FirestoreHelper.CreateUser(email, password);
+				if (user != null)
+				{
+					GD.Print("User created successfully");
+					PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
+					GetTree().ChangeSceneToPacked(mainScene);
+				}
+				else
+				{
+					GD.Print("User creation failed");
+				}
+			}
+			catch (FirebaseAuthException e)
+			{
+				GD.Print("Error: " + e.Reason);
+			}
 			
-			if (user != null)
-			{
-				GD.Print("User created successfully");
-				PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
-				GetTree().ChangeSceneToPacked(mainScene);
-			}
-			else
-			{
-				GD.Print("User creation failed");
-			}
 			
 			
 		}
