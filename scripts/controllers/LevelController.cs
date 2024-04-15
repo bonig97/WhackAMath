@@ -24,6 +24,7 @@ public partial class LevelController : Node
 	private MathOperation operation;
     private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
     private int correctAnswer; // Stores the correct answer to the current question.
+	private int questionsAnswered = 0; //Keeps track of how many questions have been answered.
     private MoleHouse moleHouse; // Reference to the MoleHouse node.
     private List<Mole> moleList; // List to keep track of mole instances.
 	private readonly Random random = new();
@@ -45,6 +46,7 @@ public partial class LevelController : Node
             {
                 moleList.Add(mole);
                 moleList[i].SwitchAnswers += SetMoleAnswers;
+				
             }
         }
         SetMoleAnswers();
@@ -98,6 +100,8 @@ public partial class LevelController : Node
         questionLabel.Text = questionText;
     }
 
+	
+
 	/// <summary>
 	/// Assigns correct and incorrect answers to the moles randomly.
 	/// </summary>
@@ -117,7 +121,13 @@ public partial class LevelController : Node
 		// Set random answers to the rest of the moles.
 		foreach (var mole in invisibleMoles)
 		{
-			mole.SetAnswer(GenerateRandomAnswer(), false);
+			var randomAnswer = GenerateRandomAnswer();
+			if(randomAnswer == correctAnswer) {
+				mole.SetAnswer(randomAnswer+1,false);
+			} else {
+				mole.SetAnswer(GenerateRandomAnswer(), false);
+			}
+			
 		}
 	}
 
@@ -154,12 +164,26 @@ public partial class LevelController : Node
 		int y = random.Next(minRange, maxRange + 1);
 		int answer = 0;
 
-		if (operation == MathOperation.Add)
+		switch (operation)
 		{
-			answer = x + y;
-			DisplayQuestion($"{x} + {y} = ?");
+			case MathOperation.Add: 
+				answer = x + y;
+				DisplayQuestion($"{x} + {y} = ?");
+				return answer;
+			case MathOperation.Subtract:
+				answer = x - y;
+				DisplayQuestion($"{x} - {y} = ?");
+				return answer;
+			case MathOperation.Multiply:
+				answer = x * y;
+				DisplayQuestion($"{x} * {y} = ?");
+				return answer;
+			case MathOperation.Divide:
+				answer = x / y;
+				DisplayQuestion($"{x} / {y} = ?");
+				return answer;
+			default:
+				throw new InvalidOperationException("Unknown operation.");
 		}
-
-		return answer;
 	}
 }

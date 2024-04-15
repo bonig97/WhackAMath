@@ -1,7 +1,8 @@
-[gd_scene load_steps=31 format=3 uid="uid://d0yyh8sgwxyyy"]
+[gd_scene load_steps=32 format=3 uid="uid://d0yyh8sgwxyyy"]
 
 [ext_resource type="Script" path="res://scripts/entities/Mole.cs" id="1_d2lq5"]
 [ext_resource type="Texture2D" uid="uid://rvujdom6ftnh" path="res://assets/images/Idle (32x34).png" id="2_rj8vr"]
+[ext_resource type="FontFile" uid="uid://dcdnmsws24od4" path="res://assets/fonts/Jost-VariableFont_wght.ttf" id="3_caqhd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u8ltu"]
 atlas = ExtResource("2_rj8vr")
@@ -250,6 +251,7 @@ offset_left = 32.0
 offset_top = 8.0
 offset_right = 80.0
 offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("3_caqhd")
 horizontal_alignment = 1
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]

@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cnbwafv8ihivr" path="res://assets/images/decor_16x16.png" id="10_86di7"]
 [ext_resource type="Script" path="res://scripts/entities/MoleHouse.cs" id="12_4wv6t"]
 [ext_resource type="PackedScene" uid="uid://d0yyh8sgwxyyy" path="res://scenes/common/Mole.tscn" id="13_eqwdp"]
-[ext_resource type="FontFile" uid="uid://bdg1a7qfmv6pn" path="res://assets/fonts/PixelifySans-VariableFont_wght.ttf" id="14_f7tw6"]
+[ext_resource type="FontFile" uid="uid://dcdnmsws24od4" path="res://assets/fonts/Jost-VariableFont_wght.ttf" id="13_s7d5a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qota4"]
 texture = ExtResource("2_4j8he")
@@ -1271,7 +1271,7 @@ offset_left = 44.0
 offset_top = 21.0
 offset_right = 246.0
 offset_bottom = 59.0
-theme_override_fonts/font = ExtResource("14_f7tw6")
+theme_override_fonts/font = ExtResource("13_s7d5a")
 theme_override_font_sizes/font_size = 31
 text = "Question"
 horizontal_alignment = 1
@@ -1312,7 +1312,7 @@ offset_top = 19.0
 offset_right = 105.0
 offset_bottom = 47.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("14_f7tw6")
+theme_override_fonts/font = ExtResource("13_s7d5a")
 theme_override_font_sizes/font_size = 21
 text = "Score:"
 
