@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using WhackAMath;
+using Firebase.Auth;
 
 /// <summary>
 /// Login page for the Whack-A-Math game.
@@ -42,15 +44,25 @@ public partial class loginUI : Control
 	{
 	}
 	
-	private void OnLoginButtonPressed()
+	private async void OnLoginButtonPressed()
 	{
 		string email = emailInput.Text;
 		string password = passwordInput.Text;
 
-		// Implement your login logic here
-		//await FirestoreHelper.AuthenticateUser(email, password);
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://mainUI.tscn");
-		GetTree().ChangeSceneToPacked(mainScene);
+
+		//Implement your login logic here
+		UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
+		
+		if (user != null)
+		{
+			GD.Print("User logged in successfully");
+			PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://mainUI.tscn");
+			GetTree().ChangeSceneToPacked(mainScene);
+		}
+		else
+		{
+			GD.Print("User creation failed");
+		}
 	}
 
 	private void OnSignUpButtonPressed()
