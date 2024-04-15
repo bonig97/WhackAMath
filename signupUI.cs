@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
+using WhackAMath;
+using Firebase.Auth;
 
 public partial class signupUI : Control
 {
@@ -24,7 +27,7 @@ public partial class signupUI : Control
 		passwordInput = GetNode<LineEdit>("PasswordInput");
 		confirmPasswordInput = GetNode<LineEdit>("ConfirmPasswordInput");
 		signUpButton = GetNode<Button>("signUpButton");
-		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
+		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressedAsync)));
 		goToLoginButton = GetNode<Button>("goToLoginButton");
 		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
 	}
@@ -34,22 +37,37 @@ public partial class signupUI : Control
 	{
 	}
 
-	private void OnSignUpButtonPressed()
+	private async void OnSignUpButtonPressedAsync()
 	{
 		string email = emailInput.Text;
 		string password = passwordInput.Text;
 		string confirmPassword = confirmPasswordInput.Text;
 
+		GD.Print("Email: " + email);
+
 		if (password != confirmPassword)
 		{
 			// Display an error message
-			return;
+			GD.Print("Passwords do not match");
 		}
-
-		// Implement your login logic here
-		//await FirestoreHelper.CreateUser(email, password);
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
-		GetTree().ChangeSceneToPacked(mainScene);
+		else
+		{
+			//Implement your login logic here
+			UserCredential user = await FirestoreHelper.CreateUser(email, password);
+			
+			if (user != null)
+			{
+				GD.Print("User created successfully");
+				PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
+				GetTree().ChangeSceneToPacked(mainScene);
+			}
+			else
+			{
+				GD.Print("User creation failed");
+			}
+			
+			
+		}
 	}
 
 	private void OnGoToLoginButtonPressed()
