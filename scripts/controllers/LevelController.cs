@@ -46,9 +46,10 @@ public partial class LevelController : Node
             {
                 moleList.Add(mole);
                 moleList[i].SwitchAnswers += SetMoleAnswers;
-				
+				moleList[i].MoleHit += UpdateQuestion;
             }
         }
+
         SetMoleAnswers();
     }
 
@@ -100,6 +101,27 @@ public partial class LevelController : Node
         questionLabel.Text = questionText;
     }
 
+	private void UpdateQuestion(bool isCorrect) {
+	
+		if (questionsAnswered<=10) {
+			if (isCorrect) 
+			{
+				questionsAnswered += 1;
+				correctAnswer = GenerateQuestion();
+				SetMoleAnswers();
+			}
+		} else {
+
+			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
+				if (moleHouse.GetChild(i) is Mole mole) 
+				{
+                	moleList[i].SetActive(false);
+					
+           		}
+			}
+		}
+		
+	}
 	
 
 	/// <summary>
@@ -116,18 +138,25 @@ public partial class LevelController : Node
 		correctMole.SetAnswer(correctAnswer, true);
 
 		// Remove the mole with the correct answer from the list of candidates for incorrect answers.
-		invisibleMoles.Remove(correctMole);
+		/*if (invisibleMoles.Remove(correctMole)){
+			GD.Print(
+				"Mole removed"
+			);
+		}*/
 
+		
 		// Set random answers to the rest of the moles.
 		foreach (var mole in invisibleMoles)
 		{
-			var randomAnswer = GenerateRandomAnswer();
-			if(randomAnswer == correctAnswer) {
-				mole.SetAnswer(randomAnswer+1,false);
-			} else {
-				mole.SetAnswer(GenerateRandomAnswer(), false);
+			if(!mole.GetCorrectness())
+			{
+				int randomAnswer = GenerateRandomAnswer();
+				if(randomAnswer == correctAnswer) {
+					mole.SetAnswer(randomAnswer+1,false);
+				} else {
+					mole.SetAnswer(randomAnswer, false);
+				}
 			}
-			
 		}
 	}
 
