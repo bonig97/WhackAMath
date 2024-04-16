@@ -69,11 +69,11 @@ public partial class loginUI : Control
 			string errorMessage = e.Reason.ToString();
 			if (errorMessage.Contains("Undefined"))
 			{
-				errorLabel.Text = "Network Error";
+				errorLabel.Text = "- Network Error";
 			}
 			else
 			{
-				errorLabel.Text = "Invalid Email or Password";
+				errorLabel.Text = "- Invalid Email or Password";
 			}
 			
 		}
