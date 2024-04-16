@@ -11,6 +11,7 @@ public partial class loginUI : Control
 	// Input Fields
 	private LineEdit emailInput;
 	private LineEdit passwordInput;
+	private Label errorLabel;
 
 	// Login Button
 	private Button loginButton;
@@ -24,6 +25,7 @@ public partial class loginUI : Control
 		// Create the input fields
 		emailInput = GetNode<LineEdit>("EmailInput");
 		passwordInput = GetNode<LineEdit>("PasswordInput");
+		errorLabel = GetNode<Label>("ErrorLabel");
 
 		// Create the login button
 		loginButton = GetNode<Button>("LoginButton");
@@ -51,17 +53,29 @@ public partial class loginUI : Control
 
 
 		//Implement your login logic here
-		UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
-		
-		if (user != null)
+		try
 		{
-			GD.Print("User logged in successfully");
-			PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://mainUI.tscn");
-			GetTree().ChangeSceneToPacked(mainScene);
+			UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
+			
+			if (user != null)
+			{
+				GD.Print("User logged in successfully");
+				PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://mainUI.tscn");
+				GetTree().ChangeSceneToPacked(mainScene);
+			}
 		}
-		else
+		catch (FirebaseAuthException e)
 		{
-			GD.Print("User creation failed");
+			string errorMessage = e.Reason.ToString();
+			if (errorMessage.Contains("Undefined"))
+			{
+				errorLabel.Text = "Network Error";
+			}
+			else
+			{
+				errorLabel.Text = "Invalid Email or Password";
+			}
+			
 		}
 	}
 
