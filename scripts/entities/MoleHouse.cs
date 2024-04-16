@@ -38,7 +38,8 @@ public partial class MoleHouse : Node
 		{
 			score += 1;
 			scoreLabel.Text = $"Score: {score}";
-		}
+			
+		} 
 	}
 
 	/// <summary>

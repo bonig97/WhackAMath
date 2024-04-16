@@ -29,6 +29,9 @@ public partial class Mole : Area2D
     private bool isMouseInside = false;
     private Vector2 initialPosition;
     private bool isCorrect = false;
+    private bool isActive = true;
+
+
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time to set up initial values and states.
@@ -67,7 +70,7 @@ public partial class Mole : Area2D
     {
         int randInt = random.Next(0, 10);
         isHittable = randInt > 5;
-        if (isHittable)
+        if (isHittable && isActive)
         {
             MoveUp();
         }
@@ -144,9 +147,23 @@ public partial class Mole : Area2D
     /// </summary>
     /// <param name="answer">The numeric answer to display.</param>
     /// <param name="isCorrect">A flag indicating whether the answer is correct.</param>
-    internal void SetAnswer(int answer, bool isCorrect)
+    public void SetAnswer(int answer, bool isCorrect)
     {
         this.isCorrect = isCorrect;
         label.Text = answer.ToString();
+    }
+
+    public void SetActive(bool activity)
+    {
+        if (!activity) 
+        {
+            MoveDown();
+        }
+        this.isActive = activity;
+    }
+
+    public bool GetCorrectness() 
+    {
+        return isCorrect;
     }
 }
