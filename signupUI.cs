@@ -10,6 +10,7 @@ public partial class signupUI : Control
 	private LineEdit emailInput;
 	private LineEdit passwordInput;
 	private LineEdit confirmPasswordInput;
+	private Label errorLabel;
 
 	// Sign Up Button
 	private Button signUpButton;
@@ -27,6 +28,7 @@ public partial class signupUI : Control
 		passwordInput = GetNode<LineEdit>("PasswordInput");
 		confirmPasswordInput = GetNode<LineEdit>("ConfirmPasswordInput");
 		signUpButton = GetNode<Button>("signUpButton");
+		errorLabel = GetNode<Label>("ErrorLabel");
 		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressedAsync)));
 		goToLoginButton = GetNode<Button>("goToLoginButton");
 		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
@@ -43,12 +45,10 @@ public partial class signupUI : Control
 		string password = passwordInput.Text;
 		string confirmPassword = confirmPasswordInput.Text;
 
-		GD.Print("Email: " + email);
-
 		if (password != confirmPassword)
 		{
 			// Display an error message
-			GD.Print("Passwords do not match");
+			errorLabel.Text = "Passwords do not match";
 		}
 		else
 		{
@@ -62,14 +62,30 @@ public partial class signupUI : Control
 					PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://loginUI.tscn");
 					GetTree().ChangeSceneToPacked(mainScene);
 				}
-				else
-				{
-					GD.Print("User creation failed");
-				}
 			}
 			catch (FirebaseAuthException e)
 			{
-				GD.Print("Error: " + e.Reason);
+				string errorMessage = e.Reason.ToString();
+				if (errorMessage.Contains("EmailExists"))
+				{
+					errorLabel.Text = "- Email already in use";
+				}
+				else if (errorMessage.Contains("InvalidEmailAddress"))
+				{
+					errorLabel.Text = "- Invalid email";
+				}
+				else if (errorMessage.Contains("WeakPassword"))
+				{
+					errorLabel.Text = "- Password must be at least 6 characters long";
+				}
+				else if (errorMessage.Contains("MissingPassword"))
+				{
+					errorLabel.Text = "- Missing password";
+				}
+				else
+				{
+					errorLabel.Text = "- Connection error";
+				}
 			}
 			
 			

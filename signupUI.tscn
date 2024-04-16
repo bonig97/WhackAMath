@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwd1frkhx7ng1"]
+[gd_scene load_steps=4 format=3 uid="uid://dwd1frkhx7ng1"]
 
 [ext_resource type="Script" path="res://signupUI.cs" id="1_xrdf0"]
 [ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bny4s"]
+font_size = 20
 
 [node name="SignUpPage" type="Control"]
 layout_mode = 3
@@ -84,3 +87,12 @@ offset_right = 709.0
 offset_bottom = 370.0
 placeholder_text = "Confirm Password"
 secret = true
+
+[node name="ErrorLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 253.0
+offset_top = 498.0
+offset_right = 693.0
+offset_bottom = 552.0
+label_settings = SubResource("LabelSettings_bny4s")

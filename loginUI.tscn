@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxornxtid5gs0"]
+[gd_scene load_steps=4 format=3 uid="uid://bxornxtid5gs0"]
 
 [ext_resource type="Script" path="res://loginUI.cs" id="1_8m56b"]
 [ext_resource type="Texture2D" uid="uid://bm3mbqbf5skio" path="res://lightblue.jpg" id="2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qlutm"]
+font_size = 20
 
 [node name="loginpage" type="Control"]
 layout_mode = 3
@@ -71,3 +74,12 @@ offset_top = 438.0
 offset_right = 657.0
 offset_bottom = 469.0
 text = "Don't have an account? Sign Up"
+
+[node name="ErrorLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 312.0
+offset_top = 485.0
+offset_right = 759.0
+offset_bottom = 537.0
+label_settings = SubResource("LabelSettings_qlutm")
