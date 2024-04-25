@@ -18,6 +18,7 @@ public partial class loginUI : Control
 
 	// "Sign Up" Text
 	private Button goToSignUpButton;
+	private LinkButton forgetPasswordButton;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -34,6 +35,10 @@ public partial class loginUI : Control
 		// Create the "Sign Up" text
 		goToSignUpButton = GetNode<Button>("GoToSignUpButton");
 		goToSignUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
+
+		// Create the "Forget Password" text
+		forgetPasswordButton = GetNode<LinkButton>("ForgetPasswordButton");
+		forgetPasswordButton.Connect("pressed", new Callable(this, nameof(OnForgetPasswordButtonPressed)));
 
 		// signUpLabel.Connect("gui_input", this, nameof(OnSignUpLabelClicked));
 
@@ -82,6 +87,12 @@ public partial class loginUI : Control
 	private void OnSignUpButtonPressed()
 	{
 		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");
+		GetTree().ChangeSceneToPacked(mainScene);
+	}
+
+	private void OnForgetPasswordButtonPressed()
+	{
+		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://forgetPasswordUI.tscn");
 		GetTree().ChangeSceneToPacked(mainScene);
 	}
 }
