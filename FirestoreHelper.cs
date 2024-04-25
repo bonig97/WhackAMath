@@ -68,5 +68,10 @@ namespace WhackAMath
 		{
 			return UserCredential = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
 		}
+
+		public static async Task SendPasswordResetEmailAsync(string email)
+		{
+			await Auth.ResetEmailPasswordAsync(email);
+		}
 	}
 }
