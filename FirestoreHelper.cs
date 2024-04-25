@@ -73,5 +73,29 @@ namespace WhackAMath
 		{
 			await Auth.ResetEmailPasswordAsync(email);
 		}
+
+		public static async Task DeleteUserAsync()
+		{
+			await UserCredential.User.DeleteAsync();
+		}
+
+		public static void SignOut()
+		{
+			Auth.SignOut();
+		}
+
+		public static async Task ChangePassword(string email, string oldPassword, string newPassword)
+		{
+			var user = await Auth.SignInWithEmailAndPasswordAsync(email, oldPassword);
+			if (user.User.Info.Uid != UserCredential.User.Info.Uid)
+			{
+				GD.Print("Invalid login credentials");
+				throw new FirebaseAuthException("INVALID_LOGIN_CREDENTIALS", AuthErrorReason.Unknown);
+			}
+			else
+			{
+				await UserCredential.User.ChangePasswordAsync(newPassword);
+			}
+		}
 	}
 }
