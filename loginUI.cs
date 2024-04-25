@@ -78,6 +78,7 @@ public partial class loginUI : Control
 			}
 			else
 			{
+				GD.Print(e);
 				errorLabel.Text = "- Invalid Email or Password";
 			}
 			
