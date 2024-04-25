@@ -208,8 +208,7 @@ texture_filter = 1
 position = Vector2(-34, -34)
 scale = Vector2(1.57813, 1.57813)
 sprite_frames = SubResource("SpriteFrames_s3ek5")
-animation = &"hiding"
-frame_progress = 0.297065
+animation = &"new_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
