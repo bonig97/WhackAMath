@@ -8,7 +8,9 @@ using System;
 public partial class MoleHouse : Node
 {
 	private Label scoreLabel;
+	private double timeElapsed = 0.0;
 	private int score = 0;
+	private bool isCorrectMolePresent = false;
 
 	/// <summary>
 	/// Initializes the MoleHouse by setting up the score label and connecting to the MoleHit event for each mole.
@@ -24,7 +26,17 @@ public partial class MoleHouse : Node
 			if (child is Mole mole)
 			{
 				mole.MoleHit += OnMoleHit; // Explicitly cast OnMoleHit to Action<bool>.
+				mole.CorrectMoleAppeared += () => isCorrectMolePresent = true;
+				mole.CorrectMoleDisappeared += () => isCorrectMolePresent = false;
 			}
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+		if (isCorrectMolePresent)
+		{
+			timeElapsed += delta;
 		}
 	}
 
@@ -36,8 +48,10 @@ public partial class MoleHouse : Node
 		// Increment the score and update the score label.
 		if (isCorrect)
 		{
-			score += 1;
+			GD.Print("Correct hit!");
+			score += 1000/(int)Math.Ceiling(timeElapsed);
 			scoreLabel.Text = $"Score: {score}";
+			timeElapsed = 0.0;
 			
 		} 
 	}

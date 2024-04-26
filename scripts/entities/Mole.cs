@@ -15,6 +15,8 @@ public partial class Mole : Area2D
     /// Event fired to signal a switch in answers among the moles.
     /// </summary>
     public event Action SwitchAnswers;
+    public event Action CorrectMoleAppeared;
+    public event Action CorrectMoleDisappeared;
 
     private Timer timer;
     private Timer timer2;
@@ -90,6 +92,7 @@ public partial class Mole : Area2D
         panel.Visible = true;
         sprite.Play("rising");
         timer.Start();
+        CorrectMoleAppeared?.Invoke();
     }
 
     /// <summary>
@@ -102,6 +105,7 @@ public partial class Mole : Area2D
         panel.Visible = false;
         sprite.Play("hiding");
         SwitchAnswers?.Invoke();
+        CorrectMoleDisappeared?.Invoke();
     }
 
     /// <summary>
