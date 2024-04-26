@@ -6,6 +6,8 @@ public partial class settingsUI : Control
 	private Button tutorialButton;
 	private HSlider musicSlider;
 	private HSlider effectsSlider;
+	private Button changePasswordButton;
+	private Button deleteAccountButton;
 	private Button backButton;
 
 	// Called when the node enters the scene tree for the first time.
@@ -14,11 +16,15 @@ public partial class settingsUI : Control
 		tutorialButton = GetNode<Button>("TutorialButton");
 		musicSlider = GetNode<HSlider>("VBoxContainer/Music/MusicSlider");
 		effectsSlider = GetNode<HSlider>("VBoxContainer/Effects/EffectsSlider");
-		backButton = GetNode<Button>("Backbutton");
+		changePasswordButton = GetNode<Button>("VBoxContainer/Control/ChangePasswordButton");
+		deleteAccountButton = GetNode<Button>("VBoxContainer/Control/DeleteAccountButton");
+		backButton = GetNode<Button>("BackButton");
 		
 		tutorialButton.Connect("pressed", new Callable(this,nameof(OnTutorialButtonPressed)));
 		musicSlider.Connect("value_changed", new Callable(this,nameof(OnMusicSliderValueChanged)));
 		effectsSlider.Connect("value_changed", new Callable(this,nameof(OnEffectsSliderValueChanged)));
+		changePasswordButton.Connect("pressed", new Callable(this,nameof(OnChangePasswordButtonPressed)));
+		deleteAccountButton.Connect("pressed", new Callable(this,nameof(OnDeleteAccountButtonPressed)));
 		backButton.Connect("pressed", new Callable(this,nameof(OnBackButtonPressed)));
 	}
 
@@ -43,6 +49,18 @@ public partial class settingsUI : Control
 	{
 		// Handle effects slider value change
 		GD.Print($"Effects volume: {value}");
+	}
+
+	private void OnChangePasswordButtonPressed()
+	{
+		PackedScene changePasswordScene = (PackedScene)ResourceLoader.Load("res://changePasswordUI.tscn");
+		GetTree().ChangeSceneToPacked(changePasswordScene);
+	}
+
+	private void OnDeleteAccountButtonPressed()
+	{
+		PackedScene deleteAccountScene = (PackedScene)ResourceLoader.Load("res://deleteAccountUI.tscn");
+		GetTree().ChangeSceneToPacked(deleteAccountScene);
 	}
 
 	private void OnBackButtonPressed()

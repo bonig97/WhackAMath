@@ -15,6 +15,10 @@ run/main_scene="res://signupUI.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+InitialStart="*res://initial_start.cs"
+
 [dotnet]
 
 project/assembly_name="WhackAMath"
