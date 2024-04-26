@@ -71,4 +71,9 @@ public partial class MoleHouse : Node
 			}
 		}
 	}
+
+	public bool IsCorrectMolePresent()
+	{
+		return isCorrectMolePresent;
+	}
 }

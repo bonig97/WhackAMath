@@ -133,9 +133,13 @@ public partial class LevelController : Node
 
 		if (invisibleMoles.Count == 0) return; // No invisible moles to set answers for.
 
-		// Randomly select an invisible mole to set the correct answer.
-		var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
-		correctMole.SetAnswer(correctAnswer, true);
+		if (moleHouse.IsCorrectMolePresent())
+		{
+			// Randomly select an invisible mole to set the correct answer.
+			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
+			correctMole.SetAnswer(correctAnswer, true);
+		}
+		
 
 		// Remove the mole with the correct answer from the list of candidates for incorrect answers.
 		/*if (invisibleMoles.Remove(correctMole)){
