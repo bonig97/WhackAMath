@@ -76,4 +76,8 @@ public partial class MoleHouse : Node
 	{
 		return isCorrectMolePresent;
 	}
+	public int GetScore()
+	{
+		return score;
+	}
 }

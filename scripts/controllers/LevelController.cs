@@ -21,6 +21,10 @@ public enum MathOperation
 /// </summary>
 public partial class LevelController : Node
 {
+	private Panel levelCompletePanel;
+	private Button levelCompleteButton;
+	private Label levelCompleteStars;
+	private Label levelCompleteScore;
 	private MathOperation operation;
 	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
 	private int correctAnswer; // Stores the correct answer to the current question.
@@ -29,11 +33,19 @@ public partial class LevelController : Node
 	private List<Mole> moleList; // List to keep track of mole instances.
 	private readonly Random random = new();
 
+
 	/// <summary>
 	/// Initializes the controller by reading the question format, generating a question, and setting up moles.
 	/// </summary>
 	public override void _Ready()
 	{
+		levelCompletePanel = GetNode<Panel>("LevelCompletePanel");
+		levelCompleteButton = GetNode<Button>("LevelCompletePanel/LevelCompleteButton");
+		levelCompleteStars = GetNode<Label>("LevelCompletePanel/LevelCompleteStars");
+		levelCompleteScore = GetNode<Label>("LevelCompletePanel/LevelCompleteScore");
+		levelCompletePanel.Visible = false;
+		levelCompleteButton.Connect("pressed", new Callable(this, nameof(OnLevelCompleteButtonPressed)));
+		levelCompleteButton.Disabled = true;
 		moleHouse = GetNode<MoleHouse>("MoleHouse");
 		ReadQuestionFormat("data/levels/AddLevelEasy.txt");
 		correctAnswer = GenerateQuestion();
@@ -103,7 +115,7 @@ public partial class LevelController : Node
 
 	private void UpdateQuestion(bool isCorrect) {
 	
-		if (questionsAnswered<=10) {
+		if (questionsAnswered<10) {
 			if (isCorrect) 
 			{
 				questionsAnswered += 1;
@@ -119,6 +131,27 @@ public partial class LevelController : Node
 					
 		   		}
 			}
+
+			levelCompletePanel.Visible = true;
+			levelCompleteButton.Disabled = false;
+			levelCompleteScore.Text = "Score: " + moleHouse.GetScore();
+			if (moleHouse.GetScore() < 1000)
+			{
+				levelCompleteStars.Text = "☆☆☆";
+			}
+			else if (moleHouse.GetScore() < 2500)
+			{
+				levelCompleteStars.Text = "★☆☆";
+			}
+			else if (moleHouse.GetScore() < 5000)
+			{
+				levelCompleteStars.Text = "★★☆";
+			}
+			else
+			{
+				levelCompleteStars.Text = "★★★";
+			}
+
 		}
 		
 	}
@@ -219,4 +252,9 @@ public partial class LevelController : Node
 				throw new InvalidOperationException("Unknown operation.");
 		}
 	}
+	private void OnLevelCompleteButtonPressed()
+	{
+		GD.Print("Level complete button pressed!");
+	}
 }
+

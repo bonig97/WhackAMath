@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://hdhl4npcevn6"]
+[gd_scene load_steps=32 format=3 uid="uid://hdhl4npcevn6"]
 
 [ext_resource type="Script" path="res://scripts/controllers/LevelController.cs" id="1_jgyup"]
 [ext_resource type="Texture2D" uid="uid://2afp4cx43hp" path="res://assets/images/Green.png" id="1_joa1y"]
@@ -1235,6 +1235,24 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8l0l"]
+bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_5s61r"]
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_b0gp4"]
+font_size = 30
+
 [node name="Node" type="Node"]
 script = ExtResource("1_jgyup")
 
@@ -1315,6 +1333,53 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("13_s7d5a")
 theme_override_font_sizes/font_size = 21
 text = "Score:"
+
+[node name="LevelCompletePanel" type="Panel" parent="."]
+offset_left = 352.0
+offset_top = 16.0
+offset_right = 801.0
+offset_bottom = 640.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8l0l")
+
+[node name="LevelCompleteHeader" type="Label" parent="LevelCompletePanel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 40.0
+offset_right = 416.0
+offset_bottom = 109.0
+text = "Level Complete"
+label_settings = SubResource("LabelSettings_5s61r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelCompleteStars" type="Label" parent="LevelCompletePanel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 176.0
+offset_right = 416.0
+offset_bottom = 240.0
+label_settings = SubResource("LabelSettings_b0gp4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelCompleteScore" type="Label" parent="LevelCompletePanel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 304.0
+offset_right = 416.0
+offset_bottom = 368.0
+text = "Score: "
+label_settings = SubResource("LabelSettings_b0gp4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelCompleteButton" type="Button" parent="LevelCompletePanel"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 496.0
+offset_right = 352.0
+offset_bottom = 560.0
+text = "Continue"
 
 [connection signal="input_event" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnInputEvent"]
 [connection signal="mouse_entered" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnMouseEntered"]
