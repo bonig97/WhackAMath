@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmosia7hkf8yi"]
+[gd_scene load_steps=5 format=3 uid="uid://bmosia7hkf8yi"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_jap3a"]
-font_size = 75
+[ext_resource type="PackedScene" uid="uid://deb5l23kssfpn" path="res://LevelGridAdd.tscn" id="1_4rlsg"]
+[ext_resource type="PackedScene" uid="uid://crvc5ceh8csvk" path="res://LevelGridSub.tscn" id="1_kcpan"]
+[ext_resource type="PackedScene" uid="uid://bxsw0665ea7ly" path="res://LevelGridMul.tscn" id="3_avk51"]
+[ext_resource type="PackedScene" uid="uid://dhiyrcqt4xja5" path="res://LevelGridDiv.tscn" id="4_gb10j"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 15
@@ -10,25 +12,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ClipControl" type="Control" parent="."]
+clip_contents = true
 layout_mode = 2
 
-[node name="LevelSelectLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Level Select"
-label_settings = SubResource("LabelSettings_jap3a")
-horizontal_alignment = 1
+[node name="HBoxContainer" type="HFlowContainer" parent="ClipControl"]
+layout_mode = 0
+offset_right = 3456.0
+offset_bottom = 648.0
+theme_override_constants/h_separation = 1152
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ClipControl" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="LevelGridAdd" parent="ClipControl/HBoxContainer" instance=ExtResource("1_4rlsg")]
 layout_mode = 2
 
-[node name="NextButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="LevelGridSub" parent="ClipControl/HBoxContainer" instance=ExtResource("1_kcpan")]
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="LevelGridMul" parent="ClipControl/HBoxContainer" instance=ExtResource("3_avk51")]
+layout_mode = 2
+
+[node name="LevelGridDiv" parent="ClipControl/HBoxContainer" instance=ExtResource("4_gb10j")]
+layout_mode = 2
