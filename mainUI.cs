@@ -36,7 +36,8 @@ public partial class mainUI : Control
 
 	private void OnLevelSelectButtonPressed()
 	{
-		GD.Print("Level Select Button Pressed");
+		PackedScene levelSelectScene = (PackedScene)ResourceLoader.Load("res://levelSelectUI.tscn");
+		GetTree().ChangeSceneToPacked(levelSelectScene);
 	}
 
 	private void OnSettingsButtonPressed()
