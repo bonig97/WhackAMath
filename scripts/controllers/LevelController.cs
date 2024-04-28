@@ -25,6 +25,9 @@ public partial class LevelController : Node
 	private Button levelCompleteButton;
 	private Label levelCompleteStars;
 	private Label levelCompleteScore;
+	private Button pauseButton;
+	private Button resumeButton;
+	private Button quitButton;
 	private MathOperation operation;
 	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
 	private int correctAnswer; // Stores the correct answer to the current question.
@@ -47,6 +50,12 @@ public partial class LevelController : Node
 		levelCompleteButton.Connect("pressed", new Callable(this, nameof(OnLevelCompleteButtonPressed)));
 		levelCompleteButton.Disabled = true;
 		moleHouse = GetNode<MoleHouse>("MoleHouse");
+		pauseButton = GetNode<Button>("PauseButton");
+		pauseButton.Connect("pressed", new Callable(this, nameof(OnPauseButtonPressed)));
+		resumeButton = GetNode<Button>("GamePausePanel/ResumeButton");
+		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
+		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
+		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
 		ReadQuestionFormat("data/levels/AddLevelEasy.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
@@ -256,5 +265,20 @@ public partial class LevelController : Node
 	{
 		GD.Print("Level complete button pressed!");
 	}
+	private void OnPauseButtonPressed()
+	{
+		moleHouse.PauseGame();
+		GetNode<Panel>("GamePausePanel").Visible = true;
+	}
+	private void OnResumeButtonPressed()
+	{
+		GetNode<Panel>("GamePausePanel").Visible = false;
+		moleHouse.ResumeGame();
+	}
+	private void OnQuitButtonPressed()
+	{
+		GD.Print("Quit button pressed!");
+	}
+	
 }
 

@@ -80,4 +80,24 @@ public partial class MoleHouse : Node
 	{
 		return score;
 	}
+	public void PauseGame()
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.PauseGame();
+			}
+		}
+	}
+	public void ResumeGame()
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.ResumeGame();
+			}
+		}
+	}
 }

@@ -1325,16 +1325,17 @@ position = Vector2(191, 210)
 
 [node name="ScoreLabel" type="Label" parent="MoleHouse"]
 unique_name_in_owner = true
-offset_left = 31.0
-offset_top = 19.0
-offset_right = 105.0
-offset_bottom = 47.0
+offset_left = 960.0
+offset_top = 24.0
+offset_right = 1034.0
+offset_bottom = 55.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("13_s7d5a")
 theme_override_font_sizes/font_size = 21
 text = "Score:"
 
 [node name="LevelCompletePanel" type="Panel" parent="."]
+visible = false
 offset_left = 352.0
 offset_top = 16.0
 offset_right = 801.0
@@ -1380,6 +1381,46 @@ offset_top = 496.0
 offset_right = 352.0
 offset_bottom = 560.0
 text = "Continue"
+
+[node name="GamePausePanel" type="Panel" parent="."]
+visible = false
+offset_left = 328.0
+offset_top = 96.0
+offset_right = 825.0
+offset_bottom = 488.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8l0l")
+
+[node name="GamePauseHeader" type="Label" parent="GamePausePanel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 440.0
+offset_bottom = 109.0
+text = "Game Paused"
+label_settings = SubResource("LabelSettings_5s61r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="GamePausePanel"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 160.0
+offset_right = 376.0
+offset_bottom = 224.0
+text = "Continue"
+
+[node name="QuitButton" type="Button" parent="GamePausePanel"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 288.0
+offset_right = 376.0
+offset_bottom = 352.0
+text = "Exit"
+
+[node name="PauseButton" type="Button" parent="."]
+offset_right = 64.0
+offset_bottom = 64.0
+text = "||"
 
 [connection signal="input_event" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnInputEvent"]
 [connection signal="mouse_entered" from="MoleHouse/Mole" to="MoleHouse/Mole" method="OnMouseEntered"]
