@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=3 uid="uid://b2whnircbom57"]
 
 [ext_resource type="Script" path="res://DisplayMole.cs" id="1_iinuw"]
-[ext_resource type="Texture2D" uid="uid://rvujdom6ftnh" path="res://Idle (32x34).png" id="2_lkcw1"]
+[ext_resource type="Texture2D" uid="uid://rvujdom6ftnh" path="res://IdleChicken (32x34).png" id="2_lkcw1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u8ltu"]
 atlas = ExtResource("2_lkcw1")
@@ -197,7 +197,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u7yo"]
-size = Vector2(62, 67)
+size = Vector2(63, 67)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_iinuw")
@@ -205,14 +205,14 @@ script = ExtResource("1_iinuw")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 texture_filter = 1
-position = Vector2(-34, -34)
-scale = Vector2(1.57813, 1.57813)
+position = Vector2(-32, -32)
+scale = Vector2(2, 1.88235)
 sprite_frames = SubResource("SpriteFrames_s3ek5")
 animation = &"new_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-32, -32.5)
+position = Vector2(-32.5, -32.5)
 shape = SubResource("RectangleShape2D_2u7yo")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
