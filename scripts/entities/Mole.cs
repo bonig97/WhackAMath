@@ -170,4 +170,18 @@ public partial class Mole : Area2D
 	{
 		return isCorrect;
 	}
+	public void PauseGame()
+	{
+		timer.Stop();
+		timer2.Stop();
+		label.Visible = false;
+		sprite.Pause();
+	}
+	public void ResumeGame()
+	{
+		timer.Start();
+		timer2.Start();
+		label.Visible = true;
+		sprite.Play();
+	}
 }
