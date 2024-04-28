@@ -11,6 +11,7 @@ public partial class mainUI : Control
 	private Button logoutButton;
 	private Button endlessModeButton;
 	private Button languageButton;
+	private Button customizeButton;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,6 +21,7 @@ public partial class mainUI : Control
 		logoutButton = GetNode<Button>("LogoutButton");
 		endlessModeButton = GetNode<Button>("EndlessModeButton");
 		languageButton = GetNode<Button>("LanguageButton");
+		customizeButton = GetNode<Button>("CustomizeButton");
 
 		// Create the login button
 		levelSelectButton.Connect("pressed", new Callable(this, nameof(OnLevelSelectButtonPressed)));
@@ -27,6 +29,7 @@ public partial class mainUI : Control
 		logoutButton.Connect("pressed", new Callable(this, nameof(OnLogoutButtonPressed)));
 		endlessModeButton.Connect("pressed", new Callable(this, nameof(OnEndlessModeButtonPressed)));
 		languageButton.Connect("pressed", new Callable(this, nameof(OnLanguageButtonPressed)));
+		customizeButton.Connect("pressed", new Callable(this, nameof(OnCustomizeButtonPressed)));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,5 +66,10 @@ public partial class mainUI : Control
 	{
 		PackedScene languageScene = (PackedScene)ResourceLoader.Load("res://languageUI.tscn");
 		GetTree().ChangeSceneToPacked(languageScene);
+	}
+	private void OnCustomizeButtonPressed()
+	{
+		PackedScene customizeScene = (PackedScene)ResourceLoader.Load("res://customizeUI.tscn");
+		GetTree().ChangeSceneToPacked(customizeScene);
 	}
 }
