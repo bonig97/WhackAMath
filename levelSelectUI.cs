@@ -39,7 +39,7 @@ public partial class levelSelectUI : Control
 	{
 		//change this to go to next level
 		GD.Print("Next Button Pressed");
-		if (current_grid < 2)
+		if (current_grid < 3)
 		{
 			current_grid++;
 			
