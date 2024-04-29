@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmosia7hkf8yi"]
+
+[ext_resource type="PackedScene" uid="uid://deb5l23kssfpn" path="res://scenes/UI/LevelGridAdd.tscn" id="1_4rlsg"]
+[ext_resource type="PackedScene" uid="uid://crvc5ceh8csvk" path="res://scenes/UI/LevelGridSub.tscn" id="1_kcpan"]
+[ext_resource type="Script" path="res://scripts/levelSelectUI.cs" id="1_n7imh"]
+[ext_resource type="PackedScene" uid="uid://bxsw0665ea7ly" path="res://scenes/UI/LevelGridMul.tscn" id="3_avk51"]
+[ext_resource type="PackedScene" uid="uid://dhiyrcqt4xja5" path="res://scenes/UI/LevelGridDiv.tscn" id="4_gb10j"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_n7imh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ClipControl" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ClipControl"]
+layout_mode = 0
+offset_right = 3456.0
+offset_bottom = 648.0
+theme_override_constants/separation = 1152
+
+[node name="LevelGridAdd" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("1_4rlsg")]
+layout_mode = 2
+
+[node name="LevelGridSub" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("1_kcpan")]
+layout_mode = 2
+
+[node name="LevelGridMul" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("3_avk51")]
+layout_mode = 2
+
+[node name="LevelGridDiv" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("4_gb10j")]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+text = "<-"
+
+[node name="NextButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 320.0
+offset_right = 1152.0
+offset_bottom = 448.0
+text = "->"
+
+[node name="PrevButton" type="Button" parent="."]
+layout_mode = 0
+offset_top = 320.0
+offset_right = 64.0
+offset_bottom = 448.0
+text = "<-"
