@@ -183,20 +183,12 @@ public partial class LevelController : Node
 		}
 		
 
-		// Remove the mole with the correct answer from the list of candidates for incorrect answers.
-		/*if (invisibleMoles.Remove(correctMole)){
-			GD.Print(
-				"Mole removed"
-			);
-		}*/
-
-		
 		// Set random answers to the rest of the moles.
 		foreach (var mole in invisibleMoles)
 		{
-			if(!mole.GetCorrectness())
+			if(!mole.GetCorrectness()) //if mole is not correct, set a random incorrect answer 
 			{
-				int randomAnswer = GenerateRandomAnswer();
+				int randomAnswer = GenerateRandomAnswer(); 
 				if(randomAnswer == correctAnswer) {
 					mole.SetAnswer(randomAnswer+1,false);
 				} else {
