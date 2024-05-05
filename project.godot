@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="WhackAMath"
-run/main_scene="res://scenes/levels/Level.tscn"
+run/main_scene="res://scenes/UI/signupUI.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
 config/icon="res://assets/images/icon.svg"
+
+[autoload]
+
+InitialStart="*res://scripts/initial_start.cs"
 
 [dotnet]
 
