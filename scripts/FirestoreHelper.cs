@@ -33,6 +33,8 @@ namespace WhackAMath
 		public static FirestoreDb Database { get; private set; }
 		public static FirebaseAuthClient Auth { get; private set; }
 		public static UserCredential UserCredential { get; private set; }
+		public static CollectionReference collectionRef { get; private set; }
+		public static string collectionName = "SaveData";
 		public static void SetEnvironmentVariable()
 		{
 			filepath = Path.Combine(Path.GetTempPath(),Path.GetFileNameWithoutExtension(Path.GetRandomFileName())) + ".json";
@@ -56,6 +58,7 @@ namespace WhackAMath
 			};
 
 			Auth = new FirebaseAuthClient(config);
+			collectionRef = Database.Collection(collectionName);
 			File.Delete(filepath);
 		}
 
@@ -102,6 +105,32 @@ namespace WhackAMath
 			else
 			{
 				await UserCredential.User.ChangePasswordAsync(newPassword);
+			}
+		}
+
+		public static async Task CreateDocument(Dictionary<string, object> data)
+		{
+			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			await documentRef.SetAsync(SaveFile.ConvertToDictionary());
+		}
+
+		public static async Task UpdateDocument(Dictionary<string, object> data)
+		{
+			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			await documentRef.UpdateAsync(SaveFile.ConvertToDictionary());
+		}
+
+		public static async Task<Dictionary<string, object>> GetDocument()
+		{
+			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			DocumentSnapshot snapshot = await documentRef.GetSnapshotAsync();
+			if (snapshot.Exists)
+			{
+				return snapshot.ToDictionary();
+			}
+			else
+			{
+				return null;
 			}
 		}
 	}

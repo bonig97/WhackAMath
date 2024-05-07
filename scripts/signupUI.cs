@@ -58,6 +58,7 @@ public partial class signupUI : Control
 				UserCredential user = await FirestoreHelper.CreateUser(email, password);
 				if (user != null)
 				{
+					await FirestoreHelper.CreateDocument(SaveFile.ConvertToDictionary());
 					GD.Print("User created successfully");
 					PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
 					GetTree().ChangeSceneToPacked(mainScene);

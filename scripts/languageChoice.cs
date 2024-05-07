@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 public partial class languageChoice : Control
 {
@@ -40,18 +41,21 @@ public partial class languageChoice : Control
 	private void OnEnglishButtonPressed()
 	{
 		//change this to go to english language
+		SaveFile.UpdateLanguageSelected("English");
 		GD.Print("English Button Pressed");
 	}
 
 	private void OnItalianButtonPressed()
 	{
 		//change this to go to italian language
+		SaveFile.UpdateLanguageSelected("Italian");
 		GD.Print("Italian Button Pressed");
 	}
 
 	private void OnArabicButtonPressed()
 	{
 		//change this to go to arabic language
+		SaveFile.UpdateLanguageSelected("Arabic");
 		GD.Print("Arabic Button Pressed");
 	}
 }
