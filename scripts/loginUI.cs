@@ -64,6 +64,7 @@ public partial class loginUI : Control
 			
 			if (user != null)
 			{
+				SaveFile.LoadSaveFile();
 				GD.Print("User logged in successfully");
 				PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
 				GetTree().ChangeSceneToPacked(mainScene);

@@ -9,10 +9,10 @@ using System.Linq;
 /// </summary>
 public enum MathOperation
 {
-    Add,
-    Subtract,
-    Multiply,
-    Divide
+	Add,
+	Subtract,
+	Multiply,
+	Divide
 }
 
 /// <summary>
@@ -22,33 +22,33 @@ public enum MathOperation
 public partial class LevelController : Node
 {
 	private MathOperation operation;
-    private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
-    private int correctAnswer; // Stores the correct answer to the current question.
-    private MoleHouse moleHouse; // Reference to the MoleHouse node.
-    private List<Mole> moleList; // List to keep track of mole instances.
+	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
+	private int correctAnswer; // Stores the correct answer to the current question.
+	private MoleHouse moleHouse; // Reference to the MoleHouse node.
+	private List<Mole> moleList; // List to keep track of mole instances.
 	private readonly Random random = new();
 
 	/// <summary>
-    /// Initializes the controller by reading the question format, generating a question, and setting up moles.
-    /// </summary>
-    public override void _Ready()
-    {
-        moleHouse = GetNode<MoleHouse>("MoleHouse");
-        ReadQuestionFormat("data/levels/AddLevelEasy.txt");
-        correctAnswer = GenerateQuestion();
-        moleList = new List<Mole>();
+	/// Initializes the controller by reading the question format, generating a question, and setting up moles.
+	/// </summary>
+	public override void _Ready()
+	{
+		moleHouse = GetNode<MoleHouse>("MoleHouse");
+		ReadQuestionFormat("data/levels/AddLevelEasy.txt");
+		correctAnswer = GenerateQuestion();
+		moleList = new List<Mole>();
 
-        // Initialize moles and subscribe to their answer switching event.
-        for (int i = 0; i < moleHouse.GetChildCount(); i++)
-        {
-            if (moleHouse.GetChild(i) is Mole mole)
-            {
-                moleList.Add(mole);
-                moleList[i].SwitchAnswers += SetMoleAnswers;
-            }
-        }
-        SetMoleAnswers();
-    }
+		// Initialize moles and subscribe to their answer switching event.
+		for (int i = 0; i < moleHouse.GetChildCount(); i++)
+		{
+			if (moleHouse.GetChild(i) is Mole mole)
+			{
+				moleList.Add(mole);
+				moleList[i].SwitchAnswers += SetMoleAnswers;
+			}
+		}
+		SetMoleAnswers();
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -89,14 +89,14 @@ public partial class LevelController : Node
 	}
 
 	/// <summary>
-    /// Displays the generated question on the UI.
-    /// </summary>
-    /// <param name="questionText">The text of the question to display.</param>
-    private void DisplayQuestion(string questionText)
-    {
-        var questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
-        questionLabel.Text = questionText;
-    }
+	/// Displays the generated question on the UI.
+	/// </summary>
+	/// <param name="questionText">The text of the question to display.</param>
+	private void DisplayQuestion(string questionText)
+	{
+		var questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
+		questionLabel.Text = questionText;
+	}
 
 	/// <summary>
 	/// Assigns correct and incorrect answers to the moles randomly.
@@ -145,9 +145,9 @@ public partial class LevelController : Node
 	}
 
 	/// <summary>
-    /// Generates a new question based on the operation and range, displaying it to the player.
-    /// </summary>
-    /// <returns>The correct answer to the generated question.</returns>
+	/// Generates a new question based on the operation and range, displaying it to the player.
+	/// </summary>
+	/// <returns>The correct answer to the generated question.</returns>
 	private int GenerateQuestion()
 	{
 		int x = random.Next(minRange, maxRange + 1);
