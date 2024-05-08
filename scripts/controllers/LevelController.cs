@@ -144,7 +144,7 @@ public partial class LevelController : Node
 			}
 
 		}
-		if (questionsAnswered >= 3){
+		if (questionsAnswered >= 10){
 
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
 				if (moleHouse.GetChild(i) is Mole mole) 
@@ -161,11 +161,11 @@ public partial class LevelController : Node
 			{
 				levelCompleteStars.Text = "☆☆☆";
 			}
-			else if (moleHouse.GetScore() < 2500)
+			else if (moleHouse.GetScore() < 2000)
 			{
 				levelCompleteStars.Text = "★☆☆";
 			}
-			else if (moleHouse.GetScore() < 5000)
+			else if (moleHouse.GetScore() < 3000)
 			{
 				levelCompleteStars.Text = "★★☆";
 			}
@@ -219,12 +219,14 @@ public partial class LevelController : Node
 	/// <returns>A randomly generated incorrect answer.</returns>
 	private string GenerateRandomAnswer()
 	{
-		int x = random.Next(minRange, maxRange + 1);
-		int y = random.Next(minRange, maxRange + 1);
+		int x;
+		int y;
 		string answer = "";
 		switch (operation)
 		{
 			case MathOperation.Add:
+				x = random.Next(minRange, maxRange);
+				y = random.Next(1 , maxRange - x + 1); 
 				answer = $"{x} + {y}";
 				break;
 			case MathOperation.Subtract:
@@ -257,7 +259,9 @@ public partial class LevelController : Node
 
 		switch (operation)
 		{
-			case MathOperation.Add: 
+			case MathOperation.Add:
+				x = random.Next(minRange, maxRange);
+				y = random.Next(1 , maxRange - x + 1);
 				answer = x + y;
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{x} + {y}";
