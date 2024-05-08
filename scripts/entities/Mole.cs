@@ -72,7 +72,7 @@ public partial class Mole : Area2D
 	private void OnTimerTimeout()
 	{
 		int randInt = random.Next(0, 10);
-		isHittable = randInt > 5;
+		isHittable = randInt > 2;
 		if (isHittable && isActive)
 		{
 			MoveUp();
@@ -97,6 +97,7 @@ public partial class Mole : Area2D
 		{
 			CorrectMoleAppeared?.Invoke();
 		}
+		sprite.Play("idle");
 	}
 
 	/// <summary>
