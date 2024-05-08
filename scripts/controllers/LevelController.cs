@@ -58,7 +58,7 @@ public partial class LevelController : Node
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
-		ReadQuestionFormat("data/levels/DivideLevelEasy.txt");
+		ReadQuestionFormat("data/levels/1.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
 
