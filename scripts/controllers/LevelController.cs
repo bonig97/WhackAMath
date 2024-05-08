@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using WhackAMath;
 
 /// <summary>
 /// Enum to represent the different mathematical operations.
@@ -57,7 +58,7 @@ public partial class LevelController : Node
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
-		ReadQuestionFormat("data/levels/1.txt");
+		ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
 
@@ -295,6 +296,12 @@ public partial class LevelController : Node
 	private void OnLevelCompleteButtonPressed()
 	{
 		GD.Print("Level complete button pressed!");
+		if (moleHouse.GetScore()>1000 && SaveFile.currentLevel == SaveFile.MaxLevelUnlocked)
+		{
+			SaveFile.UpdateMaxLevelUnlocked(SaveFile.MaxLevelUnlocked+1);
+		}
+		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
+		GetTree().ChangeSceneToPacked(levelSelect);
 	}
 	private void OnPauseButtonPressed()
 	{
@@ -309,6 +316,8 @@ public partial class LevelController : Node
 	private void OnQuitButtonPressed()
 	{
 		GD.Print("Quit button pressed!");
+		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
+		GetTree().ChangeSceneToPacked(levelSelect);
 	}
 }
 

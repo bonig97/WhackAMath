@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 public partial class levelSelectUI : Control
 {
@@ -85,12 +86,16 @@ public partial class levelSelectUI : Control
 		panel.Visible = true;
 		cancelButton.Disabled = false;
 		playButton.Disabled = false;
+		SaveFile.currentLevel = num;
 	}
 
 	private void OnPlayButtonPressed()
 	{
 		//change this to go to selected level
 		GD.Print("Play Button Pressed");
+		PackedScene gameScene = (PackedScene)ResourceLoader.Load("res://scenes/levels/Level.tscn");
+		GetTree().ChangeSceneToPacked(gameScene);
+
 	}
 
 	private void OnCancelButtonPressed()

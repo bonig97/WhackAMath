@@ -7,12 +7,14 @@ namespace WhackAMath{
         public static int MaxLevelUnlocked { get; set; }
         public static string LanguageSelected { get; set; }
         public static List<int> Leaderboards { get; set; }
+        public static int currentLevel { get; set; }
 
         public static void InitialSaveFile()
         {
             MaxLevelUnlocked = 1;
             LanguageSelected = "English";
             Leaderboards = new List<int>();
+            currentLevel = 1;
         }
 
         public static Dictionary<string, object> ConvertToDictionary()
