@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 public partial class LevelGrid : Control
 {
@@ -12,6 +13,10 @@ public partial class LevelGrid : Control
 			if (child is Button button)
 			{
 				button.Pressed += () => OnButtonPressed(button.Text.ToInt());
+				if (button.Text.ToInt() > SaveFile.MaxLevelUnlocked)
+				{
+					button.Disabled = true;
+				}
 			}
 		}
 	}
