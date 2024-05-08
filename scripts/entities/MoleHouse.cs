@@ -11,6 +11,7 @@ public partial class MoleHouse : Node
 	private double timeElapsed = 0.0;
 	private int score = 0;
 	private bool isCorrectMolePresent = false;
+	private int correctMoleCount = 0;
 
 	/// <summary>
 	/// Initializes the MoleHouse by setting up the score label and connecting to the MoleHit event for each mole.
@@ -25,9 +26,9 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.MoleHit += OnMoleHit; // Explicitly cast OnMoleHit to Action<bool>.
-				mole.CorrectMoleAppeared += () => isCorrectMolePresent = true;
-				mole.CorrectMoleDisappeared += () => isCorrectMolePresent = false;
+				//mole.MoleHit += OnMoleHit; // Explicitly cast OnMoleHit to Action<bool>.
+				mole.CorrectMoleAppeared += () => {isCorrectMolePresent = true; correctMoleCount++;};
+				mole.CorrectMoleDisappeared += () => {correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false;};
 			}
 		}
 	}
@@ -43,17 +44,12 @@ public partial class MoleHouse : Node
 	/// <summary>
 	/// Increments the score and updates the score label when a mole is hit.
 	/// </summary>
-	private void OnMoleHit(bool isCorrect)
+	public void UpdateScore()
 	{
 		// Increment the score and update the score label.
-		if (isCorrect)
-		{
-			GD.Print("Correct hit!");
-			score += 1000/(int)Math.Ceiling(timeElapsed);
-			scoreLabel.Text = $"Score: {score}";
-			timeElapsed = 0.0;
-			
-		} 
+		score += 1000/Math.Max(1,(int)Math.Ceiling(timeElapsed));
+		scoreLabel.Text = $"Score: {score}";
+		timeElapsed = 0.0;
 	}
 
 	/// <summary>
@@ -63,6 +59,7 @@ public partial class MoleHouse : Node
 	public override void _ExitTree()
 	{
 		// Unsubscribes from the MoleHit event to clean up before the node is removed from the scene tree.
+		/*
 		foreach (Node child in GetChildren())
 		{
 			if (child is Mole mole)
@@ -70,6 +67,7 @@ public partial class MoleHouse : Node
 				mole.MoleHit -= OnMoleHit;
 			}
 		}
+		*/
 	}
 
 	public bool IsCorrectMolePresent()

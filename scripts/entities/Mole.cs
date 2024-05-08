@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Data;
 
 /// <summary>
 /// Represents a mole in the Whack-A-Math game that handles behavior of popping up and being hit.
@@ -92,7 +93,10 @@ public partial class Mole : Area2D
 		panel.Visible = true;
 		sprite.Play("rising");
 		timer.Start();
-		CorrectMoleAppeared?.Invoke();
+		if (isCorrect)
+		{
+			CorrectMoleAppeared?.Invoke();
+		}
 	}
 
 	/// <summary>
@@ -105,7 +109,10 @@ public partial class Mole : Area2D
 		panel.Visible = false;
 		sprite.Play("hiding");
 		SwitchAnswers?.Invoke();
-		CorrectMoleDisappeared?.Invoke();
+		if (isCorrect)
+		{
+			CorrectMoleDisappeared?.Invoke();
+		}
 	}
 
 	/// <summary>
@@ -117,6 +124,7 @@ public partial class Mole : Area2D
 		{
 			isHittable = false;
 			MoveDown();
+			GD.Print(label.Text + $" = {Convert.ToInt32(new DataTable().Compute(label.Text, null))}  {isCorrect}");
 			MoleHit?.Invoke(isCorrect);
 		}
 	}
@@ -151,10 +159,15 @@ public partial class Mole : Area2D
 	/// </summary>
 	/// <param name="answer">The numeric answer to display.</param>
 	/// <param name="isCorrect">A flag indicating whether the answer is correct.</param>
-	public void SetAnswer(int answer, bool isCorrect)
+	public void SetAnswer(string answer, bool isCorrect)
 	{
 		this.isCorrect = isCorrect;
-		label.Text = answer.ToString();
+		label.Text = answer;
+	}
+
+	public void RecomputeCorrectness(int answer)
+	{
+		isCorrect = Convert.ToInt32(new DataTable().Compute(label.Text, null)) == answer;
 	}
 
 	public void SetActive(bool activity)

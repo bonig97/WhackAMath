@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -31,6 +32,7 @@ public partial class LevelController : Node
 	private MathOperation operation;
 	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
 	private int correctAnswer; // Stores the correct answer to the current question.
+	private string correctAnswerText; // Stores the correct answer text to the current question.
 	private int questionsAnswered = 0; //Keeps track of how many questions have been answered.
 	private MoleHouse moleHouse; // Reference to the MoleHouse node.
 	private List<Mole> moleList; // List to keep track of mole instances.
@@ -123,22 +125,33 @@ public partial class LevelController : Node
 	}
 
 	private void UpdateQuestion(bool isCorrect) {
-	
-		if (questionsAnswered<10) {
-			if (isCorrect) 
-			{
-				questionsAnswered += 1;
-				correctAnswer = GenerateQuestion();
-				SetMoleAnswers();
+		GD.Print($"{isCorrect}");
+		if (isCorrect) 
+		{
+			GD.Print($"{isCorrect}");
+			questionsAnswered += 1;
+			moleHouse.UpdateScore();
+			correctAnswer = GenerateQuestion();
+			SetMoleAnswers();
+			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
+				if (moleHouse.GetChild(i) is Mole mole) 
+				{
+					if (moleList[i].IsHittable())
+					{
+						moleList[i].RecomputeCorrectness(correctAnswer);
+					}
+				}
 			}
-		} else {
+
+		}
+		if (questionsAnswered >= 3){
 
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
 				if (moleHouse.GetChild(i) is Mole mole) 
 				{
 					moleList[i].SetActive(false);
 					
-		   		}
+				}
 			}
 
 			levelCompletePanel.Visible = true;
@@ -179,7 +192,7 @@ public partial class LevelController : Node
 		{
 			// Randomly select an invisible mole to set the correct answer.
 			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
-			correctMole.SetAnswer(correctAnswer, true);
+			correctMole.SetAnswer(correctAnswerText, true);
 		}
 		
 
@@ -188,9 +201,11 @@ public partial class LevelController : Node
 		{
 			if(!mole.GetCorrectness()) //if mole is not correct, set a random incorrect answer 
 			{
-				int randomAnswer = GenerateRandomAnswer(); 
-				if(randomAnswer == correctAnswer) {
-					mole.SetAnswer(randomAnswer+1,false);
+				string randomAnswer = GenerateRandomAnswer(); 
+				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
+
+				if(randomAnswerInt == correctAnswer) {
+					mole.SetAnswer(randomAnswer,true);
 				} else {
 					mole.SetAnswer(randomAnswer, false);
 				}
@@ -202,23 +217,32 @@ public partial class LevelController : Node
 	/// Generates a random incorrect answer based on the operation and the range.
 	/// </summary>
 	/// <returns>A randomly generated incorrect answer.</returns>
-	private int GenerateRandomAnswer()
+	private string GenerateRandomAnswer()
 	{
+		int x = random.Next(minRange, maxRange + 1);
+		int y = random.Next(minRange, maxRange + 1);
+		string answer = "";
 		switch (operation)
 		{
 			case MathOperation.Add:
-				return random.Next(minRange + minRange, maxRange + maxRange + 1);
+				answer = $"{x} + {y}";
+				break;
 			case MathOperation.Subtract:
-				return random.Next(minRange - maxRange, maxRange - minRange + 1);
+				//return random.Next(minRange - maxRange, maxRange - minRange + 1);
+				break;
 			case MathOperation.Multiply:
-				return random.Next(minRange * minRange, maxRange * maxRange + 1);
+				//return random.Next(minRange * minRange, maxRange * maxRange + 1);
+				break;
 			case MathOperation.Divide:
 				int dividend = random.Next(minRange, maxRange + 1);
 				int divisor = random.Next(minRange, maxRange + 1);
-				return dividend / Math.Max(1, divisor); // Avoid division by zero.
+				//return dividend / Math.Max(1, divisor); // Avoid division by zero.
+				break;
 			default:
 				throw new InvalidOperationException("Unknown operation.");
 		}
+
+		return answer;
 	}
 
 	/// <summary>
@@ -235,7 +259,8 @@ public partial class LevelController : Node
 		{
 			case MathOperation.Add: 
 				answer = x + y;
-				DisplayQuestion($"{x} + {y} = ?");
+				DisplayQuestion($"? = {answer}");
+				correctAnswerText = $"{x} + {y}";
 				return answer;
 			case MathOperation.Subtract:
 				answer = x - y;
