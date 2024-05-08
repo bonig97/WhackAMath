@@ -167,12 +167,13 @@ public partial class Mole : Area2D
 
 	public void RecomputeCorrectness(int answer)
 	{
+		bool oldIsCorrect = isCorrect;
 		isCorrect = Convert.ToInt32(new DataTable().Compute(label.Text, null)) == answer;
-		if (isCorrect)
+		if (isCorrect && !oldIsCorrect)
 		{
 			CorrectMoleAppeared?.Invoke();
 		}
-		else
+		else if (!isCorrect && oldIsCorrect)
 		{
 			CorrectMoleDisappeared?.Invoke();
 		}
