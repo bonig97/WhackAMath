@@ -58,7 +58,7 @@ public partial class LevelController : Node
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
-		ReadQuestionFormat("data/levels/AddLevelEasy.txt");
+		ReadQuestionFormat("data/levels/DivideLevelEasy.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
 
@@ -230,15 +230,20 @@ public partial class LevelController : Node
 				answer = $"{x} + {y}";
 				break;
 			case MathOperation.Subtract:
-				//return random.Next(minRange - maxRange, maxRange - minRange + 1);
+				x = random.Next(minRange, maxRange);
+				y = random.Next(1 , maxRange - x + 1);
+				answer = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
 				break;
 			case MathOperation.Multiply:
-				//return random.Next(minRange * minRange, maxRange * maxRange + 1);
+				x = random.Next(minRange, maxRange + 1);
+				y = random.Next(1, 13);
+				answer = $"{x} * {y}";
 				break;
 			case MathOperation.Divide:
-				int dividend = random.Next(minRange, maxRange + 1);
-				int divisor = random.Next(minRange, maxRange + 1);
-				//return dividend / Math.Max(1, divisor); // Avoid division by zero.
+				x = random.Next(minRange, maxRange + 1);
+				y = random.Next(1, 13);
+				int a = x * y;
+				answer = $"{a} / {x}";
 				break;
 			default:
 				throw new InvalidOperationException("Unknown operation.");
@@ -267,16 +272,27 @@ public partial class LevelController : Node
 				correctAnswerText = $"{x} + {y}";
 				return answer;
 			case MathOperation.Subtract:
-				answer = x - y;
-				DisplayQuestion($"{x} - {y} = ?");
+				x = random.Next(minRange, maxRange);
+				y = random.Next(1 , maxRange - x + 1);
+				answer = Math.Max(x,y) - Math.Min(x,y);
+				DisplayQuestion($"? = {answer}");
+				correctAnswerText = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
 				return answer;
 			case MathOperation.Multiply:
+				x = random.Next(minRange, maxRange + 1);
+				y = random.Next(1, 13);
 				answer = x * y;
-				DisplayQuestion($"{x} * {y} = ?");
+				DisplayQuestion($"? = {answer}");
+				correctAnswerText = $"{x} * {y}";
 				return answer;
 			case MathOperation.Divide:
-				answer = x / y;
-				DisplayQuestion($"{x} / {y} = ?");
+				x = random.Next(minRange, maxRange + 1);
+				y = random.Next(1, 13);
+				int a = x * y;
+				answer = y;
+				DisplayQuestion($"? = {answer}");
+				correctAnswerText = $"{a} / {x}";
+				//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
 				return answer;
 			default:
 				throw new InvalidOperationException("Unknown operation.");
