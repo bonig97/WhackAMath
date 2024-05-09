@@ -3,7 +3,7 @@ using System;
 using WhackAMath;
 using Firebase.Auth;
 
-public partial class changePasswordUI : Control
+public partial class ChangePassword : Control
 {
 	// Input Fields
 	private LineEdit emailInput;

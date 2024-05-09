@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://d2hcii7c06fy"]
 
 [ext_resource type="Texture2D" uid="uid://cnbwafv8ihivr" path="res://assets/images/decor_16x16.png" id="1_ea1yd"]
-[ext_resource type="Script" path="res://scripts/CustomizeUI.cs" id="1_s6j6u"]
+[ext_resource type="Script" path="res://scripts/ui/Customize.cs" id="1_s6j6u"]
 [ext_resource type="Texture2D" uid="uid://dcwf5inrrdat8" path="res://assets/images/flooring.png" id="2_7hipm"]
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="3_gh273"]
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="4_2erh3"]

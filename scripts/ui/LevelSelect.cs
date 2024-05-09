@@ -2,7 +2,7 @@ using Godot;
 using System;
 using WhackAMath;
 
-public partial class levelSelectUI : Control
+public partial class LevelSelect : Control
 {
 	// Declare member variables here. Examples:
 	private MarginContainer marginContainer;

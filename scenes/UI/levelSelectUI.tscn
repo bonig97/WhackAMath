@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://deb5l23kssfpn" path="res://scenes/UI/LevelGridAdd.tscn" id="1_4rlsg"]
 [ext_resource type="PackedScene" uid="uid://crvc5ceh8csvk" path="res://scenes/UI/LevelGridSub.tscn" id="1_kcpan"]
-[ext_resource type="Script" path="res://scripts/levelSelectUI.cs" id="1_n7imh"]
+[ext_resource type="Script" path="res://scripts/ui/LevelSelect.cs" id="1_n7imh"]
 [ext_resource type="PackedScene" uid="uid://bxsw0665ea7ly" path="res://scenes/UI/LevelGridMul.tscn" id="3_avk51"]
 [ext_resource type="PackedScene" uid="uid://dhiyrcqt4xja5" path="res://scenes/UI/LevelGridDiv.tscn" id="4_gb10j"]
 
