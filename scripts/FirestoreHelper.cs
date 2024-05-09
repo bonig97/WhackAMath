@@ -86,13 +86,16 @@ namespace WhackAMath
 			}
 			else
 			{
+				await collectionRef.Document(UserCredential.User.Info.Uid).DeleteAsync();
 				await UserCredential.User.DeleteAsync();
+				SaveFile.InitialSaveFile();
 			}
 		}
 
 		public static void SignOut()
 		{
 			Auth.SignOut();
+			SaveFile.InitialSaveFile();
 		}
 
 		public static async Task ChangePassword(string email, string oldPassword, string newPassword)

@@ -1,14 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://qaku1g15627b"]
+[gd_scene load_steps=17 format=3 uid="uid://qaku1g15627b"]
 
 [ext_resource type="Texture2D" uid="uid://y3feqq06c0tm" path="res://assets/images/Actual_Mole.png" id="1_1vng0"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1fsf4"]
-atlas = ExtResource("1_1vng0")
-region = Rect2(0, 252, 232, 238)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cikbs"]
-atlas = ExtResource("1_1vng0")
-region = Rect2(240, 252, 251, 238)
+[ext_resource type="Script" path="res://scripts/DisplayRealMole.cs" id="1_712bb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rpj67"]
 atlas = ExtResource("1_1vng0")
@@ -29,6 +22,14 @@ region = Rect2(760, 252, 252, 238)
 [sub_resource type="AtlasTexture" id="AtlasTexture_w8361"]
 atlas = ExtResource("1_1vng0")
 region = Rect2(1019, 252, 253, 238)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fsf4"]
+atlas = ExtResource("1_1vng0")
+region = Rect2(0, 252, 232, 238)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cikbs"]
+atlas = ExtResource("1_1vng0")
+region = Rect2(240, 252, 251, 238)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e06fd"]
 atlas = ExtResource("1_1vng0")
@@ -54,17 +55,6 @@ region = Rect2(0, 252, 232, 238)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1fsf4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cikbs")
-}],
-"loop": true,
-"name": &"default",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_rpj67")
 }, {
 "duration": 1.0,
@@ -80,8 +70,19 @@ animations = [{
 "texture": SubResource("AtlasTexture_w8361")
 }],
 "loop": true,
-"name": &"falling",
+"name": &"hiding",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fsf4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cikbs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -108,13 +109,14 @@ animations = [{
 size = Vector2(66, 66)
 
 [node name="DisplayRealMole" type="Area2D"]
+script = ExtResource("1_712bb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-32, -32.5)
 scale = Vector2(0.275862, 0.264706)
 sprite_frames = SubResource("SpriteFrames_wykuq")
-frame_progress = 0.193883
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-33, -33)
