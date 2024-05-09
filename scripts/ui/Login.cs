@@ -6,7 +6,7 @@ using Firebase.Auth;
 /// <summary>
 /// Login page for the Whack-A-Math game.
 /// </summary>
-public partial class loginUI : Control
+public partial class Login : Control
 {
 	// Input Fields
 	private LineEdit emailInput;

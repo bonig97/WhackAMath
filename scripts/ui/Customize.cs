@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CustomizeUI : Control
+public partial class Customize : Control
 {
 	// Member variables here, example:
 	private Button backButton;

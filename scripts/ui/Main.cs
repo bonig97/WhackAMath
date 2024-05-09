@@ -3,7 +3,7 @@ using System;
 using WhackAMath;
 using Firebase.Auth;
 
-public partial class mainUI : Control
+public partial class Main : Control
 {
 	// Input Fields
 	private Button levelSelectButton;

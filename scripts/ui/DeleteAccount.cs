@@ -3,23 +3,25 @@ using System;
 using WhackAMath;
 using Firebase.Auth;
 
-public partial class forgetPasswordUI : Control
+public partial class DeleteAccount : Control
 {
 	// Input Fields
 	private LineEdit emailInput;
+	private LineEdit passwordInput;
 	private Label errorLabel;
-	private Button resetPasswordButton;
+	private Button deleteAccountButton;
 	private Button backButton;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		// Create the input fields
-		emailInput = GetNode<LineEdit>("EmailInput");
-		errorLabel = GetNode<Label>("ErrorLabel");
+		emailInput = GetNode<LineEdit>("VBoxContainer/Control/EmailInput");
+		passwordInput = GetNode<LineEdit>("VBoxContainer/Control/PasswordInput");
+		errorLabel = GetNode<Label>("VBoxContainer/Control/ErrorLabel");
 
 		// Create the login button
-		resetPasswordButton = GetNode<Button>("ResetPasswordButton");
-		resetPasswordButton.Connect("pressed", new Callable(this, nameof(OnResetPasswordButtonPressed)));
+		deleteAccountButton = GetNode<Button>("VBoxContainer/Control/DeleteAccountButton");
+		deleteAccountButton.Connect("pressed", new Callable(this, nameof(OnDeleteAccountButtonPressed)));
 
 		// Create the "Back" button
 		backButton = GetNode<Button>("BackButton");
@@ -31,33 +33,35 @@ public partial class forgetPasswordUI : Control
 	{
 	}
 
-	private async void OnResetPasswordButtonPressed()
+	private async void OnDeleteAccountButtonPressed()
 	{
 		string email = emailInput.Text;
-		//Implement your reset password logic here
+		string password = passwordInput.Text;
+		//Implement your delete account logic here
 		try
 		{
-			await FirestoreHelper.SendPasswordResetEmailAsync(email);
+			await FirestoreHelper.DeleteUserAsync(email, password);
 			PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
 			GetTree().ChangeSceneToPacked(mainScene);
 		}
 		catch (FirebaseAuthException e)
 		{
 			string errorMessage = e.Reason.ToString();
-			if (errorMessage.Contains("InvalidEmailAddress"))
+			if (errorMessage.Contains("Undefined"))
 			{
-				errorLabel.Text = "- Invalid email";
+				errorLabel.Text = "- Network Error";
 			}
 			else
 			{
-				errorLabel.Text = "- Network error";
+				GD.Print(e);
+				errorLabel.Text = "- Invalid Email or Password";
 			}
 		}
 	}
 
 	private void OnBackButtonPressed()
 	{
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
+		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/settingsUI.tscn");
 		GetTree().ChangeSceneToPacked(mainScene);
 	}
 }

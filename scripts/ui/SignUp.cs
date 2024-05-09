@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WhackAMath;
 using Firebase.Auth;
 
-public partial class signupUI : Control
+public partial class SignUp : Control
 {
 	// Input Fields
 	private LineEdit emailInput;
