@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dy22u4031po41"]
 
-[ext_resource type="Script" path="res://scripts/languageChoice.cs" id="1_m7dxn"]
+[ext_resource type="Script" path="res://scripts/LanguageChoice.cs" id="1_m7dxn"]
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="2_frhhc"]
 [ext_resource type="Texture2D" uid="uid://xy6ltsew3n3n" path="res://assets/images/saudiFlag.png" id="3_4rt60"]
 [ext_resource type="Texture2D" uid="uid://cnbap6crqvdsd" path="res://assets/images/italianflag.png" id="3_ccflh"]

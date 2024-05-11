@@ -12,8 +12,10 @@ public partial class Settings : Control
     private Button changePasswordButton;
     private Button deleteAccountButton;
     private Button backButton;
-    private AudioStreamPlayer buttonPressPlayer;
-    private AudioStreamPlayer sliderChangePlayer;
+
+    // Added for managing settings persistence
+    private const string MUSIC_VOLUME_KEY = "user_settings/music_volume";
+    private const string EFFECTS_VOLUME_KEY = "user_settings/effects_volume";
 
     /// <summary>
     /// Initializes the settings UI and connects UI elements to their respective handlers.
@@ -22,7 +24,20 @@ public partial class Settings : Control
     {
         InitializeControls();
         ConnectSignals();
-        InitializeAudioPlayers();
+        DefineDefaultSettings();
+        LoadSettings();
+    }
+
+    private void DefineDefaultSettings()
+    {
+        if (!ProjectSettings.HasSetting(MUSIC_VOLUME_KEY))
+        {
+            ProjectSettings.SetSetting(MUSIC_VOLUME_KEY, 0.5f);
+        }
+        if (!ProjectSettings.HasSetting(EFFECTS_VOLUME_KEY))
+        {
+            ProjectSettings.SetSetting(EFFECTS_VOLUME_KEY, 0.5f);
+        }
     }
 
     /// <summary>
@@ -51,45 +66,76 @@ public partial class Settings : Control
         backButton.Connect("pressed", new Callable(this, nameof(OnBackButtonPressed)));
     }
 
-    private void InitializeAudioPlayers()
+    /// <summary>
+    /// Loads settings from persistent storage.
+    /// </summary>
+    private void LoadSettings()
     {
-        buttonPressPlayer = GetNode<AudioStreamPlayer>("ButtonPressPlayer");
-        sliderChangePlayer = GetNode<AudioStreamPlayer>("SliderChangePlayer");
+        var musicVolume = (float)ProjectSettings.GetSetting(MUSIC_VOLUME_KEY);
+        var effectsVolume = (float)ProjectSettings.GetSetting(EFFECTS_VOLUME_KEY);
+
+        musicSlider.Value = musicVolume;
+        effectsSlider.Value = effectsVolume;
+
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
+    }
+
+    /// <summary>
+    /// Saves current settings to persistent storage.
+    /// </summary>
+    private void SaveSettings()
+    {
+        ProjectSettings.SetSetting(MUSIC_VOLUME_KEY, musicSlider.Value);
+        ProjectSettings.SetSetting(EFFECTS_VOLUME_KEY, effectsSlider.Value);
+        ProjectSettings.Save();
+        GD.Print("Settings saved: Music Volume = " + musicSlider.Value + ", Effects Volume = " + effectsSlider.Value);
+    }
+
+    private float ConvertVolumeToDb(float volume)
+    {
+        return volume > 0.0 ? 20f * Mathf.Log(volume) : -80f;
     }
 
     private void OnTutorialButtonPressed()
     {
-        buttonPressPlayer.Play();
+        AudioManager.Singleton?.PlayButtonSound();
         GD.Print("Tutorial button pressed");
     }
 
     private void OnMusicSliderValueChanged(float value)
     {
-        sliderChangePlayer.Play();
-        GD.Print($"Music volume: {value}");
+        AudioManager.Singleton?.PlaySliderSound(value);
+        float dbValue = ConvertVolumeToDb(value);
+        GD.Print($"Music volume set to: {value}");
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), dbValue);
+        SaveSettings();
     }
 
     private void OnEffectsSliderValueChanged(float value)
     {
-        sliderChangePlayer.Play();
-        GD.Print($"Effects volume: {value}");
+        AudioManager.Singleton?.PlaySliderSound(value);
+        float dbValue = ConvertVolumeToDb(value);
+        GD.Print($"Effects volume set to: {value}");
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), dbValue);
+        SaveSettings();
     }
 
     private void OnChangePasswordButtonPressed()
     {
-        buttonPressPlayer.Play();
+        AudioManager.Singleton?.PlayButtonSound();
         ChangeScene("res://scenes/UI/changePasswordUI.tscn");
     }
 
     private void OnDeleteAccountButtonPressed()
     {
-        buttonPressPlayer.Play();
+        AudioManager.Singleton?.PlayButtonSound();
         ChangeScene("res://scenes/UI/deleteAccountUI.tscn");
     }
 
     private void OnBackButtonPressed()
     {
-        buttonPressPlayer.Play();
+        AudioManager.Singleton?.PlayCancelSound();
         ChangeScene("res://scenes/UI/mainUI.tscn");
     }
 
