@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvqg4anvn5nj4"]
+[gd_scene load_steps=17 format=3 uid="uid://bvqg4anvn5nj4"]
 
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="1_h4l7p"]
 [ext_resource type="Script" path="res://scripts/ui/Main.cs" id="1_rbgjv"]
@@ -7,6 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://assets/images/usaFlag.png" id="4_7b4kp"]
 [ext_resource type="PackedScene" uid="uid://b2whnircbom57" path="res://scenes/UI/DisplayMole.tscn" id="4_nyl4v"]
 [ext_resource type="Texture2D" uid="uid://cvnnljbt7lnuq" path="res://assets/images/settingsicon.png" id="4_uvksj"]
+[ext_resource type="PackedScene" uid="uid://cim0coue7yyvy" path="res://scenes/UI/DisplayBunny.tscn" id="7_euarj"]
+[ext_resource type="PackedScene" uid="uid://c417e5057pioa" path="res://scenes/UI/DisplayDuck.tscn" id="8_cq3pl"]
+[ext_resource type="PackedScene" uid="uid://x8npjhs44sdl" path="res://scenes/UI/DisplayPig.tscn" id="9_f0fie"]
+[ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_ybwrh"]
+[ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="11_03nod"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vuk8l"]
 texture = ExtResource("1_h4l7p")
@@ -386,28 +391,43 @@ text = "Whack-A-Math"
 horizontal_alignment = 1
 
 [node name="Mole" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(224, 264)
-
-[node name="Mole4" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(568, 232)
-
-[node name="Mole5" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(376, 336)
-
-[node name="Mole6" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(576, 544)
-
-[node name="Mole7" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(352, 512)
-
-[node name="Mole8" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(240, 600)
+position = Vector2(272, 296)
 
 [node name="Mole2" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(512, 336)
+position = Vector2(232, 568)
 
-[node name="Mole3" parent="." instance=ExtResource("4_nyl4v")]
-position = Vector2(208, 408)
+[node name="DisplayBunny" parent="." instance=ExtResource("7_euarj")]
+position = Vector2(488, 312)
+
+[node name="DisplayBunny2" parent="." instance=ExtResource("7_euarj")]
+position = Vector2(200, 208)
+
+[node name="DisplayDuck" parent="." instance=ExtResource("8_cq3pl")]
+position = Vector2(384, 400)
+
+[node name="DisplayDuck2" parent="." instance=ExtResource("8_cq3pl")]
+position = Vector2(656, 192)
+
+[node name="DisplayPig" parent="." instance=ExtResource("9_f0fie")]
+position = Vector2(216, 400)
+
+[node name="DisplayPig2" parent="." instance=ExtResource("9_f0fie")]
+position = Vector2(640, 344)
+
+[node name="DisplayRealMole" parent="." instance=ExtResource("10_ybwrh")]
+position = Vector2(360, 496)
+
+[node name="DisplayRealMole2" parent="." instance=ExtResource("10_ybwrh")]
+position = Vector2(128, 304)
+
+[node name="DisplayRealMole3" parent="." instance=ExtResource("10_ybwrh")]
+position = Vector2(504, 200)
+
+[node name="DisplayTrunk" parent="." instance=ExtResource("11_03nod")]
+position = Vector2(552, 544)
+
+[node name="DisplayTrunk2" parent="." instance=ExtResource("11_03nod")]
+position = Vector2(120, 488)
 
 [node name="UsaFlag" type="Sprite2D" parent="."]
 position = Vector2(64, 56)

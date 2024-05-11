@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d2hcii7c06fy"]
+[gd_scene load_steps=25 format=3 uid="uid://d2hcii7c06fy"]
 
 [ext_resource type="Texture2D" uid="uid://cnbwafv8ihivr" path="res://assets/images/decor_16x16.png" id="1_ea1yd"]
 [ext_resource type="Script" path="res://scripts/ui/Customize.cs" id="1_s6j6u"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b2whnircbom57" path="res://scenes/UI/DisplayMole.tscn" id="9_j6gsr"]
 [ext_resource type="PackedScene" uid="uid://cim0coue7yyvy" path="res://scenes/UI/DisplayBunny.tscn" id="9_whxra"]
 [ext_resource type="PackedScene" uid="uid://x8npjhs44sdl" path="res://scenes/UI/DisplayPig.tscn" id="10_e4eon"]
+[ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_jgvw0"]
 [ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="12_tkjvv"]
 [ext_resource type="PackedScene" uid="uid://c417e5057pioa" path="res://scenes/UI/DisplayDuck.tscn" id="13_ac08u"]
 
@@ -672,14 +673,11 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ClipControl"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 640.0
+offset_right = 768.0
 offset_bottom = 128.0
 theme_override_constants/separation = 128
 
-[node name="DisplayBunny" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("9_whxra")]
-position = Vector2(480, 96)
-
-[node name="Area2D" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("9_j6gsr")]
+[node name="DisplayMole" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("10_jgvw0")]
 position = Vector2(96, 96)
 
 [node name="DisplayPig" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("10_e4eon")]
@@ -688,8 +686,14 @@ position = Vector2(232, 96)
 [node name="DisplayTrunk" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("12_tkjvv")]
 position = Vector2(360, 96)
 
+[node name="DisplayBunny" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("9_whxra")]
+position = Vector2(480, 96)
+
 [node name="DisplayDuck" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("13_ac08u")]
-position = Vector2(608, 88)
+position = Vector2(608, 96)
+
+[node name="DisplayChicken" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("9_j6gsr")]
+position = Vector2(736, 96)
 
 [node name="NextButton" type="Button" parent="."]
 unique_name_in_owner = true
