@@ -3,62 +3,61 @@ using System;
 using WhackAMath;
 using Firebase.Auth;
 
+/// <summary>
+/// Manages the password reset functionality for the Whack-A-Math game.
+/// </summary>
 public partial class ForgetPassword : Control
 {
-	// Input Fields
-	private LineEdit emailInput;
-	private Label errorLabel;
-	private Button resetPasswordButton;
-	private Button backButton;
+    private LineEdit emailInput;
+    private Label errorLabel;
+    private Button resetPasswordButton;
+    private Button backButton;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		// Create the input fields
-		emailInput = GetNode<LineEdit>("EmailInput");
-		errorLabel = GetNode<Label>("ErrorLabel");
+    /// <summary>
+    /// Initializes the password reset UI and connects UI elements to their respective handlers.
+    /// </summary>
+    public override void _Ready()
+    {
+        emailInput = GetNode<LineEdit>("EmailInput");
+        errorLabel = GetNode<Label>("ErrorLabel");
+        resetPasswordButton = GetNode<Button>("ResetPasswordButton");
+        backButton = GetNode<Button>("BackButton");
 
-		// Create the login button
-		resetPasswordButton = GetNode<Button>("ResetPasswordButton");
-		resetPasswordButton.Connect("pressed", new Callable(this, nameof(OnResetPasswordButtonPressed)));
+        resetPasswordButton.Connect("pressed", new Callable(this, nameof(OnResetPasswordButtonPressed)));
+        backButton.Connect("pressed", new Callable(this, nameof(OnBackButtonPressed)));
+    }
 
-		// Create the "Back" button
-		backButton = GetNode<Button>("BackButton");
-		backButton.Connect("pressed", new Callable(this, nameof(OnBackButtonPressed)));
-	}
+    private async void OnResetPasswordButtonPressed()
+    {
+        AudioManager.Singleton?.PlayButtonSound();
+        string email = emailInput.Text;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+        try
+        {
+            await FirestoreHelper.SendPasswordResetEmailAsync(email);
+            GD.Print("Reset email sent successfully.");
+            ChangeScene("res://scenes/UI/loginUI.tscn");
+        }
+        catch (FirebaseAuthException e)
+        {
+            string errorMessage = e.Reason.ToString();
+            errorLabel.Text = errorMessage.Contains("InvalidEmailAddress") ? "- Invalid email" : "- Network error";
+        }
+    }
 
-	private async void OnResetPasswordButtonPressed()
-	{
-		string email = emailInput.Text;
+    private void OnBackButtonPressed()
+    {
+        AudioManager.Singleton?.PlayCancelSound();
+        ChangeScene("res://scenes/UI/loginUI.tscn");
+    }
 
-		try
-		{
-			await FirestoreHelper.SendPasswordResetEmailAsync(email);
-			PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
-			GetTree().ChangeSceneToPacked(mainScene);
-		}
-		catch (FirebaseAuthException e)
-		{
-			string errorMessage = e.Reason.ToString();
-			if (errorMessage.Contains("InvalidEmailAddress"))
-			{
-				errorLabel.Text = "- Invalid email";
-			}
-			else
-			{
-				errorLabel.Text = "- Network error";
-			}
-		}
-	}
-
-	private void OnBackButtonPressed()
-	{
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
-		GetTree().ChangeSceneToPacked(mainScene);
-	}
+    /// <summary>
+    /// Changes the current scene to the specified scene.
+    /// </summary>
+    /// <param name="scenePath">The path to the scene resource to load and switch to.</param>
+    private void ChangeScene(string scenePath)
+    {
+        PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
+        GetTree().ChangeSceneToPacked(scene);
+    }
 }

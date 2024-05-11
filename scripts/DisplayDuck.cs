@@ -4,6 +4,7 @@ using System;
 public partial class DisplayDuck : Area2D
 {
 	private AnimatedSprite2D animatedSprite;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

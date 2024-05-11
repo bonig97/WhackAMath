@@ -110,8 +110,6 @@ namespace WhackAMath {
             {
                 ConvertFromDictionary(saveData);
             }
-
         }
-
     }
 }
