@@ -4,15 +4,14 @@ using WhackAMath;
 
 public partial class languageChoice : Control
 {
-	
 	private Button backButton;
 	private Button englishButton;
 	private Button italianButton;
 	private Button arabicButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
 		englishButton = GetNode<Button>("EnglishButton");
 		englishButton.Connect("pressed", new Callable(this, nameof(OnEnglishButtonPressed)));
 

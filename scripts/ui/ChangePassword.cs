@@ -13,6 +13,7 @@ public partial class ChangePassword : Control
 	private Label errorLabel;
 	private Button changePasswordButton;
 	private Button backButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -46,33 +47,26 @@ public partial class ChangePassword : Control
 
 		if (newPassword != confirmPassword)
 		{
-			// Display an error message
 			errorLabel.Text = "Passwords do not match";
 		}
 		else
 		{
-			//Implement your change password logic here
-			try 
+			try
 			{
 				if (newPassword != confirmPassword)
 				{
-					// Display an error message
 					errorLabel.Text = "- Passwords do not match";
 				}
 				else if (newPassword == oldPassword)
 				{
-					// Display an error message
 					errorLabel.Text = "- Password must be different from old password";
 				}
 				else
 				{
-					//Implement your login logic here
 					await FirestoreHelper.ChangePassword(email, oldPassword, newPassword);
 					PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
 					GetTree().ChangeSceneToPacked(mainScene);
 				}
-				
-				
 			}
 			catch (FirebaseAuthException e)
 			{

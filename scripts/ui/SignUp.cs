@@ -16,7 +16,6 @@ public partial class SignUp : Control
 	private Button signUpButton;
 	private Button goToLoginButton;
 
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -47,12 +46,10 @@ public partial class SignUp : Control
 
 		if (password != confirmPassword)
 		{
-			// Display an error message
 			errorLabel.Text = "Passwords do not match";
 		}
 		else
 		{
-			//Implement your login logic here
 			try
 			{
 				UserCredential user = await FirestoreHelper.CreateUser(email, password);
@@ -88,9 +85,6 @@ public partial class SignUp : Control
 					errorLabel.Text = "- Connection error";
 				}
 			}
-			
-			
-			
 		}
 	}
 

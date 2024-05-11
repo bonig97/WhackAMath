@@ -4,7 +4,6 @@ using WhackAMath;
 
 public partial class LevelSelect : Control
 {
-	// Declare member variables here. Examples:
 	private MarginContainer marginContainer;
 	private HBoxContainer hboxContainer;
 	private Button backButton;
