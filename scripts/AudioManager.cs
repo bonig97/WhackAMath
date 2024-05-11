@@ -25,9 +25,16 @@ public partial class AudioManager : Node
         AddChild(confirmSoundPlayer);
 
         buttonSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/tap.wav");
+        buttonSoundPlayer.Bus = "Effects";
+
         sliderSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/popup.wav");
+        sliderSoundPlayer.Bus = "Effects";
+
         cancelSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/cancel.wav");
+        cancelSoundPlayer.Bus = "Effects";
+
         confirmSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/confirm.wav");
+        confirmSoundPlayer.Bus = "Effects";
     }
 
     public void PlayButtonSound()
