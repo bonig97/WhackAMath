@@ -1,2 +1,2 @@
 operation: subtract
-range: 10-50
+range: 10-30
