@@ -4,7 +4,6 @@ using WhackAMath;
 
 public partial class Customize : Control
 {
-	// Member variables here, example:
 	private Button backButton;
 	private Button nextButton;
 	private Button prevButton;
@@ -12,7 +11,6 @@ public partial class Customize : Control
 	private MarginContainer marginContainer;
 	private HBoxContainer hboxContainer;
 	private int current_grid = 0;
-
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -28,7 +26,6 @@ public partial class Customize : Control
 		nextButton.Connect("pressed", new Callable(this, nameof(OnNextButtonPressed)));
 		prevButton.Connect("pressed", new Callable(this, nameof(OnPrevButtonPressed)));
 		selectButton.Connect("pressed", new Callable(this, nameof(OnSelectButtonPressed)));
-		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,7 +43,6 @@ public partial class Customize : Control
 		if (current_grid < hboxContainer.GetChildren().Count - 1)
 		{
 			current_grid++;
-			
 			hboxContainer.Position = new Vector2(-current_grid * 128, 0);
 		}
 		else

@@ -39,29 +39,22 @@ public partial class Login : Control
 		// Create the "Forget Password" text
 		forgetPasswordButton = GetNode<LinkButton>("ForgetPasswordButton");
 		forgetPasswordButton.Connect("pressed", new Callable(this, nameof(OnForgetPasswordButtonPressed)));
-
-		// signUpLabel.Connect("gui_input", this, nameof(OnSignUpLabelClicked));
-
-		// Load the SignUpPage scene
-		// signUpScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");  
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 	}
-	
+
 	private async void OnLoginButtonPressed()
 	{
 		string email = emailInput.Text;
 		string password = passwordInput.Text;
 
-
-		//Implement your login logic here
 		try
 		{
 			UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
-			
+
 			if (user != null)
 			{
 				SaveFile.LoadSaveFile();
@@ -72,6 +65,8 @@ public partial class Login : Control
 		}
 		catch (FirebaseAuthException e)
 		{
+			GD.Print($"Error: {e.Reason}");
+
 			string errorMessage = e.Reason.ToString();
 			if (errorMessage.Contains("Undefined"))
 			{
@@ -79,10 +74,8 @@ public partial class Login : Control
 			}
 			else
 			{
-				GD.Print(e);
 				errorLabel.Text = "- Invalid Email or Password";
 			}
-			
 		}
 	}
 

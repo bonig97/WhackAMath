@@ -11,6 +11,7 @@ public partial class DeleteAccount : Control
 	private Label errorLabel;
 	private Button deleteAccountButton;
 	private Button backButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -37,7 +38,7 @@ public partial class DeleteAccount : Control
 	{
 		string email = emailInput.Text;
 		string password = passwordInput.Text;
-		//Implement your delete account logic here
+
 		try
 		{
 			await FirestoreHelper.DeleteUserAsync(email, password);
@@ -46,6 +47,8 @@ public partial class DeleteAccount : Control
 		}
 		catch (FirebaseAuthException e)
 		{
+			GD.Print($"Error: {e.Reason}");
+
 			string errorMessage = e.Reason.ToString();
 			if (errorMessage.Contains("Undefined"))
 			{
@@ -53,7 +56,6 @@ public partial class DeleteAccount : Control
 			}
 			else
 			{
-				GD.Print(e);
 				errorLabel.Text = "- Invalid Email or Password";
 			}
 		}

@@ -10,6 +10,7 @@ public partial class ForgetPassword : Control
 	private Label errorLabel;
 	private Button resetPasswordButton;
 	private Button backButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -34,7 +35,7 @@ public partial class ForgetPassword : Control
 	private async void OnResetPasswordButtonPressed()
 	{
 		string email = emailInput.Text;
-		//Implement your reset password logic here
+
 		try
 		{
 			await FirestoreHelper.SendPasswordResetEmailAsync(email);

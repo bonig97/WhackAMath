@@ -12,6 +12,8 @@ public partial class Settings : Control
     private Button changePasswordButton;
     private Button deleteAccountButton;
     private Button backButton;
+    private AudioStreamPlayer buttonPressPlayer;
+    private AudioStreamPlayer sliderChangePlayer;
 
     /// <summary>
     /// Initializes the settings UI and connects UI elements to their respective handlers.
@@ -20,6 +22,7 @@ public partial class Settings : Control
     {
         InitializeControls();
         ConnectSignals();
+        InitializeAudioPlayers();
     }
 
     /// <summary>
@@ -48,24 +51,45 @@ public partial class Settings : Control
         backButton.Connect("pressed", new Callable(this, nameof(OnBackButtonPressed)));
     }
 
-    private void OnTutorialButtonPressed() => GD.Print("Tutorial button pressed");
+    private void InitializeAudioPlayers()
+    {
+        buttonPressPlayer = GetNode<AudioStreamPlayer>("ButtonPressPlayer");
+        sliderChangePlayer = GetNode<AudioStreamPlayer>("SliderChangePlayer");
+    }
 
-    private void OnMusicSliderValueChanged(float value) => GD.Print($"Music volume: {value}");
+    private void OnTutorialButtonPressed()
+    {
+        buttonPressPlayer.Play();
+        GD.Print("Tutorial button pressed");
+    }
 
-    private void OnEffectsSliderValueChanged(float value) => GD.Print($"Effects volume: {value}");
+    private void OnMusicSliderValueChanged(float value)
+    {
+        sliderChangePlayer.Play();
+        GD.Print($"Music volume: {value}");
+    }
+
+    private void OnEffectsSliderValueChanged(float value)
+    {
+        sliderChangePlayer.Play();
+        GD.Print($"Effects volume: {value}");
+    }
 
     private void OnChangePasswordButtonPressed()
     {
+        buttonPressPlayer.Play();
         ChangeScene("res://scenes/UI/changePasswordUI.tscn");
     }
 
     private void OnDeleteAccountButtonPressed()
     {
+        buttonPressPlayer.Play();
         ChangeScene("res://scenes/UI/deleteAccountUI.tscn");
     }
 
     private void OnBackButtonPressed()
     {
+        buttonPressPlayer.Play();
         ChangeScene("res://scenes/UI/mainUI.tscn");
     }
 

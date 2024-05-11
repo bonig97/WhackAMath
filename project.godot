@@ -17,7 +17,8 @@ config/icon="res://assets/images/icon.svg"
 
 [autoload]
 
-InitialStart="*res://scripts/initial_start.cs"
+InitialStart="*res://scripts/InitialStart.cs"
+AudioManager="*res://scripts/AudioManager.cs"
 
 [dotnet]
 
