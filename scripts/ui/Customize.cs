@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using WhackAMath;
 
 public partial class Customize : Control
 {
@@ -70,6 +71,7 @@ public partial class Customize : Control
 	private void OnSelectButtonPressed()
 	{
 		GD.Print("Select button pressed");
+		SaveFile.UpdateMoleSelected(current_grid);
 	}
 
 }

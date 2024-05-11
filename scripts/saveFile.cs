@@ -7,6 +7,7 @@ namespace WhackAMath{
         public static int MaxLevelUnlocked { get; set; }
         public static string LanguageSelected { get; set; }
         public static List<int> Leaderboards { get; set; }
+        public static int moleSelected { get; set; }
         public static int currentLevel { get; set; }
 
         public static void InitialSaveFile()
@@ -14,6 +15,7 @@ namespace WhackAMath{
             MaxLevelUnlocked = 1;
             LanguageSelected = "English";
             Leaderboards = new List<int>();
+            moleSelected = 0;
             currentLevel = 1;
         }
 
@@ -22,6 +24,7 @@ namespace WhackAMath{
             Dictionary<string, object> saveData = new Dictionary<string, object>();
             saveData["MaxLevelUnlocked"] = MaxLevelUnlocked;
             saveData["LanguageSelected"] = LanguageSelected;
+            saveData["moleSelected"] = moleSelected;
             saveData["Leaderboards"] = Leaderboards;
             return saveData;
         }
@@ -30,6 +33,7 @@ namespace WhackAMath{
         {
             MaxLevelUnlocked = Convert.ToInt32(saveData["MaxLevelUnlocked"]);
             LanguageSelected = Convert.ToString(saveData["LanguageSelected"]);
+            moleSelected = Convert.ToInt32(saveData["moleSelected"]);
             Leaderboards = (List<int>)saveData["Leaderboards"];
 
         }
@@ -69,6 +73,13 @@ namespace WhackAMath{
         public static async void UpdateLanguageSelected(string language)
         {
             LanguageSelected = language;
+
+            await FirestoreHelper.UpdateDocument(ConvertToDictionary());
+        }
+
+        public static async void UpdateMoleSelected(int mole)
+        {
+            moleSelected = mole;
 
             await FirestoreHelper.UpdateDocument(ConvertToDictionary());
         }

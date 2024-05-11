@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Data;
+using WhackAMath;
 
 /// <summary>
 /// Represents a mole in the Whack-A-Math game that handles behavior of popping up and being hit.
@@ -22,7 +23,7 @@ public partial class Mole : Area2D
 	private Timer timer;
 	private Timer timer2;
 	private CollisionShape2D collisionShape;
-	private AnimatedSprite2D sprite;
+	private AnimatedSprite2D sprite, spriteChoice0, spriteChoice1, spriteChoice2, spriteChoice3, spriteChoice4, spriteChoice5;
 	private Label label;
 	private Panel panel;
 	private Tween tween = new();
@@ -51,9 +52,40 @@ public partial class Mole : Area2D
 		SetProcessInput(true);
 		initialPosition = GlobalPosition;
 		collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		sprite = GetNode<AnimatedSprite2D>("Chicken");
+		spriteChoice0 = GetNode<AnimatedSprite2D>("RealMole");
+		spriteChoice1 = GetNode<AnimatedSprite2D>("Pig");
+		spriteChoice2 = GetNode<AnimatedSprite2D>("Trunk");
+		spriteChoice3 = GetNode<AnimatedSprite2D>("Bunny");
+		spriteChoice4 = GetNode<AnimatedSprite2D>("Duck");
+		spriteChoice5 = GetNode<AnimatedSprite2D>("Chicken");
 		panel = GetNode<Panel>("Panel");
 		label = GetNode<Label>("Panel/Label");
+		switch (SaveFile.moleSelected)
+		{
+			case 0:
+				sprite = spriteChoice0;
+				break;
+			case 1:
+				sprite = spriteChoice1;
+				break;
+			case 2:
+				sprite = spriteChoice2;
+				break;
+			case 3:
+				sprite = spriteChoice3;
+				break;
+			case 4:
+				sprite = spriteChoice4;
+				break;
+			case 5:
+				sprite = spriteChoice5;
+				break;
+			default:
+				break;
+		}
+		
+		
 
 		GD.Randomize();
 		MoveDown(); // Ensure the mole starts hidden.
@@ -91,13 +123,12 @@ public partial class Mole : Area2D
 		collisionShape.Disabled = false;
 		sprite.Visible = true;
 		panel.Visible = true;
-		sprite.Play("rising");
 		timer.Start();
 		if (isCorrect)
 		{
 			CorrectMoleAppeared?.Invoke();
 		}
-		sprite.Play("idle");
+		sprite.Play("default");
 	}
 
 	/// <summary>
@@ -108,7 +139,6 @@ public partial class Mole : Area2D
 		collisionShape.Disabled = true;
 		sprite.Visible = false;
 		panel.Visible = false;
-		sprite.Play("hiding");
 		SwitchAnswers?.Invoke();
 		if (isCorrect)
 		{
