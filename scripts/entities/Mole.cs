@@ -17,7 +17,15 @@ public partial class Mole : Area2D
 	/// Event fired to signal a switch in answers among the moles.
 	/// </summary>
 	public event Action SwitchAnswers;
+
+	/// <summary>
+    /// Event fired when a correct mole appears.
+    /// </summary>
 	public event Action CorrectMoleAppeared;
+
+	/// <summary>
+    /// Event fired when a correct mole disappears.
+    /// </summary>
 	public event Action CorrectMoleDisappeared;
 
 	private Timer timer;
@@ -121,6 +129,9 @@ public partial class Mole : Area2D
 		}
 	}
 
+	/// <summary>
+    /// Handles the delayed response sound for correct or incorrect mole hits.
+    /// </summary>
 	private void OnResponseSoundTimerTimeout()
     {
         if (isCorrect)
@@ -218,6 +229,10 @@ public partial class Mole : Area2D
 		label.Text = answer;
 	}
 
+	/// <summary>
+    /// Recalculates correctness of the mole based on the given answer.
+    /// </summary>
+    /// <param name="answer">The correct answer to validate against.</param>
 	public void RecomputeCorrectness(int answer)
 	{
 		bool oldIsCorrect = isCorrect;
@@ -232,6 +247,10 @@ public partial class Mole : Area2D
 		}
 	}
 
+	/// <summary>
+    /// Sets the activity state of the mole, controlling its ability to be interacted with.
+    /// </summary>
+    /// <param name="activity">Whether the mole is active.</param>
 	public void SetActive(bool activity)
 	{
 		if (!activity)
@@ -241,11 +260,18 @@ public partial class Mole : Area2D
 		this.isActive = activity;
 	}
 
+	/// <summary>
+    /// Returns whether the mole's current answer is correct.
+    /// </summary>
+    /// <returns>True if the current answer is correct, otherwise false.</returns>
 	public bool GetCorrectness()
 	{
 		return isCorrect;
 	}
 
+	/// <summary>
+    /// Pauses mole activity, typically used when the game is paused.
+    /// </summary>
 	public void PauseGame()
 	{
 		timer.Stop();
@@ -254,6 +280,9 @@ public partial class Mole : Area2D
 		sprite.Pause();
 	}
 
+	/// <summary>
+    /// Resumes mole activity, typically used when the game is resumed.
+    /// </summary>
 	public void ResumeGame()
 	{
 		timer.Start();
