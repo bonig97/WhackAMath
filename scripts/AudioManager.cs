@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Manages all sound effects and music in the game.
+/// </summary>
 public partial class AudioManager : Node
 {
     private AudioStreamPlayer buttonSoundPlayer;
@@ -8,39 +11,57 @@ public partial class AudioManager : Node
     private AudioStreamPlayer cancelSoundPlayer;
     private AudioStreamPlayer confirmSoundPlayer;
     private AudioStreamPlayer hitMoleSoundPlayer;
+    private AudioStreamPlayer mainMusicPlayer;
 
     public static AudioManager Singleton { get; private set; }
 
+    /// <summary>
+    /// Initializes the AudioManager and loads all necessary sound resources.
+    /// </summary>
     public override void _Ready()
     {
         Singleton = this;
 
+        InitializePlayers();
+        LoadSounds();
+        AssignAudioBuses();
+    }
+
+    private void InitializePlayers()
+    {
         buttonSoundPlayer = new AudioStreamPlayer();
         sliderSoundPlayer = new AudioStreamPlayer();
         cancelSoundPlayer = new AudioStreamPlayer();
         confirmSoundPlayer = new AudioStreamPlayer();
         hitMoleSoundPlayer = new AudioStreamPlayer();
+        mainMusicPlayer = new AudioStreamPlayer();
 
         AddChild(buttonSoundPlayer);
         AddChild(sliderSoundPlayer);
         AddChild(cancelSoundPlayer);
         AddChild(confirmSoundPlayer);
         AddChild(hitMoleSoundPlayer);
+        AddChild(mainMusicPlayer);
+    }
 
+    private void LoadSounds()
+    {
         buttonSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/tap.wav");
-        buttonSoundPlayer.Bus = "Effects";
-
         sliderSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/popup.wav");
-        sliderSoundPlayer.Bus = "Effects";
-
         cancelSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/cancel.wav");
-        cancelSoundPlayer.Bus = "Effects";
-
         confirmSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/confirm.wav");
-        confirmSoundPlayer.Bus = "Effects";
-
         hitMoleSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/bonk.wav");
+        mainMusicPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/music/main.wav");
+    }
+
+    private void AssignAudioBuses()
+    {
+        buttonSoundPlayer.Bus = "Effects";
+        sliderSoundPlayer.Bus = "Effects";
+        cancelSoundPlayer.Bus = "Effects";
+        confirmSoundPlayer.Bus = "Effects";
         hitMoleSoundPlayer.Bus = "Effects";
+        mainMusicPlayer.Bus = "Master";
     }
 
     public void PlayButtonSound()
@@ -81,6 +102,15 @@ public partial class AudioManager : Node
         if (!hitMoleSoundPlayer.Playing)
         {
             hitMoleSoundPlayer.Play();
+        }
+    }
+
+    public void PlayMainMusic(float volume)
+    {
+        if (!mainMusicPlayer.Playing)
+        {
+            mainMusicPlayer.VolumeDb = volume;
+            mainMusicPlayer.Play();
         }
     }
 }
