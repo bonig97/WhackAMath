@@ -35,8 +35,6 @@ public partial class Mole : Area2D
 	private bool isCorrect = false;
 	private bool isActive = true;
 
-
-
 	/// <summary>
 	/// Called when the node enters the scene tree for the first time to set up initial values and states.
 	/// </summary>
@@ -61,6 +59,7 @@ public partial class Mole : Area2D
 		spriteChoice5 = GetNode<AnimatedSprite2D>("Chicken");
 		panel = GetNode<Panel>("Panel");
 		label = GetNode<Label>("Panel/Label");
+
 		switch (SaveFile.moleSelected)
 		{
 			case 0:
@@ -84,11 +83,9 @@ public partial class Mole : Area2D
 			default:
 				break;
 		}
-		
-		
 
 		GD.Randomize();
-		MoveDown(); // Ensure the mole starts hidden.
+		MoveDown();
 	}
 
 	/// <summary>
@@ -155,6 +152,7 @@ public partial class Mole : Area2D
 		{
 			isHittable = false;
 			MoveDown();
+			AudioManager.Singleton.PlayHitMoleSound();
 			GD.Print(label.Text + $" = {Convert.ToInt32(new DataTable().Compute(label.Text, null))}  {isCorrect}");
 			MoleHit?.Invoke(isCorrect);
 		}
@@ -212,14 +210,14 @@ public partial class Mole : Area2D
 
 	public void SetActive(bool activity)
 	{
-		if (!activity) 
+		if (!activity)
 		{
 			MoveDown();
 		}
 		this.isActive = activity;
 	}
 
-	public bool GetCorrectness() 
+	public bool GetCorrectness()
 	{
 		return isCorrect;
 	}
