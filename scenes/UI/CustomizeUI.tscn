@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d2hcii7c06fy"]
+[gd_scene load_steps=27 format=3 uid="uid://d2hcii7c06fy"]
 
 [ext_resource type="Texture2D" uid="uid://cnbwafv8ihivr" path="res://assets/images/decor_16x16.png" id="1_ea1yd"]
 [ext_resource type="Script" path="res://scripts/ui/Customize.cs" id="1_s6j6u"]
@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_jgvw0"]
 [ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="12_tkjvv"]
 [ext_resource type="PackedScene" uid="uid://c417e5057pioa" path="res://scenes/UI/DisplayDuck.tscn" id="13_ac08u"]
+[ext_resource type="Texture2D" uid="uid://bq555cwceepts" path="res://assets/images/arrowRight.png" id="16_xgh4m"]
+[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="17_1yjxy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h1me4"]
 texture = ExtResource("1_ea1yd")
@@ -703,24 +705,25 @@ offset_top = 256.0
 offset_right = 768.0
 offset_bottom = 384.0
 theme_override_font_sizes/font_size = 50
-text = ">"
+icon = ExtResource("16_xgh4m")
 
 [node name="PrevButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 384.0
+offset_left = 336.0
 offset_top = 256.0
 offset_right = 448.0
 offset_bottom = 384.0
 theme_override_font_sizes/font_size = 50
-text = "<"
+icon = ExtResource("17_1yjxy")
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 theme_override_font_sizes/font_size = 40
-text = "<"
+icon = ExtResource("17_1yjxy")
+expand_icon = true
 
 [node name="SelectButton" type="Button" parent="."]
 layout_mode = 0

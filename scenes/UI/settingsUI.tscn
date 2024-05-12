@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpdhft0x0tsvx"]
+[gd_scene load_steps=10 format=3 uid="uid://cpdhft0x0tsvx"]
 
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="2_16w4g"]
 [ext_resource type="Script" path="res://scripts/ui/Settings.cs" id="2_d2qv6"]
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="3_5bkwm"]
 [ext_resource type="Texture2D" uid="uid://c8eyp3jac0e7" path="res://assets/images/plains.png" id="4_e12da"]
+[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="5_sfjre"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l7rn6"]
 texture = ExtResource("2_16w4g")
@@ -326,12 +327,13 @@ text = "Tutorial"
 [node name="BackButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-offset_left = 26.0
-offset_top = 26.0
-offset_right = 73.0
-offset_bottom = 103.0
+offset_left = -4.0
+offset_top = 5.0
+offset_right = 60.0
+offset_bottom = 69.0
 theme_override_font_sizes/font_size = 50
-text = "<"
+icon = ExtResource("5_sfjre")
+expand_icon = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
