@@ -34,7 +34,6 @@ public partial class Mole : Area2D
 	private AnimatedSprite2D sprite, spriteChoice0, spriteChoice1, spriteChoice2, spriteChoice3, spriteChoice4, spriteChoice5;
 	private Label label;
 	private Panel panel;
-	private Tween tween = new();
 	private const int BonkHeight = 50;
 	private readonly Random random = new();
 	private bool isHittable = false;
