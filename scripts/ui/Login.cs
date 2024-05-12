@@ -8,93 +8,81 @@ using Firebase.Auth;
 /// </summary>
 public partial class Login : Control
 {
-	// Input Fields
-	private LineEdit emailInput;
-	private LineEdit passwordInput;
-	private Label errorLabel;
+    // Input Fields
+    private LineEdit emailInput;
+    private LineEdit passwordInput;
+    private Label errorLabel;
 
-	// Login Button
-	private Button loginButton;
+    // Login Button
+    private Button loginButton;
 
-	// "Sign Up" Text
-	private Button goToSignUpButton;
-	private LinkButton forgetPasswordButton;
+    // "Sign Up" Text
+    private Button goToSignUpButton;
+    private LinkButton forgetPasswordButton;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		// Create the input fields
-		emailInput = GetNode<LineEdit>("EmailInput");
-		passwordInput = GetNode<LineEdit>("PasswordInput");
-		errorLabel = GetNode<Label>("ErrorLabel");
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        // Initialize UI elements
+        emailInput = GetNode<LineEdit>("EmailInput");
+        passwordInput = GetNode<LineEdit>("PasswordInput");
+        errorLabel = GetNode<Label>("ErrorLabel");
 
-		// Create the login button
-		loginButton = GetNode<Button>("LoginButton");
-		loginButton.Connect("pressed", new Callable(this, nameof(OnLoginButtonPressed)));
+        // Initialize buttons
+        loginButton = GetNode<Button>("LoginButton");
+        loginButton.Connect("pressed", new Callable(this, nameof(OnLoginButtonPressed)));
 
-		// Create the "Sign Up" text
-		goToSignUpButton = GetNode<Button>("GoToSignUpButton");
-		goToSignUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
+        goToSignUpButton = GetNode<Button>("GoToSignUpButton");
+        goToSignUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressed)));
 
-		// Create the "Forget Password" text
-		forgetPasswordButton = GetNode<LinkButton>("ForgetPasswordButton");
-		forgetPasswordButton.Connect("pressed", new Callable(this, nameof(OnForgetPasswordButtonPressed)));
+        forgetPasswordButton = GetNode<LinkButton>("ForgetPasswordButton");
+        forgetPasswordButton.Connect("pressed", new Callable(this, nameof(OnForgetPasswordButtonPressed)));
+    }
 
-		// signUpLabel.Connect("gui_input", this, nameof(OnSignUpLabelClicked));
+    private async void OnLoginButtonPressed()
+    {
+        string email = emailInput.Text;
+        string password = passwordInput.Text;
 
-		// Load the SignUpPage scene
-		// signUpScene = (PackedScene)ResourceLoader.Load("res://signupUI.tscn");  
-	}
+        try
+        {
+            UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
+            if (user != null)
+            {
+                SaveFile.LoadSaveFile();
+                GD.Print("User logged in successfully");
+                AudioManager.Singleton?.PlayConfirmSound();
+                ChangeScene("res://scenes/UI/mainUI.tscn");
+            }
+        }
+        catch (FirebaseAuthException e)
+        {
+            GD.Print($"Error: {e.Reason}");
+            string errorMessage = e.Reason.ToString();
+            errorLabel.Text = errorMessage.Contains("Undefined") ? "- Network Error" : "- Invalid Email or Password";
+            AudioManager.Singleton?.PlayCancelSound();
+        }
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-	
-	private async void OnLoginButtonPressed()
-	{
-		string email = emailInput.Text;
-		string password = passwordInput.Text;
+    private void OnSignUpButtonPressed()
+    {
+        AudioManager.Singleton?.PlayButtonSound();
+        ChangeScene("res://scenes/UI/signupUI.tscn");
+    }
 
+    private void OnForgetPasswordButtonPressed()
+    {
+        AudioManager.Singleton?.PlayButtonSound();
+        ChangeScene("res://scenes/UI/forgetPasswordUI.tscn");
+    }
 
-		//Implement your login logic here
-		try
-		{
-			UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
-			
-			if (user != null)
-			{
-				SaveFile.LoadSaveFile();
-				GD.Print("User logged in successfully");
-				PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
-				GetTree().ChangeSceneToPacked(mainScene);
-			}
-		}
-		catch (FirebaseAuthException e)
-		{
-			string errorMessage = e.Reason.ToString();
-			if (errorMessage.Contains("Undefined"))
-			{
-				errorLabel.Text = "- Network Error";
-			}
-			else
-			{
-				GD.Print(e);
-				errorLabel.Text = "- Invalid Email or Password";
-			}
-			
-		}
-	}
-
-	private void OnSignUpButtonPressed()
-	{
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/signupUI.tscn");
-		GetTree().ChangeSceneToPacked(mainScene);
-	}
-
-	private void OnForgetPasswordButtonPressed()
-	{
-		PackedScene mainScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/forgetPasswordUI.tscn");
-		GetTree().ChangeSceneToPacked(mainScene);
-	}
+    /// <summary>
+    /// Changes the current scene to the specified scene.
+    /// </summary>
+    /// <param name="scenePath">The path to the scene resource to load and switch to.</param>
+    private void ChangeScene(string scenePath)
+    {
+        PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
+        GetTree().ChangeSceneToPacked(scene);
+    }
 }

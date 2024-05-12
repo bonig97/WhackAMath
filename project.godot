@@ -17,7 +17,8 @@ config/icon="res://assets/images/icon.svg"
 
 [autoload]
 
-InitialStart="*res://scripts/initial_start.cs"
+AudioManager="*res://scripts/AudioManager.cs"
+InitialStart="*res://scripts/InitialStart.cs"
 
 [dotnet]
 
@@ -27,6 +28,16 @@ project/assembly_name="WhackAMath"
 
 enabled=PackedStringArray()
 
+[global]
+
+master=""
+effects=""
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
+
+[user_settings]
+
+music_volume=-3.0
+effects_volume=-19.0
