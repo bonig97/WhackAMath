@@ -100,7 +100,7 @@ public partial class Settings : Control
 
     private void OnMusicSliderValueChanged(float value)
     {
-        AudioManager.Singleton?.PlaySliderSound(value);
+        AudioManager.Singleton?.PlayMainMusic(value);
         GD.Print($"Music volume set to: {value}");
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), value);
         SaveSettings();

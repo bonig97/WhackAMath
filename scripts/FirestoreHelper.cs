@@ -35,6 +35,7 @@ namespace WhackAMath
 		public static UserCredential UserCredential { get; private set; }
 		public static CollectionReference collectionRef { get; private set; }
 		public static string collectionName = "SaveData";
+
 		public static void SetEnvironmentVariable()
 		{
 			filepath = Path.Combine(Path.GetTempPath(),Path.GetFileNameWithoutExtension(Path.GetRandomFileName())) + ".json";
@@ -51,9 +52,7 @@ namespace WhackAMath
 				{
 					// Add and configure individual providers
 					new EmailProvider()
-					// ...
 				},
-				// WPF:
 				UserRepository = new FileUserRepository("FirebaseSample") // persist data into %AppData%\FirebaseSample
 			};
 
