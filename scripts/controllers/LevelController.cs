@@ -79,7 +79,6 @@ public partial class LevelController : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
 	}
 
 	/// <summary>
@@ -293,6 +292,7 @@ public partial class LevelController : Node
 				throw new InvalidOperationException("Unknown operation.");
 		}
 	}
+
 	private void OnLevelCompleteButtonPressed()
 	{
 		GD.Print("Level complete button pressed!");
@@ -303,16 +303,19 @@ public partial class LevelController : Node
 		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
+
 	private void OnPauseButtonPressed()
 	{
 		moleHouse.PauseGame();
 		GetNode<Panel>("GamePausePanel").Visible = true;
 	}
+
 	private void OnResumeButtonPressed()
 	{
 		GetNode<Panel>("GamePausePanel").Visible = false;
 		moleHouse.ResumeGame();
 	}
+
 	private void OnQuitButtonPressed()
 	{
 		GD.Print("Quit button pressed!");
@@ -320,4 +323,3 @@ public partial class LevelController : Node
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
 }
-

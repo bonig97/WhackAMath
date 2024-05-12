@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-namespace WhackAMath{
+
+namespace WhackAMath {
     public class SaveFile
     {
         public static int MaxLevelUnlocked { get; set; }
@@ -34,10 +36,22 @@ namespace WhackAMath{
             MaxLevelUnlocked = Convert.ToInt32(saveData["MaxLevelUnlocked"]);
             LanguageSelected = Convert.ToString(saveData["LanguageSelected"]);
             moleSelected = Convert.ToInt32(saveData["moleSelected"]);
-            Leaderboards = (List<int>)saveData["Leaderboards"];
 
+            if (saveData["Leaderboards"] is List<object> tempLeaderboards)
+            {
+                Leaderboards = tempLeaderboards.Cast<int>().ToList();
+            }
+            else
+            {
+                throw new InvalidCastException("Leaderboards data is not in the expected format.");
+            }
         }
 
+        /// <summary>
+        /// Updates the leaderboard with a new score.
+        /// </summary>
+        /// <param name="level">The level at which the score was obtained.</param>
+        /// <param name="score">The score to add to the leaderboard.</param>
         public static async void UpdateLeaderboard(int level, int score)
         {
             if (Leaderboards.Count < 10)
@@ -96,8 +110,6 @@ namespace WhackAMath{
             {
                 ConvertFromDictionary(saveData);
             }
-
         }
-
     }
 }

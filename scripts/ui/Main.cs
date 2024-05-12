@@ -12,10 +12,11 @@ public partial class Main : Control
 	private Button endlessModeButton;
 	private Button languageButton;
 	private Button customizeButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// Create the input fields
+		// Initialize buttons
 		levelSelectButton = GetNode<Button>("LevelSelectButton");
 		settingsButton = GetNode<Button>("SettingsButton");
 		logoutButton = GetNode<Button>("LogoutButton");
@@ -23,7 +24,7 @@ public partial class Main : Control
 		languageButton = GetNode<Button>("LanguageButton");
 		customizeButton = GetNode<Button>("CustomizeButton");
 
-		// Create the login button
+		// Connect signals with button press handlers
 		levelSelectButton.Connect("pressed", new Callable(this, nameof(OnLevelSelectButtonPressed)));
 		settingsButton.Connect("pressed", new Callable(this, nameof(OnSettingsButtonPressed)));
 		logoutButton.Connect("pressed", new Callable(this, nameof(OnLogoutButtonPressed)));
@@ -39,37 +40,48 @@ public partial class Main : Control
 
 	private void OnLevelSelectButtonPressed()
 	{
-		PackedScene levelSelectScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
-		GetTree().ChangeSceneToPacked(levelSelectScene);
+		AudioManager.Singleton?.PlayButtonSound();
+		ChangeScene("res://scenes/UI/levelSelectUI.tscn");
 	}
 
 	private void OnSettingsButtonPressed()
 	{
-		PackedScene settingsScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/settingsUI.tscn");
-		GetTree().ChangeSceneToPacked(settingsScene);
+		AudioManager.Singleton?.PlayButtonSound();
+		ChangeScene("res://scenes/UI/settingsUI.tscn");
 	}
 
 	private void OnLogoutButtonPressed()
 	{
+		AudioManager.Singleton?.PlayButtonSound();
 		FirestoreHelper.SignOut();
-		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
-		GetTree().ChangeSceneToPacked(loginScene);
+		ChangeScene("res://scenes/UI/loginUI.tscn");
 	}
 
 	private void OnEndlessModeButtonPressed()
 	{
-		PackedScene endlessModeScene = (PackedScene)ResourceLoader.Load("res://scenes/levels/Level.tscn");
-		GetTree().ChangeSceneToPacked(endlessModeScene);
+		AudioManager.Singleton?.PlayButtonSound();
+		ChangeScene("res://scenes/levels/Level.tscn");
 	}
 
 	private void OnLanguageButtonPressed()
 	{
-		PackedScene languageScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/languageUI.tscn");
-		GetTree().ChangeSceneToPacked(languageScene);
+		AudioManager.Singleton?.PlayButtonSound();
+		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
+
 	private void OnCustomizeButtonPressed()
 	{
-		PackedScene customizeScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/customizeUI.tscn");
-		GetTree().ChangeSceneToPacked(customizeScene);
+		AudioManager.Singleton?.PlayButtonSound();
+		ChangeScene("res://scenes/UI/CustomizeUI.tscn");
+	}
+
+	/// <summary>
+	/// Changes the current scene to the specified scene.
+	/// </summary>
+	/// <param name="scenePath">The path to the scene resource to load and switch to.</param>
+	private void ChangeScene(string scenePath)
+	{
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
+		GetTree().ChangeSceneToPacked(scene);
 	}
 }
