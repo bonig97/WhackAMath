@@ -12,6 +12,8 @@ public partial class AudioManager : Node
     private AudioStreamPlayer confirmSoundPlayer;
     private AudioStreamPlayer hitMoleSoundPlayer;
     private AudioStreamPlayer mainMusicPlayer;
+    private AudioStreamPlayer wrongSoundPlayer;
+    private AudioStreamPlayer correctSoundPlayer;
 
     public static AudioManager Singleton { get; private set; }
 
@@ -35,6 +37,8 @@ public partial class AudioManager : Node
         confirmSoundPlayer = new AudioStreamPlayer();
         hitMoleSoundPlayer = new AudioStreamPlayer();
         mainMusicPlayer = new AudioStreamPlayer();
+        wrongSoundPlayer = new AudioStreamPlayer();
+        correctSoundPlayer = new AudioStreamPlayer();
 
         AddChild(buttonSoundPlayer);
         AddChild(sliderSoundPlayer);
@@ -42,6 +46,8 @@ public partial class AudioManager : Node
         AddChild(confirmSoundPlayer);
         AddChild(hitMoleSoundPlayer);
         AddChild(mainMusicPlayer);
+        AddChild(wrongSoundPlayer);
+        AddChild(correctSoundPlayer);
     }
 
     private void LoadSounds()
@@ -52,6 +58,8 @@ public partial class AudioManager : Node
         confirmSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/confirm.wav");
         hitMoleSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/bonk.wav");
         mainMusicPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/music/main.wav");
+        wrongSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/wrong.wav");
+        correctSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/right.wav");
     }
 
     private void AssignAudioBuses()
@@ -62,6 +70,8 @@ public partial class AudioManager : Node
         confirmSoundPlayer.Bus = "Effects";
         hitMoleSoundPlayer.Bus = "Effects";
         mainMusicPlayer.Bus = "Master";
+        wrongSoundPlayer.Bus = "Effects";
+        correctSoundPlayer.Bus = "Effects";
     }
 
     public void PlayButtonSound()
@@ -111,6 +121,22 @@ public partial class AudioManager : Node
         {
             mainMusicPlayer.VolumeDb = volume;
             mainMusicPlayer.Play();
+        }
+    }
+
+    public void PlayWrongSound()
+    {
+        if (!wrongSoundPlayer.Playing)
+        {
+            wrongSoundPlayer.Play();
+        }
+    }
+
+    public void PlayCorrectSound()
+    {
+        if (!correctSoundPlayer.Playing)
+        {
+            correctSoundPlayer.Play();
         }
     }
 }

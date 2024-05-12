@@ -34,6 +34,7 @@ public partial class Mole : Area2D
 	private Vector2 initialPosition;
 	private bool isCorrect = false;
 	private bool isActive = true;
+	private Timer responseSoundTimer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree for the first time to set up initial values and states.
@@ -59,6 +60,14 @@ public partial class Mole : Area2D
 		spriteChoice5 = GetNode<AnimatedSprite2D>("Chicken");
 		panel = GetNode<Panel>("Panel");
 		label = GetNode<Label>("Panel/Label");
+
+        responseSoundTimer = new Timer
+        {
+            OneShot = true,
+            WaitTime = 0.2f
+        };
+        AddChild(responseSoundTimer);
+        responseSoundTimer.Connect("timeout", new Callable(this, nameof(OnResponseSoundTimerTimeout)));
 
 		switch (SaveFile.moleSelected)
 		{
@@ -112,6 +121,18 @@ public partial class Mole : Area2D
 		}
 	}
 
+	private void OnResponseSoundTimerTimeout()
+    {
+        if (isCorrect)
+        {
+            AudioManager.Singleton.PlayCorrectSound();
+        }
+        else
+        {
+            AudioManager.Singleton.PlayWrongSound();
+        }
+    }
+
 	/// <summary>
 	/// Moves the mole up and makes it visible and hittable.
 	/// </summary>
@@ -152,9 +173,12 @@ public partial class Mole : Area2D
 		{
 			isHittable = false;
 			MoveDown();
+
 			AudioManager.Singleton.PlayHitMoleSound();
+
 			GD.Print(label.Text + $" = {Convert.ToInt32(new DataTable().Compute(label.Text, null))}  {isCorrect}");
 			MoleHit?.Invoke(isCorrect);
+			responseSoundTimer.Start();
 		}
 	}
 
@@ -221,6 +245,7 @@ public partial class Mole : Area2D
 	{
 		return isCorrect;
 	}
+
 	public void PauseGame()
 	{
 		timer.Stop();
@@ -228,6 +253,7 @@ public partial class Mole : Area2D
 		label.Visible = false;
 		sprite.Pause();
 	}
+
 	public void ResumeGame()
 	{
 		timer.Start();
