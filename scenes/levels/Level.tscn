@@ -1336,6 +1336,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_6y057")
 
 [node name="ScoreLabel" type="Label" parent="MoleHouse/ScorePanel"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 82.0

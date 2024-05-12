@@ -34,6 +34,7 @@ public partial class Mole : Area2D
 	private Vector2 initialPosition;
 	private bool isCorrect = false;
 	private bool isActive = true;
+	private string answer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree for the first time to set up initial values and states.
@@ -93,6 +94,7 @@ public partial class Mole : Area2D
 	/// </summary>
 	public override void _Process(double delta)
 	{
+		label.Text = answer;
 	}
 
 	/// <summary>
@@ -191,7 +193,7 @@ public partial class Mole : Area2D
 	public void SetAnswer(string answer, bool isCorrect)
 	{
 		this.isCorrect = isCorrect;
-		label.Text = answer;
+		this.answer = answer;
 	}
 
 	public void RecomputeCorrectness(int answer)

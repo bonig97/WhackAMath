@@ -6,37 +6,37 @@ using System;
 /// </summary>
 public partial class Settings : Control
 {
-    private Button tutorialButton;
-    private HSlider musicSlider;
-    private HSlider effectsSlider;
-    private Button changePasswordButton;
-    private Button deleteAccountButton;
-    private Button backButton;
-    private ConfigFile configFile = new();
-    private string configFilePath = "user://settings.cfg";
+	private Button tutorialButton;
+	private HSlider musicSlider;
+	private HSlider effectsSlider;
+	private Button changePasswordButton;
+	private Button deleteAccountButton;
+	private Button backButton;
+	private ConfigFile configFile = new();
+	private string configFilePath = "user://settings.cfg";
 
-    /// <summary>
-    /// Initializes the settings UI and connects UI elements to their respective handlers.
-    /// </summary>
-    public override void _Ready()
-    {
-        InitializeControls();
-        ConnectSignals();
-        LoadSettings();
-    }
+	/// <summary>
+	/// Initializes the settings UI and connects UI elements to their respective handlers.
+	/// </summary>
+	public override void _Ready()
+	{
+		InitializeControls();
+		ConnectSignals();
+		LoadSettings();
+	}
 
-    /// <summary>
-    /// Initializes UI controls by finding them in the node tree.
-    /// </summary>
-    private void InitializeControls()
-    {
-        tutorialButton = GetNode<Button>("TutorialButton");
-        musicSlider = GetNode<HSlider>("VBoxContainer/Music/MusicSlider");
-        effectsSlider = GetNode<HSlider>("VBoxContainer/Effects/EffectsSlider");
-        changePasswordButton = GetNode<Button>("VBoxContainer/Control/ChangePasswordButton");
-        deleteAccountButton = GetNode<Button>("VBoxContainer/Control/DeleteAccountButton");
-        backButton = GetNode<Button>("BackButton");
-    }
+	/// <summary>
+	/// Initializes UI controls by finding them in the node tree.
+	/// </summary>
+	private void InitializeControls()
+	{
+		tutorialButton = GetNode<Button>("TutorialButton");
+		musicSlider = GetNode<HSlider>("VBoxContainer/Music/MusicSlider");
+		effectsSlider = GetNode<HSlider>("VBoxContainer/Effects/EffectsSlider");
+		changePasswordButton = GetNode<Button>("VBoxContainer/Control/ChangePasswordButton");
+		deleteAccountButton = GetNode<Button>("VBoxContainer/Control/DeleteAccountButton");
+		backButton = GetNode<Button>("BackButton");
+	}
 
 	/// <summary>
 	/// Connects signals from UI elements to their respective handlers.
@@ -51,46 +51,46 @@ public partial class Settings : Control
 		backButton.Connect("pressed", new Callable(this, nameof(OnBackButtonPressed)));
 	}
 
-    /// <summary>
-    /// Loads settings from persistent storage using ConfigFile.
-    /// </summary>
-    private void LoadSettings()
-    {
-        var err = configFile.Load(configFilePath);
-        if (err == Error.Ok)
-        {
-            float musicVolume = (float)configFile.GetValue("audio", "music_volume", 0.5);
-            float effectsVolume = (float)configFile.GetValue("audio", "effects_volume", 0.5);
+	/// <summary>
+	/// Loads settings from persistent storage using ConfigFile.
+	/// </summary>
+	private void LoadSettings()
+	{
+		var err = configFile.Load(configFilePath);
+		if (err == Error.Ok)
+		{
+			float musicVolume = (float)configFile.GetValue("audio", "music_volume", 0.5);
+			float effectsVolume = (float)configFile.GetValue("audio", "effects_volume", 0.5);
 
-            musicSlider.Value = musicVolume;
-            effectsSlider.Value = effectsVolume;
+			musicSlider.Value = musicVolume;
+			effectsSlider.Value = effectsVolume;
 
-            AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
-            AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
-        }
-        else
-        {
-            GD.Print("Failed to load settings: ", err);
-        }
-    }
+			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
+			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
+		}
+		else
+		{
+			GD.Print("Failed to load settings: ", err);
+		}
+	}
 
-    /// <summary>
-    /// Saves current settings to persistent storage using ConfigFile.
-    /// </summary>
-    private void SaveSettings()
-    {
-        configFile.SetValue("audio", "music_volume", musicSlider.Value);
-        configFile.SetValue("audio", "effects_volume", effectsSlider.Value);
-        Error err = configFile.Save(configFilePath);
-        if (err == Error.Ok)
-        {
-            GD.Print("Settings saved successfully");
-        }
-        else
-        {
-            GD.Print("Failed to save settings: ", err);
-        }
-    }
+	/// <summary>
+	/// Saves current settings to persistent storage using ConfigFile.
+	/// </summary>
+	private void SaveSettings()
+	{
+		configFile.SetValue("audio", "music_volume", musicSlider.Value);
+		configFile.SetValue("audio", "effects_volume", effectsSlider.Value);
+		Error err = configFile.Save(configFilePath);
+		if (err == Error.Ok)
+		{
+			GD.Print("Settings saved successfully");
+		}
+		else
+		{
+			GD.Print("Failed to save settings: ", err);
+		}
+	}
 
 	private void OnTutorialButtonPressed()
 	{
@@ -98,21 +98,21 @@ public partial class Settings : Control
 		GD.Print("Tutorial button pressed");
 	}
 
-    private void OnMusicSliderValueChanged(float value)
-    {
-        AudioManager.Singleton?.PlayMainMusic(value);
-        GD.Print($"Music volume set to: {value}");
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), value);
-        SaveSettings();
-    }
+	private void OnMusicSliderValueChanged(float value)
+	{
+		AudioManager.Singleton?.PlayMainMusic(value);
+		GD.Print($"Music volume set to: {value}");
+		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), value);
+		SaveSettings();
+	}
 
-    private void OnEffectsSliderValueChanged(float value)
-    {
-        AudioManager.Singleton?.PlaySliderSound(value);
-        GD.Print($"Effects volume set to: {value}");
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), value);
-        SaveSettings();
-    }
+	private void OnEffectsSliderValueChanged(float value)
+	{
+		AudioManager.Singleton?.PlaySliderSound(value);
+		GD.Print($"Effects volume set to: {value}");
+		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), value);
+		SaveSettings();
+	}
 
 	private void OnChangePasswordButtonPressed()
 	{
