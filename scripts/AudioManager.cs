@@ -7,6 +7,7 @@ public partial class AudioManager : Node
     private AudioStreamPlayer sliderSoundPlayer;
     private AudioStreamPlayer cancelSoundPlayer;
     private AudioStreamPlayer confirmSoundPlayer;
+    private AudioStreamPlayer hitMoleSoundPlayer;
 
     public static AudioManager Singleton { get; private set; }
 
@@ -18,11 +19,13 @@ public partial class AudioManager : Node
         sliderSoundPlayer = new AudioStreamPlayer();
         cancelSoundPlayer = new AudioStreamPlayer();
         confirmSoundPlayer = new AudioStreamPlayer();
+        hitMoleSoundPlayer = new AudioStreamPlayer();
 
         AddChild(buttonSoundPlayer);
         AddChild(sliderSoundPlayer);
         AddChild(cancelSoundPlayer);
         AddChild(confirmSoundPlayer);
+        AddChild(hitMoleSoundPlayer);
 
         buttonSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/tap.wav");
         buttonSoundPlayer.Bus = "Effects";
@@ -35,6 +38,9 @@ public partial class AudioManager : Node
 
         confirmSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/confirm.wav");
         confirmSoundPlayer.Bus = "Effects";
+
+        hitMoleSoundPlayer.Stream = GD.Load<AudioStream>("res://assets/audio/sfx/bonk.wav");
+        hitMoleSoundPlayer.Bus = "Effects";
     }
 
     public void PlayButtonSound()
@@ -67,6 +73,14 @@ public partial class AudioManager : Node
         if (!confirmSoundPlayer.Playing)
         {
             confirmSoundPlayer.Play();
+        }
+    }
+
+    public void PlayHitMoleSound()
+    {
+        if (!hitMoleSoundPlayer.Playing)
+        {
+            hitMoleSoundPlayer.Play();
         }
     }
 }
