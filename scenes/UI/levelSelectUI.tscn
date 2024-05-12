@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmosia7hkf8yi"]
+[gd_scene load_steps=9 format=3 uid="uid://bmosia7hkf8yi"]
 
 [ext_resource type="PackedScene" uid="uid://deb5l23kssfpn" path="res://scenes/UI/LevelGridAdd.tscn" id="1_4rlsg"]
 [ext_resource type="PackedScene" uid="uid://crvc5ceh8csvk" path="res://scenes/UI/LevelGridSub.tscn" id="1_kcpan"]
 [ext_resource type="Script" path="res://scripts/ui/LevelSelect.cs" id="1_n7imh"]
 [ext_resource type="PackedScene" uid="uid://bxsw0665ea7ly" path="res://scenes/UI/LevelGridMul.tscn" id="3_avk51"]
 [ext_resource type="PackedScene" uid="uid://dhiyrcqt4xja5" path="res://scenes/UI/LevelGridDiv.tscn" id="4_gb10j"]
+[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="6_vruht"]
+[ext_resource type="Texture2D" uid="uid://bq555cwceepts" path="res://assets/images/arrowRight.png" id="7_8vo2d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_igbtd"]
 bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
@@ -58,7 +60,8 @@ layout_mode = 2
 layout_mode = 2
 offset_right = 64.0
 offset_bottom = 64.0
-text = "<-"
+icon = ExtResource("6_vruht")
+expand_icon = true
 
 [node name="NextButton" type="Button" parent="."]
 layout_mode = 0
@@ -66,14 +69,16 @@ offset_left = 1088.0
 offset_top = 320.0
 offset_right = 1152.0
 offset_bottom = 448.0
-text = "->"
+icon = ExtResource("7_8vo2d")
+expand_icon = true
 
 [node name="PrevButton" type="Button" parent="."]
 layout_mode = 0
 offset_top = 320.0
 offset_right = 64.0
 offset_bottom = 448.0
-text = "<-"
+icon = ExtResource("6_vruht")
+expand_icon = true
 
 [node name="Panel" type="Panel" parent="."]
 unique_name_in_owner = true
@@ -114,4 +119,5 @@ horizontal_scroll_mode = 0
 
 [node name="Label" type="Label" parent="Panel/ScrollContainer"]
 layout_mode = 2
-text = "a"
+text = "There will be a number on top
+Click on the question that gives the number"

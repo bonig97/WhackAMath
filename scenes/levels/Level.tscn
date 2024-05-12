@@ -1300,7 +1300,7 @@ unique_name_in_owner = true
 script = ExtResource("12_4wv6t")
 
 [node name="Mole" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(1024, 579)
+position = Vector2(1024, 576)
 
 [node name="Mole2" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(623, 578)
@@ -1323,12 +1323,23 @@ position = Vector2(624, 210)
 [node name="Mole8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
 position = Vector2(191, 210)
 
-[node name="ScoreLabel" type="Label" parent="MoleHouse"]
-unique_name_in_owner = true
-offset_left = 960.0
+[node name="ScorePanel" type="Panel" parent="MoleHouse"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 368.0
 offset_top = 24.0
-offset_right = 1034.0
-offset_bottom = 55.0
+offset_right = 544.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6y057")
+
+[node name="ScoreLabel" type="Label" parent="MoleHouse/ScorePanel"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 82.0
+offset_bottom = 39.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("13_s7d5a")
 theme_override_font_sizes/font_size = 21

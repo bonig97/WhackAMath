@@ -18,7 +18,7 @@ public partial class MoleHouse : Node
 	/// </summary>
 	public override void _Ready()
 	{
-		scoreLabel = GetNode<Label>("ScoreLabel");
+		scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
 		scoreLabel.Text = $"Score: {score}";
 
 		// Subscribes to the MoleHit event for each Mole instance in the scene.

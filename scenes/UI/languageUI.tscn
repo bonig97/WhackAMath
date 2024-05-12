@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dy22u4031po41"]
+[gd_scene load_steps=13 format=3 uid="uid://dy22u4031po41"]
 
 [ext_resource type="Script" path="res://scripts/LanguageChoice.cs" id="1_m7dxn"]
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="2_frhhc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="3_rlpug"]
 [ext_resource type="Texture2D" uid="uid://c8eyp3jac0e7" path="res://assets/images/plains.png" id="4_4vw0e"]
 [ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://assets/images/usaFlag.png" id="5_gtb2j"]
+[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="5_j34jr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aglv4"]
 texture = ExtResource("2_frhhc")
@@ -326,10 +327,13 @@ text = "Whack-A-Mole"
 [node name="BackButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 47.0
-offset_bottom = 77.0
+offset_left = -26.0
+offset_top = -26.0
+offset_right = 38.0
+offset_bottom = 38.0
 theme_override_font_sizes/font_size = 50
-text = "<"
+icon = ExtResource("5_j34jr")
+expand_icon = true
 
 [node name="ItalianButton" type="Button" parent="."]
 layout_mode = 0

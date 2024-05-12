@@ -73,13 +73,13 @@ public partial class SignUp : Control
 	{
 		string errorMessage = e.Reason.ToString();
 
-        errorLabel.Text = errorMessage switch
-        {
-            var message when message.Contains("EmailExists") => "- Email already in use",
-            var message when message.Contains("InvalidEmailAddress") => "- Invalid email",
-            var message when message.Contains("WeakPassword") => "- Password must be at least 6 characters long",
-            var message when message.Contains("MissingPassword") => "- Missing password",
-            _ => "- Connection error",
-        };
-    }
+		errorLabel.Text = errorMessage switch
+		{
+			var message when message.Contains("EmailExists") => "- Email already in use",
+			var message when message.Contains("InvalidEmailAddress") => "- Invalid email",
+			var message when message.Contains("WeakPassword") => "- Password must be at least 6 characters long",
+			var message when message.Contains("MissingPassword") => "- Missing password",
+			_ => "- Connection error",
+		};
+	}
 }

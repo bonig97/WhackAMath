@@ -631,7 +631,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u7yo"]
-size = Vector2(62, 67)
+size = Vector2(96, 81)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tx1kk"]
 bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
@@ -697,7 +697,7 @@ sprite_frames = SubResource("SpriteFrames_68h28")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-32, -32.5)
+position = Vector2(-32, -39.5)
 shape = SubResource("RectangleShape2D_2u7yo")
 
 [node name="Timer" type="Timer" parent="."]
@@ -710,9 +710,8 @@ unique_name_in_owner = true
 [node name="Panel" type="Panel" parent="."]
 unique_name_in_owner = true
 offset_left = -88.0
-offset_top = -8.0
 offset_right = 24.0
-offset_bottom = 32.0
+offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_tx1kk")
 
 [node name="Label" type="Label" parent="Panel"]

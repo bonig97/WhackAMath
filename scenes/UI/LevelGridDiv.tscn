@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dhiyrcqt4xja5"]
+[gd_scene load_steps=17 format=3 uid="uid://dhiyrcqt4xja5"]
 
 [ext_resource type="Script" path="res://scripts/LevelGrid.cs" id="1_o8yek"]
 [ext_resource type="Texture2D" uid="uid://cnbwafv8ihivr" path="res://assets/images/decor_16x16.png" id="1_r1354"]
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="2_n4csh"]
 [ext_resource type="Texture2D" uid="uid://c8eyp3jac0e7" path="res://assets/images/plains.png" id="3_ls8du"]
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="4_486cn"]
+[ext_resource type="FontFile" uid="uid://dcdnmsws24od4" path="res://assets/fonts/Jost-VariableFont_wght.ttf" id="6_4oa43"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wned"]
 texture = ExtResource("1_r1354")
@@ -366,6 +367,18 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4swn"]
+bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [node name="LevelGrid" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -420,3 +433,23 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ytuke")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_faxyp")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_gikla")
 text = "12"
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+offset_left = 448.0
+offset_top = 8.0
+offset_right = 704.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_d4swn")
+
+[node name="Label" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("6_4oa43")
+theme_override_font_sizes/font_size = 30
+text = "Division"
+horizontal_alignment = 1
