@@ -17,7 +17,15 @@ public partial class Mole : Area2D
 	/// Event fired to signal a switch in answers among the moles.
 	/// </summary>
 	public event Action SwitchAnswers;
+
+	/// <summary>
+    /// Event fired when a correct mole appears.
+    /// </summary>
 	public event Action CorrectMoleAppeared;
+
+	/// <summary>
+    /// Event fired when a correct mole disappears.
+    /// </summary>
 	public event Action CorrectMoleDisappeared;
 
 	private Timer timer;
@@ -35,6 +43,7 @@ public partial class Mole : Area2D
 	private bool isCorrect = false;
 	private bool isActive = true;
 	private string answer;
+	private Timer responseSoundTimer;
 
 	/// <summary>
 	/// Called when the node enters the scene tree for the first time to set up initial values and states.
@@ -60,6 +69,14 @@ public partial class Mole : Area2D
 		spriteChoice5 = GetNode<AnimatedSprite2D>("Chicken");
 		panel = GetNode<Panel>("Panel");
 		label = GetNode<Label>("Panel/Label");
+
+        responseSoundTimer = new Timer
+        {
+            OneShot = true,
+            WaitTime = 0.2f
+        };
+        AddChild(responseSoundTimer);
+        responseSoundTimer.Connect("timeout", new Callable(this, nameof(OnResponseSoundTimerTimeout)));
 
 		switch (SaveFile.moleSelected)
 		{
@@ -115,6 +132,21 @@ public partial class Mole : Area2D
 	}
 
 	/// <summary>
+    /// Handles the delayed response sound for correct or incorrect mole hits.
+    /// </summary>
+	private void OnResponseSoundTimerTimeout()
+    {
+        if (isCorrect)
+        {
+            AudioManager.Singleton.PlayCorrectSound();
+        }
+        else
+        {
+            AudioManager.Singleton.PlayWrongSound();
+        }
+    }
+
+	/// <summary>
 	/// Moves the mole up and makes it visible and hittable.
 	/// </summary>
 	private void MoveUp()
@@ -154,9 +186,12 @@ public partial class Mole : Area2D
 		{
 			isHittable = false;
 			MoveDown();
+
 			AudioManager.Singleton.PlayHitMoleSound();
+
 			GD.Print(label.Text + $" = {Convert.ToInt32(new DataTable().Compute(label.Text, null))}  {isCorrect}");
 			MoleHit?.Invoke(isCorrect);
+			responseSoundTimer.Start();
 		}
 	}
 
@@ -196,6 +231,10 @@ public partial class Mole : Area2D
 		this.answer = answer;
 	}
 
+	/// <summary>
+    /// Recalculates correctness of the mole based on the given answer.
+    /// </summary>
+    /// <param name="answer">The correct answer to validate against.</param>
 	public void RecomputeCorrectness(int answer)
 	{
 		bool oldIsCorrect = isCorrect;
@@ -210,6 +249,10 @@ public partial class Mole : Area2D
 		}
 	}
 
+	/// <summary>
+    /// Sets the activity state of the mole, controlling its ability to be interacted with.
+    /// </summary>
+    /// <param name="activity">Whether the mole is active.</param>
 	public void SetActive(bool activity)
 	{
 		if (!activity)
@@ -219,10 +262,18 @@ public partial class Mole : Area2D
 		this.isActive = activity;
 	}
 
+	/// <summary>
+    /// Returns whether the mole's current answer is correct.
+    /// </summary>
+    /// <returns>True if the current answer is correct, otherwise false.</returns>
 	public bool GetCorrectness()
 	{
 		return isCorrect;
 	}
+
+	/// <summary>
+    /// Pauses mole activity, typically used when the game is paused.
+    /// </summary>
 	public void PauseGame()
 	{
 		timer.Stop();
@@ -230,6 +281,10 @@ public partial class Mole : Area2D
 		label.Visible = false;
 		sprite.Pause();
 	}
+
+	/// <summary>
+    /// Resumes mole activity, typically used when the game is resumed.
+    /// </summary>
 	public void ResumeGame()
 	{
 		timer.Start();
