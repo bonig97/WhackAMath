@@ -12,10 +12,8 @@ public partial class Settings : Control
     private Button changePasswordButton;
     private Button deleteAccountButton;
     private Button backButton;
-
-    // Added for managing settings persistence
-    private const string MUSIC_VOLUME_KEY = "user_settings/music_volume";
-    private const string EFFECTS_VOLUME_KEY = "user_settings/effects_volume";
+    private ConfigFile configFile = new();
+    private string configFilePath = "user://settings.cfg";
 
     /// <summary>
     /// Initializes the settings UI and connects UI elements to their respective handlers.
@@ -24,20 +22,7 @@ public partial class Settings : Control
     {
         InitializeControls();
         ConnectSignals();
-        DefineDefaultSettings();
         LoadSettings();
-    }
-
-    private void DefineDefaultSettings()
-    {
-        if (!ProjectSettings.HasSetting(MUSIC_VOLUME_KEY))
-        {
-            ProjectSettings.SetSetting(MUSIC_VOLUME_KEY, 0.5f);
-        }
-        if (!ProjectSettings.HasSetting(EFFECTS_VOLUME_KEY))
-        {
-            ProjectSettings.SetSetting(EFFECTS_VOLUME_KEY, 0.5f);
-        }
     }
 
     /// <summary>
@@ -67,34 +52,44 @@ public partial class Settings : Control
     }
 
     /// <summary>
-    /// Loads settings from persistent storage.
+    /// Loads settings from persistent storage using ConfigFile.
     /// </summary>
     private void LoadSettings()
     {
-        var musicVolume = (float)ProjectSettings.GetSetting(MUSIC_VOLUME_KEY);
-        var effectsVolume = (float)ProjectSettings.GetSetting(EFFECTS_VOLUME_KEY);
+        var err = configFile.Load(configFilePath);
+        if (err == Error.Ok)
+        {
+            float musicVolume = (float)configFile.GetValue("audio", "music_volume", 0.5);
+            float effectsVolume = (float)configFile.GetValue("audio", "effects_volume", 0.5);
 
-        musicSlider.Value = musicVolume;
-        effectsSlider.Value = effectsVolume;
+            musicSlider.Value = musicVolume;
+            effectsSlider.Value = effectsVolume;
 
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
+            AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
+            AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
+        }
+        else
+        {
+            GD.Print("Failed to load settings: ", err);
+        }
     }
 
     /// <summary>
-    /// Saves current settings to persistent storage.
+    /// Saves current settings to persistent storage using ConfigFile.
     /// </summary>
     private void SaveSettings()
     {
-        ProjectSettings.SetSetting(MUSIC_VOLUME_KEY, musicSlider.Value);
-        ProjectSettings.SetSetting(EFFECTS_VOLUME_KEY, effectsSlider.Value);
-        ProjectSettings.Save();
-        GD.Print("Settings saved: Music Volume = " + musicSlider.Value + ", Effects Volume = " + effectsSlider.Value);
-    }
-
-    private float ConvertVolumeToDb(float volume)
-    {
-        return volume > 0.0 ? 20f * Mathf.Log(volume) : -80f;
+        configFile.SetValue("audio", "music_volume", musicSlider.Value);
+        configFile.SetValue("audio", "effects_volume", effectsSlider.Value);
+        Error err = configFile.Save(configFilePath);
+        if (err == Error.Ok)
+        {
+            GD.Print("Settings saved successfully");
+        }
+        else
+        {
+            GD.Print("Failed to save settings: ", err);
+        }
     }
 
     private void OnTutorialButtonPressed()
@@ -106,18 +101,16 @@ public partial class Settings : Control
     private void OnMusicSliderValueChanged(float value)
     {
         AudioManager.Singleton?.PlaySliderSound(value);
-        float dbValue = ConvertVolumeToDb(value);
         GD.Print($"Music volume set to: {value}");
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), dbValue);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), value);
         SaveSettings();
     }
 
     private void OnEffectsSliderValueChanged(float value)
     {
         AudioManager.Singleton?.PlaySliderSound(value);
-        float dbValue = ConvertVolumeToDb(value);
         GD.Print($"Effects volume set to: {value}");
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), dbValue);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), value);
         SaveSettings();
     }
 
