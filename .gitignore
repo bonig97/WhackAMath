@@ -3,3 +3,5 @@
 /addons/
 .vscode/
 .mono/
+*.msi
+mono-6.12.0.206-x64-0.msi
