@@ -181,7 +181,7 @@ public partial class EndlessLevelController : Node
 			//reward the user with moretime for every correct answer
 			remainingTime += 10f;
 			// Check if all questions in the current level have been answered
-			if (questionsAnswered >= 2)
+			if (questionsAnswered >= 10)
 			{
 				questionsAnswered = 0; // Reset the questions answered count
 
