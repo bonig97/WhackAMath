@@ -28,7 +28,7 @@ public partial class EndlessLevelController : Node
 	private Button quitButton;
 	private MathOperation operation;
 
-    private float remainingTime = 60f; // Set the initial time to 60 seconds
+    private float remainingTime = 30f; // Set the initial time to 60 seconds
 
 	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
 	private int correctAnswer; // Stores the correct answer to the current question.
@@ -45,7 +45,6 @@ public partial class EndlessLevelController : Node
 	{
 		levelCompletePanel = GetNode<Panel>("LevelCompletePanel");
 		levelCompleteButton = GetNode<Button>("LevelCompletePanel/LevelCompleteButton");
-		levelCompleteStars = GetNode<Label>("LevelCompletePanel/LevelCompleteStars");
 		levelCompleteScore = GetNode<Label>("LevelCompletePanel/LevelCompleteScore");
 		levelCompletePanel.Visible = false;
 		levelCompleteButton.Connect("pressed", new Callable(this, nameof(OnLevelCompleteButtonPressed)));
@@ -55,7 +54,7 @@ public partial class EndlessLevelController : Node
 		pauseButton.Connect("pressed", new Callable(this, nameof(OnPauseButtonPressed)));
 		resumeButton = GetNode<Button>("GamePausePanel/ResumeButton");
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
-		restartButton = GetNode<Button>("GameOverPanel/RestartButton");
+		restartButton = GetNode<Button>("LevelCompletePanel/RestartButton");
         gameOverPanel = GetNode<Panel>("GameOverPanel");
         gameOverPanel.Visible = false;
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
@@ -99,10 +98,11 @@ public partial class EndlessLevelController : Node
             moleHouse.PauseGame();
             GD.Print("Game Over!");
             // Show the game over panel
-            gameOverPanel.Visible = true;
+            levelCompletePanel.Visible = true;
+			levelCompleteButton.Disabled = false;
             // Display the final score
-            var finalScoreLabel = GetNode<Label>("GameOverPanel/FinalScoreLabel");
-            finalScoreLabel.Text = $"Final Score: {moleHouse.GetScore()}";
+            //var finalScoreLabel = GetNode<Label>("GameOverPanel/FinalScoreLabel");
+            levelCompleteScore.Text = $"Final Score: {moleHouse.GetScore()}";
         }
         else
         {
@@ -323,7 +323,7 @@ public partial class EndlessLevelController : Node
 		{
 			SaveFile.UpdateMaxLevelUnlocked(SaveFile.MaxLevelUnlocked+1);
 		}
-		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
+		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
 	private void OnPauseButtonPressed()

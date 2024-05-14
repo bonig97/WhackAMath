@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://hdhl4npcevn6"]
+[gd_scene load_steps=32 format=3 uid="uid://bf7w4jfrie7tr"]
 
 [ext_resource type="Script" path="res://scripts/controllers/LevelController.cs" id="1_jgyup"]
 [ext_resource type="Texture2D" uid="uid://2afp4cx43hp" path="res://assets/images/Green.png" id="1_joa1y"]
@@ -1321,7 +1321,7 @@ position = Vector2(1025, 211)
 position = Vector2(624, 210)
 
 [node name="Mole8" parent="MoleHouse" instance=ExtResource("13_eqwdp")]
-position = Vector2(191, 210)
+position = Vector2(191, 211)
 
 [node name="ScorePanel" type="Panel" parent="MoleHouse"]
 anchors_preset = 5

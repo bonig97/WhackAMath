@@ -27,7 +27,7 @@ public partial class MoleHouse : Node
 			if (child is Mole mole)
 			{
 				mole.CorrectMoleAppeared += () => {isCorrectMolePresent = true; correctMoleCount++;};
-				mole.CorrectMoleDisappeared += () => {correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false;};
+				mole.CorrectMoleDisappeared += () => {if(correctMoleCount>0) correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false;};
 			}
 		}
 	}
