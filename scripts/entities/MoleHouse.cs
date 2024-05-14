@@ -43,12 +43,26 @@ public partial class MoleHouse : Node
 	/// <summary>
 	/// Increments the score and updates the score label when a mole is hit.
 	/// </summary>
-	public void UpdateScore()
+	public void UpdateScore(bool isCorrect)
 	{
 		// Increment the score and update the score label.
-		score += 1000/Math.Max(1,(int)Math.Ceiling(timeElapsed));
+		if (isCorrect)
+		{
+			score += 1000 / (int)Math.Ceiling(timeElapsed * 3 / 2);
+			timeElapsed = 0.0;
+		}
+		else
+		{
+			if (score>=50)
+			{
+				score -= 50;
+			}
+			else
+			{
+				score = 0;
+			}
+		}
 		scoreLabel.Text = $"Score: {score}";
-		timeElapsed = 0.0;
 	}
 
 	public bool IsCorrectMolePresent()

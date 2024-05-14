@@ -138,11 +138,11 @@ public partial class LevelController : Node
 		{
 			GD.Print($"{isCorrect}");
 			questionsAnswered += 1;
-			moleHouse.UpdateScore();
 			correctAnswer = GenerateQuestion();
 			SetMoleAnswers();
 			
 		}
+		moleHouse.UpdateScore(isCorrect);
 		if (questionsAnswered >= 10){
 
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
@@ -204,7 +204,12 @@ public partial class LevelController : Node
 		{
 			if(!mole.GetCorrectness()) //if mole is not correct, set a random incorrect answer
 			{
-				string randomAnswer = GenerateRandomAnswer();
+				string randomAnswer = "";
+				
+				while (randomAnswer == "" || randomAnswer == correctAnswerText)
+				{
+					randomAnswer = GenerateRandomAnswer();
+				}
 				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
 
 				if(randomAnswerInt == correctAnswer) {
