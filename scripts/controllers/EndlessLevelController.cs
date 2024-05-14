@@ -9,28 +9,27 @@ using WhackAMath;
 /// <summary>
 /// Enum to represent the different mathematical operations.
 /// </summary>
-public enum MathOperation
-{
-	Add,
-	Subtract,
-	Multiply,
-	Divide
-}
+
 
 /// <summary>
 /// Controls the logic for generating and managing level questions,
 /// including operations, range, and interaction with moles for answer selection.
 /// </summary>
-public partial class LevelController : Node
+public partial class EndlessLevelController : Node
 {
 	private Panel levelCompletePanel;
+	private Panel gameOverPanel;
 	private Button levelCompleteButton;
 	private Label levelCompleteStars;
 	private Label levelCompleteScore;
 	private Button pauseButton;
+	private Button restartButton;
 	private Button resumeButton;
 	private Button quitButton;
 	private MathOperation operation;
+
+	private float remainingTime = 30f; // Set the initial time to 60 seconds
+
 	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
 	private int correctAnswer; // Stores the correct answer to the current question.
 	private string correctAnswerText; // Stores the correct answer text to the current question.
@@ -46,7 +45,6 @@ public partial class LevelController : Node
 	{
 		levelCompletePanel = GetNode<Panel>("LevelCompletePanel");
 		levelCompleteButton = GetNode<Button>("LevelCompletePanel/LevelCompleteButton");
-		levelCompleteStars = GetNode<Label>("LevelCompletePanel/LevelCompleteStars");
 		levelCompleteScore = GetNode<Label>("LevelCompletePanel/LevelCompleteScore");
 		levelCompletePanel.Visible = false;
 		levelCompleteButton.Connect("pressed", new Callable(this, nameof(OnLevelCompleteButtonPressed)));
@@ -56,8 +54,10 @@ public partial class LevelController : Node
 		pauseButton.Connect("pressed", new Callable(this, nameof(OnPauseButtonPressed)));
 		resumeButton = GetNode<Button>("GamePausePanel/ResumeButton");
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
+		restartButton = GetNode<Button>("LevelCompletePanel/RestartButton");
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
+		restartButton.Connect("pressed", new Callable(this, nameof(OnRestartButtonPressed)));
 		ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
@@ -74,22 +74,50 @@ public partial class LevelController : Node
 		}
 
 		SetMoleAnswers();
+		TimerUI(); // initialize the timer UI
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		for (int i = 0; i < moleHouse.GetChildCount(); i++) {
-			if (moleHouse.GetChild(i) is Mole mole)
-			{
-				if (moleList[i].IsHittable())
-				{
-					moleList[i].RecomputeCorrectness(correctAnswer);
-				}
-			}
+		updateTimer(delta);
+	}
+
+	/*
+		Summary:
+		......
+	*/
+	private void updateTimer(double delta)
+	{
+		remainingTime -= (float)delta;
+		if (remainingTime <= 0f)
+		{
+			// Game over condition, handle as needed
+			moleHouse.PauseGame();
+			GD.Print("Game Over!");
+			// Show the game over panel
+			levelCompletePanel.Visible = true;
+			levelCompleteButton.Disabled = false;
+			// Display the final score
+			var scoreLabel = GetNode<Label>("LevelCompletePanel/ScoreLabel");
+			levelCompleteScore.Text = $"Final Score: {moleHouse.GetScore()}";
+		}
+		else
+		{
+			// Update the timer UI
+			TimerUI();
 		}
 	}
 
+	/*
+		Summary:  
+
+	*/
+	private void TimerUI()
+	{
+		var timerLabel = GetNode<Label>("TimerLabel");
+		timerLabel.Text = $"Time: {Mathf.CeilToInt(remainingTime)}";
+	}
 	/// <summary>
 	/// Reads question format from a specified file. The file specifies the operation and range for the questions.
 	/// </summary>
@@ -141,44 +169,37 @@ public partial class LevelController : Node
 			moleHouse.UpdateScore();
 			correctAnswer = GenerateQuestion();
 			SetMoleAnswers();
-			
-		}
-		if (questionsAnswered >= 10){
-
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
 				if (moleHouse.GetChild(i) is Mole mole)
 				{
-					moleList[i].SetActive(false);
+					if (moleList[i].IsHittable())
+					{
+						moleList[i].RecomputeCorrectness(correctAnswer);
+					}
 				}
 			}
+			//reward the user with moretime for every correct answer
+			remainingTime += 10f;
+			// Check if all questions in the current level have been answered
+			if (questionsAnswered >= 2)
+			{
+				questionsAnswered = 0; // Reset the questions answered count
 
-			levelCompletePanel.Visible = true;
-			levelCompleteButton.Disabled = false;
-			levelCompleteScore.Text = "Score: " + moleHouse.GetScore();
-			if (moleHouse.GetScore() < 1000)
-			{
-				levelCompleteStars.Text = "☆☆☆";
-			}
-			else if (moleHouse.GetScore() < 2000)
-			{
-				levelCompleteStars.Text = "★☆☆";
-			}
-			else if (moleHouse.GetScore() < 3000)
-			{
-				levelCompleteStars.Text = "★★☆";
-			}
-			else
-			{
-				levelCompleteStars.Text = "★★★";
-			}
+				// Read the question format for the next level
+				SaveFile.currentLevel += 1;
+				ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
 
+				// Generate a new question and set mole answers
+				correctAnswer = GenerateQuestion();
+				SetMoleAnswers();
+			}
 		}
 	}
 
 	/// <summary>
 	/// Assigns correct and incorrect answers to the moles randomly.
 	/// </summary>
-	private void SetMoleAnswers()
+		private void SetMoleAnswers()
 	{
 		var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
 
@@ -251,7 +272,7 @@ public partial class LevelController : Node
 			default:
 				throw new InvalidOperationException("Unknown operation.");
 		}
-
+		GD.Print(correctAnswerText);
 		return answer;
 	}
 
@@ -296,13 +317,11 @@ public partial class LevelController : Node
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{a} / {x}";
 				//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
-				GD.Print(correctAnswerText);
 				return answer;
 			default:
 				throw new InvalidOperationException("Unknown operation.");
 		}
 	}
-
 	private void OnLevelCompleteButtonPressed()
 	{
 		GD.Print("Level complete button pressed!");
@@ -310,26 +329,34 @@ public partial class LevelController : Node
 		{
 			SaveFile.UpdateMaxLevelUnlocked(SaveFile.MaxLevelUnlocked+1);
 		}
-		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
+		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
-
 	private void OnPauseButtonPressed()
 	{
 		moleHouse.PauseGame();
 		GetNode<Panel>("GamePausePanel").Visible = true;
 	}
-
 	private void OnResumeButtonPressed()
 	{
 		GetNode<Panel>("GamePausePanel").Visible = false;
 		moleHouse.ResumeGame();
 	}
-
 	private void OnQuitButtonPressed()
 	{
 		GD.Print("Quit button pressed!");
 		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
+
+	private void OnRestartButtonPressed()
+	{
+		GD.Print("Restart button pressed!");
+		// Read the question format for the next level
+		SaveFile.currentLevel = 1;
+
+		PackedScene endless = (PackedScene)ResourceLoader.Load("res://scenes/levels/EndlessLevel.tscn");
+		GetTree().ChangeSceneToPacked(endless);
+	}
 }
+
