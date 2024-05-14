@@ -5,6 +5,7 @@ using WhackAMath;
 public partial class LevelGrid : Control
 {
 	public event Action<int> LevelSelected;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -28,8 +29,7 @@ public partial class LevelGrid : Control
 
 	private void OnButtonPressed(int num)
 	{
-		GD.Print("Level Selected: ");
-		GD.Print(num);
+		GD.Print($"Level Selected: {num}");
 		LevelSelected?.Invoke(num);
 	}
 }
