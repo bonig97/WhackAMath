@@ -2,81 +2,123 @@ using Godot;
 using System;
 
 /// <summary>
-/// MoleHouse class that manages the score and mole hit events in the Whack-A-Math game.
-/// It updates the score whenever a mole is hit and ensures that the score label is accurate.
+/// Manages the mole interactions and score in the Whack-A-Math game. It updates the score based on mole hits
+/// and manages the game state related to mole presence.
 /// </summary>
 public partial class MoleHouse : Node
 {
-	private Label scoreLabel;
-	private double timeElapsed = 0.0;
-	private int score = 0;
-	private bool isCorrectMolePresent = false;
-	private int correctMoleCount = 0;
+    private Label scoreLabel;
+    private double timeElapsed = 0.0;
+    private int score = 0;
+    private bool isCorrectMolePresent = false;
+    private int correctMoleCount = 0;
 
-	/// <summary>
-	/// Initializes the MoleHouse by setting up the score label and connecting to the MoleHit event for each mole.
+    /// <summary>
+    /// Initializes the MoleHouse, setting up the score label and connecting events for mole interactions.
+    /// </summary>
+    public override void _Ready()
+    {
+        scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
+        scoreLabel.Text = $"Score: {score}";
+
+        // Connect events for each mole in the scene to manage score and mole presence.
+        foreach (Node child in GetChildren())
+        {
+            if (child is Mole mole)
+            {
+                mole.CorrectMoleAppeared += () => { isCorrectMolePresent = true; correctMoleCount++; };
+                mole.CorrectMoleDisappeared += () => { correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false; };
+            }
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (isCorrectMolePresent)
+        {
+            timeElapsed += delta;
+        }
+    }
+
+    /// <summary>
+	/// Updates the score based on the correctness of the mole hit. Correct hits increase the score,
+	/// while incorrect hits decrease it.
 	/// </summary>
-	public override void _Ready()
+	/// <param name="correct">True if the mole hit was correct, false otherwise.</param>
+	public void UpdateScore(bool correct)
 	{
-		scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
-		scoreLabel.Text = $"Score: {score}";
-
-		// Subscribes to the MoleHit event for each Mole instance in the scene.
-		foreach (Node child in GetChildren())
+		if (correct)
 		{
-			if (child is Mole mole)
-			{
-				mole.CorrectMoleAppeared += () => {isCorrectMolePresent = true; correctMoleCount++;};
-				mole.CorrectMoleDisappeared += () => {correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false;};
-			}
+			// Increase score for correct hits.
+			score += 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed));
 		}
-	}
-
-	public override void _Process(double delta)
-	{
-		if (isCorrectMolePresent)
+		else
 		{
-			timeElapsed += delta;
+			// Decrease score for incorrect hits.
+			score -= 250;
+			score = Math.Max(0, score);
 		}
-	}
-
-	/// <summary>
-	/// Increments the score and updates the score label when a mole is hit.
-	/// </summary>
-	public void UpdateScore()
-	{
-		// Increment the score and update the score label.
-		score += 1000/Math.Max(1,(int)Math.Ceiling(timeElapsed));
 		scoreLabel.Text = $"Score: {score}";
 		timeElapsed = 0.0;
 	}
 
-	public bool IsCorrectMolePresent()
-	{
-		return isCorrectMolePresent;
-	}
-	public int GetScore()
-	{
-		return score;
-	}
-	public void PauseGame()
-	{
-		foreach (Node child in GetChildren())
-		{
-			if (child is Mole mole)
-			{
-				mole.PauseGame();
-			}
-		}
-	}
-	public void ResumeGame()
-	{
-		foreach (Node child in GetChildren())
-		{
-			if (child is Mole mole)
-			{
-				mole.ResumeGame();
-			}
-		}
-	}
+    /// <summary>
+    /// Returns whether a correct mole is currently visible.
+    /// </summary>
+    /// <returns>True if a correct mole is present, false otherwise.</returns>
+    public bool IsCorrectMolePresent()
+    {
+        return isCorrectMolePresent;
+    }
+
+    /// <summary>
+    /// Returns the current score.
+    /// </summary>
+    /// <returns>Current score in the game.</returns>
+    public int GetScore()
+    {
+        return score;
+    }
+
+    /// <summary>
+    /// Pauses the game, affecting all moles in the scene.
+    /// </summary>
+    public void PauseGame()
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is Mole mole)
+            {
+                mole.PauseGame();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resumes the game, affecting all moles in the scene.
+    /// </summary>
+    public void ResumeGame()
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is Mole mole)
+            {
+                mole.ResumeGame();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the game state, including score and mole presence.
+    /// </summary>
+    public void ResetGame()
+    {
+        score = 0;
+        scoreLabel.Text = $"Score: {score}";
+        isCorrectMolePresent = false;
+        correctMoleCount = 0;
+        timeElapsed = 0.0;
+        PauseGame();
+        ResumeGame();
+    }
 }
