@@ -74,6 +74,7 @@ public partial class Customize : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		GD.Print("Select button pressed");
 		SaveFile.UpdateMoleSelected(current_grid);
+		ChangeScene("res://scenes/UI/mainUI.tscn");
 	}
 
 	/// <summary>
