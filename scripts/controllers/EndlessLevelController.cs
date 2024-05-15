@@ -208,39 +208,36 @@ public partial class EndlessLevelController : Node
 	}
 
 	private void UpdateQuestion(bool isCorrect) {
-		if (isCorrect)
+		GD.Print($"{isCorrect}");
+		questionsAnswered += 1;
+		moleHouse.UpdateScore(isCorrect);
+		moleHouse.ResetCorrectMoleCount();
+		correctAnswer = GenerateQuestion();
+		SetMoleAnswers();
+		//reward the user with moretime for every correct answer
+		remainingTime += 10f;
+
+		// Check if all questions in the current level have been answered
+		if (questionsAnswered >= 2)
 		{
-			GD.Print($"{isCorrect}");
-			questionsAnswered += 1;
-			moleHouse.UpdateScore();
-			moleHouse.ResetCorrectMoleCount();
+			questionsAnswered = 0; // Reset the questions answered count
+
+			if (operations.Count() == 4 && difficultyLevel < 3)
+			{
+				operations.Clear();
+				difficultyLevel++;
+				levelSelect = difficultyLevel;
+			}
+			else if (levelSelect<12)
+			{
+				levelSelect+=levelIncrement;
+			}
+
+			ReadQuestionFormat($"data/levels/{levelSelect}.txt");
+
+			// Generate a new question and set mole answers
 			correctAnswer = GenerateQuestion();
 			SetMoleAnswers();
-			//reward the user with moretime for every correct answer
-			remainingTime += 10f;
-			// Check if all questions in the current level have been answered
-			if (questionsAnswered >= 2)
-			{
-				questionsAnswered = 0; // Reset the questions answered count
-
-				if (operations.Count() == 4 && difficultyLevel < 3)
-				{
-					operations.Clear();
-					difficultyLevel++;
-					levelSelect = difficultyLevel;
-				}
-				else if (levelSelect<12)
-				{
-					levelSelect+=levelIncrement;
-				}
-				
-
-				ReadQuestionFormat($"data/levels/{levelSelect}.txt");
-
-				// Generate a new question and set mole answers
-				correctAnswer = GenerateQuestion();
-				SetMoleAnswers();
-			}
 		}
 	}
 

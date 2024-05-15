@@ -137,14 +137,12 @@ public partial class LevelController : Node
 
 	private void UpdateQuestion(bool isCorrect) {
 		GD.Print($"{isCorrect}");
-		if (isCorrect)
-		{
-			GD.Print($"{isCorrect}");
-			questionsAnswered += 1;
-			moleHouse.UpdateScore();
-			correctAnswer = GenerateQuestion();
-			SetMoleAnswers();
-		}
+        GD.Print($"{isCorrect}");
+        questionsAnswered += 1;
+        moleHouse.UpdateScore(isCorrect);
+        correctAnswer = GenerateQuestion();
+        SetMoleAnswers();
+
 		if (questionsAnswered >= 10){
 
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
