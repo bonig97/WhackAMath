@@ -1,9 +1,11 @@
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using WhackAMath;
 
 /// <summary>
@@ -20,29 +22,38 @@ public partial class EndlessLevelController : Node
 	private Panel levelCompletePanel;
 	private Panel gameOverPanel;
 	private Button levelCompleteButton;
-	private Label levelCompleteStars;
 	private Label levelCompleteScore;
 	private Button pauseButton;
 	private Button restartButton;
 	private Button resumeButton;
 	private Button quitButton;
-	private MathOperation operation;
+
+	private Label questionLabel;
+	//private MathOperation operation;
 
 	private float remainingTime = 30f; // Set the initial time to 60 seconds
 
-	private int minRange, maxRange; // Range of numbers for question generation, depends on difficulty.
+	private int minRangeAddSub, maxRangeAddSub; // Range of numbers for question generation, depends on difficulty.
+	private int minRangeMulDiv, maxRangeMulDiv;
+	private int difficultyLevel;
+	private int levelSelect;
+	private MathOperation operation;
+	private List<MathOperation> operations;
 	private int correctAnswer; // Stores the correct answer to the current question.
 	private string correctAnswerText; // Stores the correct answer text to the current question.
 	private int questionsAnswered = 0; //Keeps track of how many questions have been answered.
 	private MoleHouse moleHouse; // Reference to the MoleHouse node.
 	private List<Mole> moleList; // List to keep track of mole instances.
 	private readonly Random random = new();
+	private const int levelIncrement = 3;
+	private string question;
 
 	/// <summary>
 	/// Initializes the controller by reading the question format, generating a question, and setting up moles.
 	/// </summary>
 	public override void _Ready()
 	{
+		questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
 		levelCompletePanel = GetNode<Panel>("LevelCompletePanel");
 		levelCompleteButton = GetNode<Button>("LevelCompletePanel/LevelCompleteButton");
 		levelCompleteScore = GetNode<Label>("LevelCompletePanel/LevelCompleteScore");
@@ -58,9 +69,21 @@ public partial class EndlessLevelController : Node
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
 		restartButton.Connect("pressed", new Callable(this, nameof(OnRestartButtonPressed)));
-		ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
-		correctAnswer = GenerateQuestion();
+		
 		moleList = new List<Mole>();
+
+		minRangeAddSub = 0;
+		maxRangeAddSub = 10;
+		minRangeMulDiv = 1;
+		maxRangeMulDiv = 10;
+
+		operations = new List<MathOperation>();
+		operation = MathOperation.Add;
+		difficultyLevel = 1;
+		levelSelect = difficultyLevel;
+		// Read the question format for the first level
+		ReadQuestionFormat($"data/levels/{levelSelect}.txt");
+		correctAnswer = GenerateQuestion();
 
 		// Initialize moles and subscribe to their answer switching event.
 		for (int i = 0; i < moleHouse.GetChildCount(); i++)
@@ -81,6 +104,16 @@ public partial class EndlessLevelController : Node
 	public override void _Process(double delta)
 	{
 		updateTimer(delta);
+		for (int i = 0; i < moleHouse.GetChildCount(); i++) {
+			if (moleHouse.GetChild(i) is Mole mole)
+			{
+				if (moleList[i].IsHittable())
+				{
+					moleList[i].RecomputeCorrectness(correctAnswer);
+				}
+			}
+		}
+		questionLabel.Text = question;
 	}
 
 	/*
@@ -124,6 +157,8 @@ public partial class EndlessLevelController : Node
 	/// <param name="filePath">Path to the question format file.</param>
 	private void ReadQuestionFormat(string filePath)
 	{
+		int minRange = 0;
+		int maxRange = 0;
 		try
 		{
 			string[] lines = File.ReadAllLines(filePath);
@@ -135,11 +170,24 @@ public partial class EndlessLevelController : Node
 				{
 					case "operation":
 						operation = Enum.Parse<MathOperation>(parts[1].Trim(), true);
+						operations.Add(operation);
 						break;
 					case "range":
 						var rangeParts = parts[1].Trim().Split('-');
 						minRange = int.Parse(rangeParts[0]);
 						maxRange = int.Parse(rangeParts[1]);
+
+						if (operation == MathOperation.Add || operation == MathOperation.Subtract)
+						{
+							minRangeAddSub = minRange;
+							maxRangeAddSub = maxRange;
+						}
+						else
+						{
+							minRangeMulDiv = minRange;
+							maxRangeMulDiv = maxRange;
+						}
+
 						break;
 				}
 			}
@@ -156,17 +204,16 @@ public partial class EndlessLevelController : Node
 	/// <param name="questionText">The text of the question to display.</param>
 	private void DisplayQuestion(string questionText)
 	{
-		var questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
-		questionLabel.Text = questionText;
+		question = questionText;
 	}
 
 	private void UpdateQuestion(bool isCorrect) {
-		GD.Print($"{isCorrect}");
 		if (isCorrect)
 		{
 			GD.Print($"{isCorrect}");
 			questionsAnswered += 1;
 			moleHouse.UpdateScore();
+			moleHouse.ResetCorrectMoleCount();
 			correctAnswer = GenerateQuestion();
 			SetMoleAnswers();
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
@@ -181,13 +228,23 @@ public partial class EndlessLevelController : Node
 			//reward the user with moretime for every correct answer
 			remainingTime += 10f;
 			// Check if all questions in the current level have been answered
-			if (questionsAnswered >= 10)
+			if (questionsAnswered >= 2)
 			{
 				questionsAnswered = 0; // Reset the questions answered count
 
-				// Read the question format for the next level
-				SaveFile.currentLevel += 1;
-				ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
+				if (operations.Count() == 4 && difficultyLevel < 3)
+				{
+					operations.Clear();
+					difficultyLevel++;
+					levelSelect = difficultyLevel;
+				}
+				else if (levelSelect<12)
+				{
+					levelSelect+=levelIncrement;
+				}
+				
+
+				ReadQuestionFormat($"data/levels/{levelSelect}.txt");
 
 				// Generate a new question and set mole answers
 				correctAnswer = GenerateQuestion();
@@ -208,6 +265,10 @@ public partial class EndlessLevelController : Node
 		for (int i = 0; i < invisibleMoles.Count(); i++) {
 			if (invisibleMoles[i].GetCorrectness())
 			{
+				if (!moleHouse.IsCorrectMolePresent())
+				{
+					invisibleMoles[i].ForceArise();
+				}
 				// Remove the invisible mole from the list
 				invisibleMoles.RemoveAt(i);
 			}
@@ -216,8 +277,10 @@ public partial class EndlessLevelController : Node
 		if (!moleHouse.IsCorrectMolePresent())
 		{
 			// Randomly select an invisible mole to set the correct answer.
+			//Force it to move up
 			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
 			correctMole.SetAnswer(correctAnswerText, true);
+			correctMole.ForceArise();
 		}
 
 		// Set random answers to the rest of the moles.
@@ -243,9 +306,26 @@ public partial class EndlessLevelController : Node
 	/// <returns>A randomly generated incorrect answer.</returns>
 	private string GenerateRandomAnswer()
 	{
+		if (operations.Count == 0)
+		{
+			throw new InvalidOperationException("No operations available.");
+		}
 		int x;
 		int y;
+		int minRange = 0;
+		int maxRange = 0;
 		string answer = "";
+		if (operation == MathOperation.Add || operation == MathOperation.Subtract)
+		{
+			minRange = minRangeAddSub;
+			maxRange = maxRangeAddSub;
+		}
+		else
+		{
+			minRange = minRangeMulDiv;
+			maxRange = maxRangeMulDiv;
+		}
+
 		switch (operation)
 		{
 			case MathOperation.Add:
@@ -272,7 +352,6 @@ public partial class EndlessLevelController : Node
 			default:
 				throw new InvalidOperationException("Unknown operation.");
 		}
-		GD.Print(correctAnswerText);
 		return answer;
 	}
 
@@ -282,6 +361,19 @@ public partial class EndlessLevelController : Node
 	/// <returns>The correct answer to the generated question.</returns>
 	private int GenerateQuestion()
 	{
+		MathOperation operation = operations[random.Next(operations.Count)];
+		int minRange = 0;
+		int maxRange = 0;
+		if (operation == MathOperation.Add || operation == MathOperation.Subtract)
+		{
+			minRange = minRangeAddSub;
+			maxRange = maxRangeAddSub;
+		}
+		else
+		{
+			minRange = minRangeMulDiv;
+			maxRange = maxRangeMulDiv;
+		}
 		int x = random.Next(minRange, maxRange + 1);
 		int y = random.Next(minRange, maxRange + 1);
 		int answer = 0;
@@ -294,6 +386,7 @@ public partial class EndlessLevelController : Node
 				answer = x + y;
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{x} + {y}";
+				GD.Print(correctAnswerText);
 				return answer;
 			case MathOperation.Subtract:
 				x = random.Next(minRange, maxRange);
@@ -301,6 +394,7 @@ public partial class EndlessLevelController : Node
 				answer = Math.Max(x,y) - Math.Min(x,y);
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
+				GD.Print(correctAnswerText);
 				return answer;
 			case MathOperation.Multiply:
 				x = random.Next(minRange, maxRange + 1);
@@ -308,6 +402,7 @@ public partial class EndlessLevelController : Node
 				answer = x * y;
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{x} * {y}";
+				GD.Print(correctAnswerText);
 				return answer;
 			case MathOperation.Divide:
 				x = random.Next(minRange, maxRange + 1);
@@ -316,6 +411,7 @@ public partial class EndlessLevelController : Node
 				answer = y;
 				DisplayQuestion($"? = {answer}");
 				correctAnswerText = $"{a} / {x}";
+				GD.Print(correctAnswerText);
 				//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
 				return answer;
 			default:

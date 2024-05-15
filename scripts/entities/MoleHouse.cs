@@ -26,8 +26,26 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.CorrectMoleAppeared += () => {isCorrectMolePresent = true; correctMoleCount++;};
-				mole.CorrectMoleDisappeared += () => {if(correctMoleCount>0) correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false;};
+				mole.CorrectMoleAppeared += () => 
+				{
+					isCorrectMolePresent = true; 
+					correctMoleCount++;
+
+				};
+				mole.CorrectMoleDisappeared += () => {
+					if(correctMoleCount>0)
+					{
+						correctMoleCount--;
+						
+				 	}
+					if (correctMoleCount == 0)
+					{
+						isCorrectMolePresent = false;
+						
+					
+					}
+					
+				};
 			}
 		}
 	}
@@ -78,5 +96,10 @@ public partial class MoleHouse : Node
 				mole.ResumeGame();
 			}
 		}
+	}
+
+	public void ResetCorrectMoleCount()
+	{
+		correctMoleCount = 0;
 	}
 }

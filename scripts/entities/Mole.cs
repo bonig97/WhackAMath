@@ -148,7 +148,7 @@ public partial class Mole : Area2D
 	/// <summary>
 	/// Moves the mole up and makes it visible and hittable.
 	/// </summary>
-	private void MoveUp()
+	public void MoveUp()
 	{
 		collisionShape.Disabled = false;
 		sprite.Visible = true;
@@ -183,12 +183,13 @@ public partial class Mole : Area2D
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
+			GD.Print("Mole hit");
 			isHittable = false;
 			MoveDown();
 
 			AudioManager.Singleton.PlayHitMoleSound();
 
-			GD.Print(label.Text + $" = {Convert.ToInt32(new DataTable().Compute(label.Text, null))}  {isCorrect}");
+			
 			MoleHit?.Invoke(isCorrect);
 			responseSoundTimer.Start();
 		}
@@ -290,5 +291,10 @@ public partial class Mole : Area2D
 		timer2.Start();
 		label.Visible = true;
 		sprite.Play();
+	}
+	public void ForceArise()
+	{
+		isHittable = true;
+		MoveUp();
 	}
 }

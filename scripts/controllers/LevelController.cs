@@ -27,6 +27,7 @@ public partial class LevelController : Node
 	private Button levelCompleteButton;
 	private Label levelCompleteStars;
 	private Label levelCompleteScore;
+	private Label questionLabel;
 	private Button pauseButton;
 	private Button resumeButton;
 	private Button quitButton;
@@ -37,6 +38,7 @@ public partial class LevelController : Node
 	private int questionsAnswered = 0; //Keeps track of how many questions have been answered.
 	private MoleHouse moleHouse; // Reference to the MoleHouse node.
 	private List<Mole> moleList; // List to keep track of mole instances.
+	private string question;
 	private readonly Random random = new();
 
 	/// <summary>
@@ -48,6 +50,7 @@ public partial class LevelController : Node
 		levelCompleteButton = GetNode<Button>("LevelCompletePanel/LevelCompleteButton");
 		levelCompleteStars = GetNode<Label>("LevelCompletePanel/LevelCompleteStars");
 		levelCompleteScore = GetNode<Label>("LevelCompletePanel/LevelCompleteScore");
+		questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
 		levelCompletePanel.Visible = false;
 		levelCompleteButton.Connect("pressed", new Callable(this, nameof(OnLevelCompleteButtonPressed)));
 		levelCompleteButton.Disabled = true;
@@ -88,6 +91,8 @@ public partial class LevelController : Node
 				}
 			}
 		}
+		questionLabel.Text = question;
+		
 	}
 
 	/// <summary>
@@ -128,8 +133,7 @@ public partial class LevelController : Node
 	/// <param name="questionText">The text of the question to display.</param>
 	private void DisplayQuestion(string questionText)
 	{
-		var questionLabel = GetNode<Label>("QuestionPanel/QuestionLabel");
-		questionLabel.Text = questionText;
+		question = questionText;
 	}
 
 	private void UpdateQuestion(bool isCorrect) {
@@ -187,9 +191,15 @@ public partial class LevelController : Node
 		for (int i = 0; i < invisibleMoles.Count(); i++) {
 			if (invisibleMoles[i].GetCorrectness())
 			{
+				if (!moleHouse.IsCorrectMolePresent())
+				{
+					invisibleMoles[i].ForceArise();
+				}
 				// Remove the invisible mole from the list
 				invisibleMoles.RemoveAt(i);
+				
 			}
+			
 		}
 
 		if (!moleHouse.IsCorrectMolePresent())
@@ -197,6 +207,7 @@ public partial class LevelController : Node
 			// Randomly select an invisible mole to set the correct answer.
 			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
 			correctMole.SetAnswer(correctAnswerText, true);
+			correctMole.ForceArise();
 		}
 
 		// Set random answers to the rest of the moles.

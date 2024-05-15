@@ -1331,7 +1331,7 @@ position = Vector2(1024, 579)
 position = Vector2(623, 578)
 
 [node name="Mole3" parent="MoleHouse" instance=ExtResource("15_acqog")]
-position = Vector2(191, 578)
+position = Vector2(192, 576)
 
 [node name="Mole4" parent="MoleHouse" instance=ExtResource("15_acqog")]
 position = Vector2(831, 387)
