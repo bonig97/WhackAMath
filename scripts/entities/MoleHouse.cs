@@ -121,4 +121,9 @@ public partial class MoleHouse : Node
         PauseGame();
         ResumeGame();
     }
+
+	public void ResetCorrectMoleCount()
+	{
+		correctMoleCount = 0;
+	}
 }
