@@ -7,40 +7,40 @@ using System;
 /// </summary>
 public partial class MoleHouse : Node
 {
-    private Label scoreLabel;
-    private double timeElapsed = 0.0;
-    private int score = 0;
-    private bool isCorrectMolePresent = false;
-    private int correctMoleCount = 0;
+	private Label scoreLabel;
+	private double timeElapsed = 0.0;
+	private int score = 0;
+	private bool isCorrectMolePresent = false;
+	private int correctMoleCount = 0;
 
-    /// <summary>
-    /// Initializes the MoleHouse, setting up the score label and connecting events for mole interactions.
-    /// </summary>
-    public override void _Ready()
-    {
-        scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
-        scoreLabel.Text = $"Score: {score}";
+	/// <summary>
+	/// Initializes the MoleHouse, setting up the score label and connecting events for mole interactions.
+	/// </summary>
+	public override void _Ready()
+	{
+		scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
+		scoreLabel.Text = $"Score: {score}";
 
-        // Connect events for each mole in the scene to manage score and mole presence.
-        foreach (Node child in GetChildren())
-        {
-            if (child is Mole mole)
-            {
-                mole.CorrectMoleAppeared += () => { isCorrectMolePresent = true; correctMoleCount++; };
-                mole.CorrectMoleDisappeared += () => { correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false; };
-            }
-        }
-    }
+		// Connect events for each mole in the scene to manage score and mole presence.
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.CorrectMoleAppeared += () => { isCorrectMolePresent = true; correctMoleCount++; };
+				mole.CorrectMoleDisappeared += () => { correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false; };
+			}
+		}
+	}
 
-    public override void _Process(double delta)
-    {
-        if (isCorrectMolePresent)
-        {
-            timeElapsed += delta;
-        }
-    }
+	public override void _Process(double delta)
+	{
+		if (isCorrectMolePresent)
+		{
+			timeElapsed += delta;
+		}
+	}
 
-    /// <summary>
+	/// <summary>
 	/// Updates the score based on the correctness of the mole hit. Correct hits increase the score,
 	/// while incorrect hits decrease it.
 	/// </summary>
@@ -62,65 +62,65 @@ public partial class MoleHouse : Node
 		timeElapsed = 0.0;
 	}
 
-    /// <summary>
-    /// Returns whether a correct mole is currently visible.
-    /// </summary>
-    /// <returns>True if a correct mole is present, false otherwise.</returns>
-    public bool IsCorrectMolePresent()
-    {
-        return isCorrectMolePresent;
-    }
+	/// <summary>
+	/// Returns whether a correct mole is currently visible.
+	/// </summary>
+	/// <returns>True if a correct mole is present, false otherwise.</returns>
+	public bool IsCorrectMolePresent()
+	{
+		return isCorrectMolePresent;
+	}
 
-    /// <summary>
-    /// Returns the current score.
-    /// </summary>
-    /// <returns>Current score in the game.</returns>
-    public int GetScore()
-    {
-        return score;
-    }
+	/// <summary>
+	/// Returns the current score.
+	/// </summary>
+	/// <returns>Current score in the game.</returns>
+	public int GetScore()
+	{
+		return score;
+	}
 
-    /// <summary>
-    /// Pauses the game, affecting all moles in the scene.
-    /// </summary>
-    public void PauseGame()
-    {
-        foreach (Node child in GetChildren())
-        {
-            if (child is Mole mole)
-            {
-                mole.PauseGame();
-            }
-        }
-    }
+	/// <summary>
+	/// Pauses the game, affecting all moles in the scene.
+	/// </summary>
+	public void PauseGame()
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.PauseGame();
+			}
+		}
+	}
 
-    /// <summary>
-    /// Resumes the game, affecting all moles in the scene.
-    /// </summary>
-    public void ResumeGame()
-    {
-        foreach (Node child in GetChildren())
-        {
-            if (child is Mole mole)
-            {
-                mole.ResumeGame();
-            }
-        }
-    }
+	/// <summary>
+	/// Resumes the game, affecting all moles in the scene.
+	/// </summary>
+	public void ResumeGame()
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is Mole mole)
+			{
+				mole.ResumeGame();
+			}
+		}
+	}
 
-    /// <summary>
-    /// Resets the game state, including score and mole presence.
-    /// </summary>
-    public void ResetGame()
-    {
-        score = 0;
-        scoreLabel.Text = $"Score: {score}";
-        isCorrectMolePresent = false;
-        correctMoleCount = 0;
-        timeElapsed = 0.0;
-        PauseGame();
-        ResumeGame();
-    }
+	/// <summary>
+	/// Resets the game state, including score and mole presence.
+	/// </summary>
+	public void ResetGame()
+	{
+		score = 0;
+		scoreLabel.Text = $"Score: {score}";
+		isCorrectMolePresent = false;
+		correctMoleCount = 0;
+		timeElapsed = 0.0;
+		PauseGame();
+		ResumeGame();
+	}
 
 	public void ResetCorrectMoleCount()
 	{
