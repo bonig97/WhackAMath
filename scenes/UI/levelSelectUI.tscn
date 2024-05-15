@@ -1,0 +1,123 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmosia7hkf8yi"]
+
+[ext_resource type="PackedScene" uid="uid://deb5l23kssfpn" path="res://scenes/UI/LevelGridAdd.tscn" id="1_4rlsg"]
+[ext_resource type="PackedScene" uid="uid://crvc5ceh8csvk" path="res://scenes/UI/LevelGridSub.tscn" id="1_kcpan"]
+[ext_resource type="Script" path="res://scripts/ui/LevelSelect.cs" id="1_n7imh"]
+[ext_resource type="PackedScene" uid="uid://bxsw0665ea7ly" path="res://scenes/UI/LevelGridMul.tscn" id="3_avk51"]
+[ext_resource type="PackedScene" uid="uid://dhiyrcqt4xja5" path="res://scenes/UI/LevelGridDiv.tscn" id="4_gb10j"]
+[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="6_vruht"]
+[ext_resource type="Texture2D" uid="uid://bq555cwceepts" path="res://assets/images/arrowRight.png" id="7_8vo2d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_igbtd"]
+bg_color = Color(0.0509804, 0.584314, 0.819608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_n7imh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ClipControl" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ClipControl"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 3456.0
+offset_bottom = 648.0
+theme_override_constants/separation = 1152
+
+[node name="LevelGridAdd" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("1_4rlsg")]
+layout_mode = 2
+
+[node name="LevelGridSub" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("1_kcpan")]
+layout_mode = 2
+
+[node name="LevelGridMul" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("3_avk51")]
+layout_mode = 2
+
+[node name="LevelGridDiv" parent="MarginContainer/ClipControl/HBoxContainer" instance=ExtResource("4_gb10j")]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+icon = ExtResource("6_vruht")
+expand_icon = true
+
+[node name="NextButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 320.0
+offset_right = 1152.0
+offset_bottom = 448.0
+icon = ExtResource("7_8vo2d")
+expand_icon = true
+
+[node name="PrevButton" type="Button" parent="."]
+layout_mode = 0
+offset_top = 320.0
+offset_right = 64.0
+offset_bottom = 448.0
+icon = ExtResource("6_vruht")
+expand_icon = true
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 256.0
+offset_top = 8.0
+offset_right = 896.0
+offset_bottom = 640.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_igbtd")
+
+[node name="PlayButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 424.0
+offset_right = 448.0
+offset_bottom = 488.0
+theme_override_font_sizes/font_size = 25
+text = "Play"
+
+[node name="CancelButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 504.0
+offset_right = 448.0
+offset_bottom = 568.0
+theme_override_font_sizes/font_size = 25
+text = "Cancel"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 56.0
+offset_right = 576.0
+offset_bottom = 376.0
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Label" type="Label" parent="Panel/ScrollContainer"]
+layout_mode = 2
+text = "There will be a number on top
+Click on the question that gives the number"
