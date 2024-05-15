@@ -60,7 +60,7 @@ public partial class Main : Control
 	private void OnEndlessModeButtonPressed()
 	{
 		AudioManager.Singleton?.PlayButtonSound();
-		ChangeScene("res://scenes/levels/Level.tscn");
+		ChangeScene("res://scenes/levels/EndlessLevel.tscn");
 	}
 
 	private void OnLanguageButtonPressed()
