@@ -183,6 +183,10 @@ public partial class Mole : Area2D
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
+			lock (this)
+			{
+				MoleHit?.Invoke(isCorrect);
+			}
 			GD.Print("Mole hit");
 			isHittable = false;
 			MoveDown();
@@ -190,7 +194,7 @@ public partial class Mole : Area2D
 			AudioManager.Singleton.PlayHitMoleSound();
 
 			
-			MoleHit?.Invoke(isCorrect);
+			
 			responseSoundTimer.Start();
 		}
 	}

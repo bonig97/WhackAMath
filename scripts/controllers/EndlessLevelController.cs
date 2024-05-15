@@ -216,15 +216,6 @@ public partial class EndlessLevelController : Node
 			moleHouse.ResetCorrectMoleCount();
 			correctAnswer = GenerateQuestion();
 			SetMoleAnswers();
-			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
-				if (moleHouse.GetChild(i) is Mole mole)
-				{
-					if (moleList[i].IsHittable())
-					{
-						moleList[i].RecomputeCorrectness(correctAnswer);
-					}
-				}
-			}
 			//reward the user with moretime for every correct answer
 			remainingTime += 10f;
 			// Check if all questions in the current level have been answered
