@@ -432,7 +432,7 @@ public partial class EndlessLevelController : Node
 	private void OnQuitButtonPressed()
 	{
 		GD.Print("Quit button pressed!");
-		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/levelSelectUI.tscn");
+		PackedScene levelSelect = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
 		GetTree().ChangeSceneToPacked(levelSelect);
 	}
 
