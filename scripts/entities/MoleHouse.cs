@@ -28,8 +28,21 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.CorrectMoleAppeared += () => { isCorrectMolePresent = true; correctMoleCount++; };
-				mole.CorrectMoleDisappeared += () => { correctMoleCount--; if (correctMoleCount == 0) isCorrectMolePresent = false; };
+				mole.CorrectMoleAppeared += () => { 
+					lock (this) {
+						isCorrectMolePresent = true;
+						correctMoleCount++; 
+					}
+					GD.Print("Correct Mole Count: " + correctMoleCount.ToString());
+				};
+				mole.CorrectMoleDisappeared += () => { 
+					lock (this) {
+						correctMoleCount--;
+						if (correctMoleCount <= 0) 
+							isCorrectMolePresent = false; 
+					}
+					GD.Print("Correct Mole Count: " + correctMoleCount.ToString());
+				};
 			}
 		}
 	}
