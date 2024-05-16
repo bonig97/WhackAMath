@@ -215,7 +215,15 @@ public partial class EndlessLevelController : Node
 		correctAnswer = GenerateQuestion();
 		SetMoleAnswers();
 		//reward the user with moretime for every correct answer
-		remainingTime += 10f;
+		float tempTime = remainingTime + 10f;
+		if (tempTime <= 45f)
+		{
+			remainingTime = tempTime;
+		}
+		else
+		{
+			remainingTime = 45f;
+		}
 
 		// Check if all questions in the current level have been answered
 		if (questionsAnswered >= 2)
