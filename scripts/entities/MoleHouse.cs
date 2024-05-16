@@ -12,6 +12,7 @@ public partial class MoleHouse : Node
 	private int score = 0;
 	private bool isCorrectMolePresent = false;
 	private int correctMoleCount = 0;
+	private bool paused;
 
 	/// <summary>
 	/// Initializes the MoleHouse, setting up the score label and connecting events for mole interactions.
@@ -19,7 +20,8 @@ public partial class MoleHouse : Node
 	public override void _Ready()
 	{
 		scoreLabel = GetNode<Label>("ScorePanel/ScoreLabel");
-		scoreLabel.Text = $"Score: {score}";
+		scoreLabel.Text = score.ToString();
+		paused = false;
 
 		// Connect events for each mole in the scene to manage score and mole presence.
 		foreach (Node child in GetChildren())
@@ -34,7 +36,7 @@ public partial class MoleHouse : Node
 
 	public override void _Process(double delta)
 	{
-		if (isCorrectMolePresent)
+		if (isCorrectMolePresent && !paused)
 		{
 			timeElapsed += delta;
 		}
@@ -58,7 +60,7 @@ public partial class MoleHouse : Node
 			score -= 250;
 			score = Math.Max(0, score);
 		}
-		scoreLabel.Text = $"Score: {score}";
+		scoreLabel.Text = score.ToString();
 		timeElapsed = 0.0;
 	}
 
@@ -85,6 +87,7 @@ public partial class MoleHouse : Node
 	/// </summary>
 	public void PauseGame()
 	{
+		paused = true;
 		foreach (Node child in GetChildren())
 		{
 			if (child is Mole mole)
@@ -99,6 +102,7 @@ public partial class MoleHouse : Node
 	/// </summary>
 	public void ResumeGame()
 	{
+		paused = false;
 		foreach (Node child in GetChildren())
 		{
 			if (child is Mole mole)

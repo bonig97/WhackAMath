@@ -154,7 +154,8 @@ public partial class LevelController : Node
 
 			levelCompletePanel.Visible = true;
 			levelCompleteButton.Disabled = false;
-			levelCompleteScore.Text = "Score: " + moleHouse.GetScore();
+			pauseButton.Disabled = true;
+			levelCompleteScore.Text = moleHouse.GetScore().ToString();
 			if (moleHouse.GetScore() < 1000)
 			{
 				levelCompleteStars.Text = "☆☆☆";

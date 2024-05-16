@@ -47,6 +47,7 @@ public partial class EndlessLevelController : Node
 	private readonly Random random = new();
 	private const int levelIncrement = 3;
 	private string question;
+	private bool paused;
 
 	/// <summary>
 	/// Initializes the controller by reading the question format, generating a question, and setting up moles.
@@ -84,6 +85,7 @@ public partial class EndlessLevelController : Node
 		// Read the question format for the first level
 		ReadQuestionFormat($"data/levels/{levelSelect}.txt");
 		correctAnswer = GenerateQuestion();
+		paused = false;
 
 		// Initialize moles and subscribe to their answer switching event.
 		for (int i = 0; i < moleHouse.GetChildCount(); i++)
@@ -122,6 +124,7 @@ public partial class EndlessLevelController : Node
 	*/
 	private void updateTimer(double delta)
 	{
+		if (paused) return;
 		remainingTime -= (float)delta;
 		if (remainingTime <= 0f)
 		{
@@ -131,9 +134,10 @@ public partial class EndlessLevelController : Node
 			// Show the game over panel
 			levelCompletePanel.Visible = true;
 			levelCompleteButton.Disabled = false;
+			pauseButton.Disabled = true;
 			// Display the final score
 			var scoreLabel = GetNode<Label>("LevelCompletePanel/ScoreLabel");
-			levelCompleteScore.Text = $"Final Score: {moleHouse.GetScore()}";
+			levelCompleteScore.Text = moleHouse.GetScore().ToString();
 		}
 		else
 		{
@@ -149,7 +153,7 @@ public partial class EndlessLevelController : Node
 	private void TimerUI()
 	{
 		var timerLabel = GetNode<Label>("TimerLabel");
-		timerLabel.Text = $"Time: {Mathf.CeilToInt(remainingTime)}";
+		timerLabel.Text = Mathf.CeilToInt(remainingTime).ToString();
 	}
 	/// <summary>
 	/// Reads question format from a specified file. The file specifies the operation and range for the questions.
@@ -427,12 +431,14 @@ public partial class EndlessLevelController : Node
 	private void OnPauseButtonPressed()
 	{
 		moleHouse.PauseGame();
+		paused = true;
 		GetNode<Panel>("GamePausePanel").Visible = true;
 	}
 	private void OnResumeButtonPressed()
 	{
 		GetNode<Panel>("GamePausePanel").Visible = false;
 		moleHouse.ResumeGame();
+		paused = false;
 	}
 	private void OnQuitButtonPressed()
 	{
