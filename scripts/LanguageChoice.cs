@@ -56,4 +56,10 @@ public partial class LanguageChoice : Control
 		GD.Print("Arabic Button Pressed");
 		TranslationServer.SetLocale("ar");
 	}
+
+	private void ChangeScene(string scenePath)
+	{
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
+		GetTree().ChangeSceneToPacked(scene);
+	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvqg4anvn5nj4"]
+[gd_scene load_steps=18 format=3 uid="uid://bvqg4anvn5nj4"]
 
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="1_h4l7p"]
 [ext_resource type="Script" path="res://scripts/ui/Main.cs" id="1_rbgjv"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://x8npjhs44sdl" path="res://scenes/UI/DisplayPig.tscn" id="9_f0fie"]
 [ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_ybwrh"]
 [ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="11_03nod"]
+[ext_resource type="PackedScene" uid="uid://cjs3qd37mm6gv" path="res://scenes/FlagScene.tscn" id="13_3g4rk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vuk8l"]
 texture = ExtResource("1_h4l7p")
@@ -428,9 +429,12 @@ position = Vector2(552, 544)
 position = Vector2(120, 488)
 
 [node name="UsaFlag" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(64, 56)
 scale = Vector2(0.0526152, 0.0782641)
 texture = ExtResource("4_7b4kp")
+
+[node name="FlagScene" parent="." instance=ExtResource("13_3g4rk")]
 
 [connection signal="pressed" from="EndlessModeButton" to="." method="_on_endlessmode_pressed"]
 [connection signal="pressed" from="LanguageButton" to="." method="_on_flagselection_pressed"]

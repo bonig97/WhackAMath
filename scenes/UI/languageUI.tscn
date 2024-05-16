@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/LanguageChoice.cs" id="1_m7dxn"]
 [ext_resource type="Texture2D" uid="uid://cemonc2b3t33j" path="res://assets/images/Grass.png" id="2_frhhc"]
-[ext_resource type="Texture2D" uid="uid://xy6ltsew3n3n" path="res://assets/images/saudiFlag.png" id="3_4rt60"]
-[ext_resource type="Texture2D" uid="uid://cnbap6crqvdsd" path="res://assets/images/italianflag.png" id="3_ccflh"]
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="3_rlpug"]
 [ext_resource type="Texture2D" uid="uid://c8eyp3jac0e7" path="res://assets/images/plains.png" id="4_4vw0e"]
-[ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://assets/images/usaFlag.png" id="5_gtb2j"]
 [ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="5_j34jr"]
+[ext_resource type="Texture2D" uid="uid://jvdg7t5ouptq" path="res://assets/images/italianflagCOPY.png" id="6_gsen7"]
+[ext_resource type="Texture2D" uid="uid://dib1bt8d04t7b" path="res://assets/images/saudiFlagCOPY.png" id="7_covma"]
+[ext_resource type="Texture2D" uid="uid://c4iweuwuyv1l8" path="res://assets/images/usaFlagCOPY.png" id="8_h3676"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aglv4"]
 texture = ExtResource("2_frhhc")
@@ -341,7 +341,7 @@ offset_left = 422.0
 offset_top = 102.0
 offset_right = 678.0
 offset_bottom = 230.0
-icon = ExtResource("3_ccflh")
+icon = ExtResource("6_gsen7")
 icon_alignment = 1
 expand_icon = true
 
@@ -351,7 +351,7 @@ offset_left = 422.0
 offset_top = 486.0
 offset_right = 678.0
 offset_bottom = 614.0
-icon = ExtResource("3_4rt60")
+icon = ExtResource("7_covma")
 icon_alignment = 1
 expand_icon = true
 
@@ -361,7 +361,7 @@ offset_left = 422.0
 offset_top = 294.0
 offset_right = 678.0
 offset_bottom = 422.0
-icon = ExtResource("5_gtb2j")
+icon = ExtResource("8_h3676")
 icon_alignment = 1
 expand_icon = true
 
