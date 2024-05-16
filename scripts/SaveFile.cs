@@ -17,7 +17,10 @@ namespace WhackAMath {
         {
             MaxLevelUnlocked = 1;
             LanguageSelected = "English";
-            Leaderboards = new List<int>();
+            Leaderboards = new List<int>
+            {
+                0
+            };
             moleSelected = 0;
             currentLevel = 1;
         }
