@@ -143,7 +143,7 @@ public partial class LevelController : Node
 		correctAnswer = GenerateQuestion();
 		SetMoleAnswers();
 
-		if (questionsAnswered >= 10){
+		if (questionsAnswered >= 7){
 
 			for (int i = 0; i < moleHouse.GetChildCount(); i++) {
 				if (moleHouse.GetChild(i) is Mole mole)
