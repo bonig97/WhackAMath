@@ -497,9 +497,9 @@ placeholder_text = "email"
 [node name="LoginButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 536.0
+offset_left = 520.0
 offset_top = 320.0
-offset_right = 616.0
+offset_right = 632.0
 offset_bottom = 351.0
 text = "log_in"
 
