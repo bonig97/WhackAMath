@@ -16,6 +16,8 @@ public partial class SignUp : Control
 	private Button signUpButton;
 	private Button goToLoginButton;
 
+	private Button languageButton;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -25,9 +27,11 @@ public partial class SignUp : Control
 		signUpButton = GetNode<Button>("signUpButton");
 		goToLoginButton = GetNode<Button>("goToLoginButton");
 		errorLabel = GetNode<Label>("ErrorLabel");
+		languageButton = GetNode<Button>("LanguageButton");
 
 		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressedAsync)));
 		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
+		languageButton.Connect("pressed", new Callable(this, nameof(OnLanguageButtonPressed)));
 	}
 
 	private async void OnSignUpButtonPressedAsync()
@@ -81,5 +85,17 @@ public partial class SignUp : Control
 			var message when message.Contains("MissingPassword") => "- Missing password",
 			_ => "- Connection error",
 		};
+	}
+	private void ChangeScene(string scenePath)
+	{
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath); //SaveFile.scene
+		GetTree().ChangeSceneToPacked(scene);
+	}
+	private void OnLanguageButtonPressed()
+	{
+		AudioManager.Singleton?.PlayButtonSound();
+		PackedScene signupScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/signupUI.tscn");
+		SaveFile.prevScene = signupScene;
+		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
 }

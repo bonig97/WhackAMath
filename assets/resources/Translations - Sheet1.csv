@@ -1,0 +1,26 @@
+key,en,it,ar
+email,Email,E-mail, بريد الالكتروني
+password,Password,Parola d'ordine, كلمة السر
+confirm_password,Confirm password,Conferma password, تأكيد كلمة السر
+sign_up,Sign Up,Iscrizione, اشترك
+sign_in_prompt,Already have an account? Sign In,Hai già un account? Registrazione, هل لديك حساب؟ سجل الحساب
+log_in,Log In,Login, تسجيل الدخول
+sign_up_prompt,Don't have an account? Sign Up,Non hai un account? Iscrizione, ليس لديك حساب؟ اشترك
+forgot_password,Forgot your password?,Hai dimenticato la password?,  نسيت كلمة السر؟
+click_here,Click here,clicca qui,اضغت هنا
+level_select,Level select,Selezione del livello, اختيار المرحلة
+endless_mode,Endless mode,Modalità infinita,وضع لا نهاية له
+customize,Customize,personalizzare, اختيار الشخصية
+log_out,Log out,Disconnettersi, تسجيل الخروج
+addition,Addition,Aggiunta, إضافة
+subtraction,Subtraction,Sottrazione, طرح
+multiplication,Multplication,Moltiplicazione, ضرب
+division,Division,Divisione, قسم
+score,Score,Punto, نقاط
+play,Play,Giocare, العب
+cancel,Cancel,Annulla, رجوع
+effects,Effects,Effetti, المؤثرات الصوتية
+music,Music,Musica, الموسيقى
+change_password,Change password,Cambiare la password, تغير كلمة السر
+delete_account,Delete account,Eliminare l'account, إلغاء الحساب
+tutorial,Tutorial,Esercitazione, كيفية اللعب

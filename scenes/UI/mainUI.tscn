@@ -336,7 +336,7 @@ offset_left = 768.0
 offset_top = 256.0
 offset_right = 896.0
 offset_bottom = 320.0
-text = "Endless mode"
+text = "endless_mode"
 
 [node name="LevelSelectButton" type="Button" parent="."]
 layout_mode = 0
@@ -344,7 +344,7 @@ offset_left = 768.0
 offset_top = 128.0
 offset_right = 896.0
 offset_bottom = 192.0
-text = "Level Select"
+text = "level_select"
 
 [node name="CustomizeButton" type="Button" parent="."]
 layout_mode = 0
@@ -352,8 +352,7 @@ offset_left = 768.0
 offset_top = 384.0
 offset_right = 896.0
 offset_bottom = 448.0
-text = "Customize
-"
+text = "customize"
 
 [node name="LogoutButton" type="Button" parent="."]
 layout_mode = 0
@@ -361,8 +360,7 @@ offset_left = 768.0
 offset_top = 512.0
 offset_right = 896.0
 offset_bottom = 576.0
-text = "Log out
-"
+text = "log_out"
 
 [node name="LanguageButton" type="Button" parent="."]
 layout_mode = 0

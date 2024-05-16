@@ -1,6 +1,9 @@
 using Godot;
 using System;
+using System.Globalization;
+using System.Threading;
 using WhackAMath;
+
 
 public partial class LanguageChoice : Control
 {
@@ -27,8 +30,7 @@ public partial class LanguageChoice : Control
 	private void OnBackButtonPressed()
 	{
 		AudioManager.Singleton?.PlayCancelSound();
-		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
-		GetTree().ChangeSceneToPacked(loginScene);
+		GetTree().ChangeSceneToPacked(SaveFile.prevScene);
 	}
 
 	private void OnEnglishButtonPressed()
@@ -36,6 +38,9 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("English");
 		GD.Print("English Button Pressed");
+		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
+		// CultureInfo.CurrentUICulture = new CultureInfo("en");
 	}
 
 	private void OnItalianButtonPressed()
@@ -43,6 +48,8 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Italian");
 		GD.Print("Italian Button Pressed");
+		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("it");	
+		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("it");
 	}
 
 	private void OnArabicButtonPressed()
@@ -50,5 +57,7 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Arabic");
 		GD.Print("Arabic Button Pressed");
+		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ar");
+		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ar");
 	}
 }

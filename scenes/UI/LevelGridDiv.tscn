@@ -452,5 +452,5 @@ offset_right = 248.0
 offset_bottom = 53.0
 theme_override_fonts/font = ExtResource("6_4oa43")
 theme_override_font_sizes/font_size = 30
-text = "Division"
+text = "division"
 horizontal_alignment = 1

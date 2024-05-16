@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 
 namespace WhackAMath {
     public class SaveFile
@@ -11,7 +12,7 @@ namespace WhackAMath {
         public static List<int> Leaderboards { get; set; }
         public static int moleSelected { get; set; }
         public static int currentLevel { get; set; }
-
+        public static PackedScene prevScene {get; set; }
         public static void InitialSaveFile()
         {
             MaxLevelUnlocked = 1;
@@ -111,5 +112,8 @@ namespace WhackAMath {
                 ConvertFromDictionary(saveData);
             }
         }
+
+        
+
     }
 }

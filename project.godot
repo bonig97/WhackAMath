@@ -33,6 +33,10 @@ enabled=PackedStringArray()
 master=""
 effects=""
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://assets/resources/Translations - Sheet1.ar.translation", "res://assets/resources/Translations - Sheet1.en.translation", "res://assets/resources/Translations - Sheet1.it.translation")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

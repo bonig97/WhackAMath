@@ -322,7 +322,7 @@ offset_left = 988.0
 offset_top = 21.0
 offset_right = 1085.0
 offset_bottom = 69.0
-text = "Tutorial"
+text = "tutorial"
 
 [node name="BackButton" type="Button" parent="."]
 unique_name_in_owner = true
@@ -351,7 +351,7 @@ layout_mode = 2
 offset_top = -47.0
 offset_right = 344.0
 offset_bottom = -24.0
-text = "Effects"
+text = "effects"
 
 [node name="EffectsSlider" type="HSlider" parent="VBoxContainer/Effects"]
 layout_mode = 2
@@ -375,7 +375,7 @@ offset_left = 2.0
 offset_top = 104.0
 offset_right = 48.0
 offset_bottom = 127.0
-text = "Music"
+text = "music"
 
 [node name="MusicSlider" type="HSlider" parent="VBoxContainer/Music"]
 layout_mode = 2
@@ -400,7 +400,7 @@ offset_left = 56.0
 offset_top = 200.0
 offset_right = 296.0
 offset_bottom = 231.0
-text = "Change Password"
+text = "change_password"
 
 [node name="DeleteAccountButton" type="Button" parent="VBoxContainer/Control"]
 layout_mode = 0
@@ -408,6 +408,6 @@ offset_left = 56.0
 offset_top = 264.0
 offset_right = 296.0
 offset_bottom = 295.0
-text = "Delete Account"
+text = "delete_account"
 
 [connection signal="pressed" from="BackButton" to="." method="_on_backbutton_pressed"]
