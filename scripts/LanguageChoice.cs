@@ -1,6 +1,9 @@
 using Godot;
 using System;
+using System.Globalization;
+using System.Threading;
 using WhackAMath;
+
 
 public partial class LanguageChoice : Control
 {
@@ -27,8 +30,7 @@ public partial class LanguageChoice : Control
 	private void OnBackButtonPressed()
 	{
 		AudioManager.Singleton?.PlayCancelSound();
-		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
-		GetTree().ChangeSceneToPacked(loginScene);
+		GetTree().ChangeSceneToPacked(SaveFile.prevScene);
 	}
 
 	private void OnEnglishButtonPressed()
@@ -36,6 +38,7 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("English");
 		GD.Print("English Button Pressed");
+		TranslationServer.SetLocale("en");
 	}
 
 	private void OnItalianButtonPressed()
@@ -43,6 +46,7 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Italian");
 		GD.Print("Italian Button Pressed");
+		TranslationServer.SetLocale("it");
 	}
 
 	private void OnArabicButtonPressed()
@@ -50,5 +54,12 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Arabic");
 		GD.Print("Arabic Button Pressed");
+		TranslationServer.SetLocale("ar");
+	}
+
+	private void ChangeScene(string scenePath)
+	{
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
+		GetTree().ChangeSceneToPacked(scene);
 	}
 }

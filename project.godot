@@ -33,6 +33,16 @@ enabled=PackedStringArray()
 master=""
 effects=""
 
+[internationalization]
+
+rendering/root_node_layout_direction=1
+locale/translation_remaps={
+"res://assets/images/italianflag.png": PackedStringArray("res://assets/images/saudiFlagCOPY.png:ar", "res://assets/images/usaFlagCOPY.png:en"),
+"res://assets/images/saudiFlag.png": PackedStringArray("res://assets/images/usaFlagCOPY.png:en", "res://assets/images/italianflagCOPY.png:it"),
+"res://assets/images/usaFlag.png": PackedStringArray("res://assets/images/saudiFlagCOPY.png:ar", "res://assets/images/italianflagCOPY.png:it")
+}
+locale/translations=PackedStringArray("res://assets/resources/Translations - Sheet1.ar.translation", "res://assets/resources/Translations - Sheet1.en.translation", "res://assets/resources/Translations - Sheet1.it.translation")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

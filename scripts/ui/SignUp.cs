@@ -16,6 +16,11 @@ public partial class SignUp : Control
 	private Button signUpButton;
 	private Button goToLoginButton;
 
+	private Button languageButton;
+	private Button showPasswordButton;
+	private Label showPasswordLabel;
+	private bool isPasswordShown;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -25,9 +30,16 @@ public partial class SignUp : Control
 		signUpButton = GetNode<Button>("signUpButton");
 		goToLoginButton = GetNode<Button>("goToLoginButton");
 		errorLabel = GetNode<Label>("ErrorLabel");
+		languageButton = GetNode<Button>("LanguageButton");
+		showPasswordButton = GetNode<Button>("ShowPasswordButton");
 
 		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressedAsync)));
 		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
+		languageButton.Connect("pressed", new Callable(this, nameof(OnLanguageButtonPressed)));
+		showPasswordButton.Connect("pressed", new Callable(this, nameof(OnShowPasswordButtonPressed)));
+
+		isPasswordShown = false;
+
 	}
 
 	private async void OnSignUpButtonPressedAsync()
@@ -81,5 +93,38 @@ public partial class SignUp : Control
 			var message when message.Contains("MissingPassword") => "- Missing password",
 			_ => "- Connection error",
 		};
+	}
+	private void ChangeScene(string scenePath)
+	{
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath); //SaveFile.scene
+		GetTree().ChangeSceneToPacked(scene);
+	}
+	private void OnLanguageButtonPressed()
+	{
+		AudioManager.Singleton?.PlayButtonSound();
+		PackedScene signupScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/signupUI.tscn");
+		SaveFile.prevScene = signupScene;
+		ChangeScene("res://scenes/UI/languageUI.tscn");
+	}
+	private void OnShowPasswordButtonPressed() 
+	{
+		AudioManager.Singleton?.PlayButtonSound();
+		if(!isPasswordShown) 
+		{
+			isPasswordShown = true;
+			//set mole to go down
+			showPasswordLabel.Text = "Hide password";
+			passwordInput.Secret = false;
+			GD.Print("button pressed");
+			//change label text to "hide"
+			//code for showing the text
+		} else 
+		{
+			isPasswordShown = false;
+			showPasswordLabel.Text = "Show password";
+			passwordInput.Secret = true;
+			//make mole pop up
+
+		}
 	}
 }

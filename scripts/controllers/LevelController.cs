@@ -276,21 +276,21 @@ public partial class LevelController : Node
 				x = random.Next(minRange, maxRange);
 				y = random.Next(1 , maxRange - x + 1);
 				answer = x + y;
-				DisplayQuestion($"? = {answer}");
+				DisplayQuestion($"{answer} = ?");
 				correctAnswerText = $"{x} + {y}";
 				return answer;
 			case MathOperation.Subtract:
 				x = random.Next(minRange, maxRange);
 				y = random.Next(1 , maxRange - x + 1);
 				answer = Math.Max(x,y) - Math.Min(x,y);
-				DisplayQuestion($"? = {answer}");
+				DisplayQuestion($"{answer} = ?");
 				correctAnswerText = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
 				return answer;
 			case MathOperation.Multiply:
 				x = random.Next(minRange, maxRange + 1);
 				y = random.Next(1, 13);
 				answer = x * y;
-				DisplayQuestion($"? = {answer}");
+				DisplayQuestion($"{answer} = ?");
 				correctAnswerText = $"{x} * {y}";
 				return answer;
 			case MathOperation.Divide:
@@ -298,7 +298,7 @@ public partial class LevelController : Node
 				y = random.Next(1, 13);
 				int a = x * y;
 				answer = y;
-				DisplayQuestion($"? = {answer}");
+				DisplayQuestion($"{answer} = ?");
 				correctAnswerText = $"{a} / {x}";
 				//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
 				GD.Print(correctAnswerText);

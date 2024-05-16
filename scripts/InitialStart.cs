@@ -12,17 +12,6 @@ public partial class InitialStart : Node
 
         // Creates a default save file
         SaveFile.InitialSaveFile();
-
-        // Checks if AudioManager is initialized and starts playing the main music
-        if (AudioManager.Singleton != null)
-        {
-            AudioManager.Singleton.PlayMainMusic(-20.0f);
-            GD.Print("AudioManager is ready and music is now playing.");
-        }
-        else
-        {
-            GD.PrintErr("AudioManager is not initialized!");
-        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

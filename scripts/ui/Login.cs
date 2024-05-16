@@ -12,13 +12,18 @@ public partial class Login : Control
 	private LineEdit emailInput;
 	private LineEdit passwordInput;
 	private Label errorLabel;
-
+	private Label showPasswordLabel;
 	// Login Button
 	private Button loginButton;
 
 	// "Sign Up" Text
 	private Button goToSignUpButton;
 	private LinkButton forgetPasswordButton;
+	private Button languageButton;
+	private Button showPasswordButton;
+	//private MoleHouse moleHouse; 
+	private Mole showPasswordMole;
+	private bool isPasswordShown;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -27,8 +32,19 @@ public partial class Login : Control
 		emailInput = GetNode<LineEdit>("EmailInput");
 		passwordInput = GetNode<LineEdit>("PasswordInput");
 		errorLabel = GetNode<Label>("ErrorLabel");
+		showPasswordLabel = GetNode<Label>("ShowPasswordLabel");
 
+		//moleHouse = GetNode<MoleHouse>("MoleHouse");
+
+		// showPasswordMole.SetActive(true);
+
+		isPasswordShown = false;
+		
 		// Initialize buttons
+		languageButton = GetNode<Button>("LanguageButton");
+		languageButton.Connect("pressed", new Callable(this, nameof(OnLanguageButtonPressed)));
+
+		
 		loginButton = GetNode<Button>("LoginButton");
 		loginButton.Connect("pressed", new Callable(this, nameof(OnLoginButtonPressed)));
 
@@ -37,6 +53,10 @@ public partial class Login : Control
 
 		forgetPasswordButton = GetNode<LinkButton>("ForgetPasswordButton");
 		forgetPasswordButton.Connect("pressed", new Callable(this, nameof(OnForgetPasswordButtonPressed)));
+
+		showPasswordButton = GetNode<Button>("ShowPasswordButton");
+		showPasswordButton.Connect("pressed", new Callable(this, nameof(OnShowPasswordButtonPressed)));
+
 	}
 
 	private async void OnLoginButtonPressed()
@@ -49,7 +69,7 @@ public partial class Login : Control
 			UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
 			if (user != null)
 			{
-				SaveFile.LoadSaveFile();
+				await SaveFile.LoadSaveFile();
 				GD.Print("User logged in successfully");
 				AudioManager.Singleton?.PlayConfirmSound();
 				ChangeScene("res://scenes/UI/mainUI.tscn");
@@ -84,5 +104,35 @@ public partial class Login : Control
 	{
 		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
 		GetTree().ChangeSceneToPacked(scene);
+	}
+	private void OnLanguageButtonPressed()
+	{
+		AudioManager.Singleton?.PlayButtonSound();
+		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
+		SaveFile.prevScene = loginScene;
+		ChangeScene("res://scenes/UI/languageUI.tscn");
+	}
+	private void OnShowPasswordButtonPressed()
+	{
+		AudioManager.Singleton?.PlayButtonSound();
+		if(!isPasswordShown) 
+		{
+			isPasswordShown = true;
+			//set mole to go down
+			showPasswordLabel.Text = "Hide password";
+			passwordInput.Secret = false;
+			GD.Print("button pressed");
+			//change label text to "hide"
+			//code for showing the text
+		} else 
+		{
+			isPasswordShown = false;
+			showPasswordLabel.Text = "Show password";
+			passwordInput.Secret = true;
+			//make mole pop up
+
+		}
+		
+
 	}
 }
