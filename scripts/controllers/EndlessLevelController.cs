@@ -292,7 +292,7 @@ public partial class EndlessLevelController : Node
 			if(!mole.GetCorrectness()) //if mole is not correct, set a random incorrect answer
 			{
 				string randomAnswer = GenerateRandomAnswer();
-				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
+				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer.Replace("x","*"), null));
 
 				if(randomAnswerInt == correctAnswer) {
 					mole.SetAnswer(randomAnswer,true);
