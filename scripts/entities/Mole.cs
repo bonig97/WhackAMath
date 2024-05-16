@@ -118,29 +118,32 @@ public partial class Mole : Area2D
 	/// Determines the mole's behavior each time the timer times out. It either pops up or hides the mole.
 	/// </summary>
 	private void OnTimerTimeout()
-    {
-        var moleHouse = GetParent<MoleHouse>();
+	{
+		var moleHouse = GetParent<MoleHouse>();
 
-        if (moleHouse.CanMolePopUp())
-        {
-            int randInt = random.Next(0, 10);
-            isHittable = randInt > 2;
+		if (moleHouse.CanMolePopUp())
+		{
+			int randInt = random.Next(0, 10);
+			isHittable = randInt > 2;
 
-            if (isHittable && isActive)
-            {
-                moleHouse.RegisterMoleAppearance();
-                MoveUp();
-            }
-            else
-            {
-                MoveDown();
-            }
-        }
-        else
-        {
-            MoveDown();
-        }
-    }
+			if (isHittable && isActive)
+			{
+				lock (lockObject)
+				{
+					moleHouse.RegisterMoleAppearance();
+				}
+				MoveUp();
+			}
+			else
+			{
+				MoveDown();
+			}
+		}
+		else
+		{
+			MoveDown();
+		}
+	}
 
 	/// <summary>
 	/// Handles the delayed response sound for correct or incorrect mole hits.
@@ -186,27 +189,30 @@ public partial class Mole : Area2D
 	/// Hides the mole by moving it down, making it invisible and not hittable.
 	/// </summary>
 	private void MoveDown()
-    {
-        var moleHouse = GetParent<MoleHouse>();
+	{
+		var moleHouse = GetParent<MoleHouse>();
 
-        if (isHittable)
-        {
-            moleHouse.RegisterMoleDisappearance();
-        }
+		if (isHittable)
+		{
+			lock (lockObject)
+			{
+				moleHouse.RegisterMoleDisappearance();
+			}
+		}
 
-        collisionShape.Disabled = true;
-        sprite.Visible = false;
-        panel.Visible = false;
-        SwitchAnswers?.Invoke();
+		collisionShape.Disabled = true;
+		sprite.Visible = false;
+		panel.Visible = false;
+		SwitchAnswers?.Invoke();
 
-        if (isCorrect)
-        {
-            lock (lockObject)
+		if (isCorrect)
+		{
+			lock (lockObject)
 			{
 				CorrectMoleDisappeared?.Invoke();
 			}
-        }
-    }
+		}
+	}
 
 	/// <summary>
 	/// Called when the mole receives an input event, such as a mouse click.
@@ -336,8 +342,17 @@ public partial class Mole : Area2D
 	}
 	public void ForceArise()
 	{
-		isHittable = true;
-		MoveUp();
-		GD.Print("Forced Arise");
+		var moleHouse = GetParent<MoleHouse>();
+		if (moleHouse.CanMolePopUp())
+		{
+			lock (lockObject)
+			{
+				moleHouse.RegisterMoleAppearance();
+				isHittable = true;
+				MoveUp();
+				GD.Print("Forced Arise");
+			}
+		}
+		
 	}
 }

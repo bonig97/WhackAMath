@@ -257,6 +257,7 @@ public partial class EndlessLevelController : Node
 	/// </summary>
 	private void SetMoleAnswers()
 	{
+		bool forced = false;
 		var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
 
 		if (invisibleMoles.Count == 0) return; // No invisible moles to set answers for.
@@ -267,19 +268,22 @@ public partial class EndlessLevelController : Node
 				if (!moleHouse.IsCorrectMolePresent())
 				{
 					invisibleMoles[i].ForceArise();
+					GD.Print("Arise");
+					forced = true;
 				}
 				// Remove the invisible mole from the list
 				invisibleMoles.RemoveAt(i);
 			}
 		}
 
-		if (!moleHouse.IsCorrectMolePresent())
+		if (!moleHouse.IsCorrectMolePresent() && !forced)
 		{
 			// Randomly select an invisible mole to set the correct answer.
 			//Force it to move up
 			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
 			correctMole.SetAnswer(correctAnswerText, true);
 			correctMole.ForceArise();
+			GD.Print("Arise");
 		}
 
 		// Set random answers to the rest of the moles.
