@@ -267,8 +267,9 @@ public partial class Mole : Area2D
 	public void SetAnswer(string answer, bool isCorrect)
 	{
 		this.isCorrect = isCorrect;
+		answer = answer.Replace("*", "x");
+		answer = answer.Replace("/", "÷");
 		this.answer = answer;
-		this.answer = answer.Replace("*", "x");
 	}
 
 	/// <summary>
@@ -278,7 +279,10 @@ public partial class Mole : Area2D
 	public void RecomputeCorrectness(int answer)
 	{
 		bool oldIsCorrect = isCorrect;
-		isCorrect = Convert.ToInt32(new DataTable().Compute(label.Text.Replace("x","*"), null)) == answer;
+		string temp = label.Text;
+		temp = temp.Replace("x", "*");
+		temp = temp.Replace("÷", "/");
+		isCorrect = Convert.ToInt32(new DataTable().Compute(temp, null)) == answer;
 
 		if (isCorrect && !oldIsCorrect)
 		{
