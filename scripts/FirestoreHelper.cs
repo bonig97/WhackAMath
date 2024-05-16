@@ -118,8 +118,30 @@ namespace WhackAMath
 
 		public static async Task UpdateDocument(Dictionary<string, object> data)
 		{
+			if (Auth?.User?.Info?.Uid == null)
+			{
+				GD.PrintErr("Auth.User.Info.Uid is null. Cannot update document.");
+				return;
+			}
+
 			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
-			await documentRef.UpdateAsync(SaveFile.ConvertToDictionary());
+
+			if (documentRef == null)
+			{
+				GD.PrintErr("documentRef is null. Cannot update document.");
+				return;
+			}
+
+			try
+			{
+				await documentRef.UpdateAsync(data);
+				GD.Print("Document updated successfully.");
+			}
+			catch (Exception ex)
+			{
+				GD.PrintErr($"Failed to update document: {ex.Message}");
+				throw;
+			}
 		}
 
 		public static async Task<Dictionary<string, object>> GetDocument()
