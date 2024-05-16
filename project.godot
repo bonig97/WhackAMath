@@ -35,6 +35,7 @@ effects=""
 
 [internationalization]
 
+rendering/root_node_layout_direction=1
 locale/translations=PackedStringArray("res://assets/resources/Translations - Sheet1.ar.translation", "res://assets/resources/Translations - Sheet1.en.translation", "res://assets/resources/Translations - Sheet1.it.translation")
 
 [rendering]

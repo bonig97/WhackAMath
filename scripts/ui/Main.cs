@@ -66,6 +66,8 @@ public partial class Main : Control
 	private void OnLanguageButtonPressed()
 	{
 		AudioManager.Singleton?.PlayButtonSound();
+		PackedScene mainUI = (PackedScene)ResourceLoader.Load("res://scenes/UI/mainUI.tscn");
+		SaveFile.prevScene = mainUI;
 		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
 

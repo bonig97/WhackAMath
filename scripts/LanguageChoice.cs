@@ -38,9 +38,7 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("English");
 		GD.Print("English Button Pressed");
-		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
-		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en");
-		// CultureInfo.CurrentUICulture = new CultureInfo("en");
+		TranslationServer.SetLocale("en");
 	}
 
 	private void OnItalianButtonPressed()
@@ -48,8 +46,7 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Italian");
 		GD.Print("Italian Button Pressed");
-		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("it");	
-		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("it");
+		TranslationServer.SetLocale("it");
 	}
 
 	private void OnArabicButtonPressed()
@@ -57,7 +54,6 @@ public partial class LanguageChoice : Control
 		AudioManager.Singleton?.PlayConfirmSound();
 		SaveFile.UpdateLanguageSelected("Arabic");
 		GD.Print("Arabic Button Pressed");
-		Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ar");
-		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ar");
+		TranslationServer.SetLocale("ar");
 	}
 }

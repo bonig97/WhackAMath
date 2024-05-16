@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b6u5ax6lr02sm" path="res://assets/images/objects.png" id="3_rlpug"]
 [ext_resource type="Texture2D" uid="uid://c8eyp3jac0e7" path="res://assets/images/plains.png" id="4_4vw0e"]
 [ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://assets/images/usaFlag.png" id="5_gtb2j"]
-[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="5_j34jr"]
+[ext_resource type="Texture2D" path="res://assets/images/arrowLeft.png" id="5_j34jr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aglv4"]
 texture = ExtResource("2_frhhc")

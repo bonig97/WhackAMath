@@ -15,8 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_jgvw0"]
 [ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="12_tkjvv"]
 [ext_resource type="PackedScene" uid="uid://c417e5057pioa" path="res://scenes/UI/DisplayDuck.tscn" id="13_ac08u"]
-[ext_resource type="Texture2D" uid="uid://bq555cwceepts" path="res://assets/images/arrowRight.png" id="16_xgh4m"]
-[ext_resource type="Texture2D" uid="uid://cj4e6qt6koang" path="res://assets/images/arrowLeft.png" id="17_1yjxy"]
+[ext_resource type="Texture2D" path="res://assets/images/arrowRight.png" id="16_xgh4m"]
+[ext_resource type="Texture2D" path="res://assets/images/arrowLeft.png" id="17_1yjxy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h1me4"]
 texture = ExtResource("1_ea1yd")
