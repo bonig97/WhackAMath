@@ -268,7 +268,6 @@ public partial class Mole : Area2D
 	{
 		this.isCorrect = isCorrect;
 		answer = answer.Replace("*", "x");
-		answer = answer.Replace("/", "÷");
 		this.answer = answer;
 	}
 
@@ -281,7 +280,6 @@ public partial class Mole : Area2D
 		bool oldIsCorrect = isCorrect;
 		string temp = label.Text;
 		temp = temp.Replace("x", "*");
-		temp = temp.Replace("÷", "/");
 		isCorrect = Convert.ToInt32(new DataTable().Compute(temp, null)) == answer;
 
 		if (isCorrect && !oldIsCorrect)

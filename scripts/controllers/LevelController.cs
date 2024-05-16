@@ -217,7 +217,6 @@ public partial class LevelController : Node
 			{
 				string randomAnswer = GenerateRandomAnswer();
 				randomAnswer = randomAnswer.Replace("x", "*");
-				randomAnswer = randomAnswer.Replace("÷", "/");
 				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
 
 				if (randomAnswerInt == correctAnswer)
