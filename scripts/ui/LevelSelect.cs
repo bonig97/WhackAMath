@@ -24,6 +24,7 @@ public partial class LevelSelect : Control
 	{
 		SetupControls();
 		ConnectSignals();
+		GD.Print("Current Level: " + SaveFile.currentLevel);
 	}
 
 	/// <summary>

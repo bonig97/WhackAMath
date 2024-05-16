@@ -11,6 +11,7 @@ public partial class InitialStart : Node
         FirestoreHelper.SetEnvironmentVariable();
 
         // Creates a default save file
+        SaveFile.InitialSaveFile();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
