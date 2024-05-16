@@ -212,7 +212,6 @@ public partial class EndlessLevelController : Node
 	}
 
 	private void UpdateQuestion(bool isCorrect) {
-		GD.Print($"{isCorrect}");
 		questionsAnswered += 1;
 		moleHouse.UpdateScore(isCorrect);
 		moleHouse.ResetCorrectMoleCount();
@@ -256,7 +255,7 @@ public partial class EndlessLevelController : Node
 	/// <summary>
 	/// Assigns correct and incorrect answers to the moles randomly.
 	/// </summary>
-		private void SetMoleAnswers()
+	private void SetMoleAnswers()
 	{
 		var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
 
@@ -361,61 +360,66 @@ public partial class EndlessLevelController : Node
 	/// <returns>The correct answer to the generated question.</returns>
 	private int GenerateQuestion()
 	{
-		MathOperation operation = operations[random.Next(operations.Count)];
-		int minRange = 0;
-		int maxRange = 0;
-		if (operation == MathOperation.Add || operation == MathOperation.Subtract)
+		lock (this)
 		{
-			minRange = minRangeAddSub;
-			maxRange = maxRangeAddSub;
-		}
-		else
-		{
-			minRange = minRangeMulDiv;
-			maxRange = maxRangeMulDiv;
-		}
-		int x = random.Next(minRange, maxRange + 1);
-		int y = random.Next(minRange, maxRange + 1);
-		int answer = 0;
+			
+		
+			MathOperation operation = operations[random.Next(operations.Count)];
+			int minRange = 0;
+			int maxRange = 0;
+			if (operation == MathOperation.Add || operation == MathOperation.Subtract)
+			{
+				minRange = minRangeAddSub;
+				maxRange = maxRangeAddSub;
+			}
+			else
+			{
+				minRange = minRangeMulDiv;
+				maxRange = maxRangeMulDiv;
+			}
+			int x = random.Next(minRange, maxRange + 1);
+			int y = random.Next(minRange, maxRange + 1);
+			int answer = 0;
 
-		switch (operation)
-		{
-			case MathOperation.Add:
-				x = random.Next(minRange, maxRange);
-				y = random.Next(1 , maxRange - x + 1);
-				answer = x + y;
-				DisplayQuestion($"? = {answer}");
-				correctAnswerText = $"{x} + {y}";
-				GD.Print(correctAnswerText);
-				return answer;
-			case MathOperation.Subtract:
-				x = random.Next(minRange, maxRange);
-				y = random.Next(1 , maxRange - x + 1);
-				answer = Math.Max(x,y) - Math.Min(x,y);
-				DisplayQuestion($"? = {answer}");
-				correctAnswerText = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
-				GD.Print(correctAnswerText);
-				return answer;
-			case MathOperation.Multiply:
-				x = random.Next(minRange, maxRange + 1);
-				y = random.Next(1, 13);
-				answer = x * y;
-				DisplayQuestion($"? = {answer}");
-				correctAnswerText = $"{x} * {y}";
-				GD.Print(correctAnswerText);
-				return answer;
-			case MathOperation.Divide:
-				x = random.Next(minRange, maxRange + 1);
-				y = random.Next(1, 13);
-				int a = x * y;
-				answer = y;
-				DisplayQuestion($"? = {answer}");
-				correctAnswerText = $"{a} / {x}";
-				GD.Print(correctAnswerText);
-				//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
-				return answer;
-			default:
-				throw new InvalidOperationException("Unknown operation.");
+			switch (operation)
+			{
+				case MathOperation.Add:
+					x = random.Next(minRange, maxRange);
+					y = random.Next(1 , maxRange - x + 1);
+					answer = x + y;
+					DisplayQuestion($"? = {answer}");
+					correctAnswerText = $"{x} + {y}";
+					GD.Print(correctAnswerText);
+					return answer;
+				case MathOperation.Subtract:
+					x = random.Next(minRange, maxRange);
+					y = random.Next(1 , maxRange - x + 1);
+					answer = Math.Max(x,y) - Math.Min(x,y);
+					DisplayQuestion($"? = {answer}");
+					correctAnswerText = $"{Math.Max(x,y)} - {Math.Min(x,y)}";
+					GD.Print(correctAnswerText);
+					return answer;
+				case MathOperation.Multiply:
+					x = random.Next(minRange, maxRange + 1);
+					y = random.Next(1, 13);
+					answer = x * y;
+					DisplayQuestion($"? = {answer}");
+					correctAnswerText = $"{x} * {y}";
+					GD.Print(correctAnswerText);
+					return answer;
+				case MathOperation.Divide:
+					x = random.Next(minRange, maxRange + 1);
+					y = random.Next(1, 13);
+					int a = x * y;
+					answer = y;
+					DisplayQuestion($"? = {answer}");
+					correctAnswerText = $"{a} / {x}";
+					GD.Print(correctAnswerText);
+					//Future possibilty, use DisplayQuestion($"{a} / {y} = ?"); for equivalent fraction questions
+					return answer;
+				default:
+					throw new InvalidOperationException("Unknown operation.");
+			}
 		}
 	}
 	private void OnLevelCompleteButtonPressed()

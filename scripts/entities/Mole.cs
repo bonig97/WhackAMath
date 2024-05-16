@@ -43,6 +43,7 @@ public partial class Mole : Area2D
 	private bool isActive = true;
 	private string answer;
 	private Timer responseSoundTimer;
+	private static readonly object lockObject = new object();
 
 	/// <summary>
 	/// Called when the node enters the scene tree for the first time to set up initial values and states.
@@ -150,13 +151,20 @@ public partial class Mole : Area2D
 	/// </summary>
 	public void MoveUp()
 	{
+		if (!isActive)
+		{
+			return;
+		}
 		collisionShape.Disabled = false;
 		sprite.Visible = true;
 		panel.Visible = true;
 		timer.Start();
 		if (isCorrect)
 		{
-			CorrectMoleAppeared?.Invoke();
+			lock (lockObject)
+			{
+				CorrectMoleAppeared?.Invoke();
+			}
 		}
 		sprite.Play("default");
 	}
@@ -172,7 +180,10 @@ public partial class Mole : Area2D
 		SwitchAnswers?.Invoke();
 		if (isCorrect)
 		{
-			CorrectMoleDisappeared?.Invoke();
+			lock (lockObject)
+			{
+				CorrectMoleDisappeared?.Invoke();
+			}
 		}
 	}
 
@@ -183,11 +194,10 @@ public partial class Mole : Area2D
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && isHittable && isMouseInside)
 		{
-			lock (this)
+			lock (lockObject)
 			{
 				MoleHit?.Invoke(isCorrect);
 			}
-			GD.Print("Mole hit");
 			isHittable = false;
 			MoveDown();
 
@@ -245,11 +255,18 @@ public partial class Mole : Area2D
 		isCorrect = Convert.ToInt32(new DataTable().Compute(label.Text, null)) == answer;
 		if (isCorrect && !oldIsCorrect)
 		{
-			CorrectMoleAppeared?.Invoke();
+			lock (lockObject)
+			{
+				CorrectMoleAppeared?.Invoke();
+			}
+			
 		}
 		else if (!isCorrect && oldIsCorrect)
 		{
-			CorrectMoleDisappeared?.Invoke();
+			lock (lockObject)
+			{
+				CorrectMoleDisappeared?.Invoke();
+			}
 		}
 	}
 
@@ -300,5 +317,6 @@ public partial class Mole : Area2D
 	{
 		isHittable = true;
 		MoveUp();
+		GD.Print("Forced Arise");
 	}
 }
