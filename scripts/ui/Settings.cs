@@ -65,7 +65,7 @@ public partial class Settings : Control
 			musicSlider.Value = musicVolume;
 			effectsSlider.Value = effectsVolume;
 
-			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), musicVolume);
+			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), musicVolume);
 			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Effects"), effectsVolume);
 		}
 		else
@@ -102,7 +102,7 @@ public partial class Settings : Control
 	{
 		AudioManager.Singleton?.PlayMainMusic(value);
 		GD.Print($"Music volume set to: {value}");
-		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), value);
+		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), value);
 		SaveSettings();
 	}
 
