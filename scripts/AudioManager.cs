@@ -69,7 +69,7 @@ public partial class AudioManager : Node
         cancelSoundPlayer.Bus = "Effects";
         confirmSoundPlayer.Bus = "Effects";
         hitMoleSoundPlayer.Bus = "Effects";
-        mainMusicPlayer.Bus = "Master";
+        mainMusicPlayer.Bus = "Music";
         wrongSoundPlayer.Bus = "Effects";
         correctSoundPlayer.Bus = "Effects";
     }

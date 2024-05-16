@@ -12,7 +12,10 @@ public partial class MoleHouse : Node
 	private int score = 0;
 	private bool isCorrectMolePresent = false;
 	private int correctMoleCount = 0;
-	private bool paused;
+    private bool paused;
+    private int activeMolesCount = 0;
+    private int maxActiveMoles = 4;
+    private readonly object lockObject = new();
 
 	/// <summary>
 	/// Initializes the MoleHouse, setting up the score label and connecting events for mole interactions.
@@ -28,18 +31,18 @@ public partial class MoleHouse : Node
 		{
 			if (child is Mole mole)
 			{
-				mole.CorrectMoleAppeared += () => { 
+				mole.CorrectMoleAppeared += () => {
 					lock (this) {
 						isCorrectMolePresent = true;
-						correctMoleCount++; 
+						correctMoleCount++;
 					}
 					GD.Print("Correct Mole Count: " + correctMoleCount.ToString());
 				};
-				mole.CorrectMoleDisappeared += () => { 
+				mole.CorrectMoleDisappeared += () => {
 					lock (this) {
 						correctMoleCount--;
-						if (correctMoleCount <= 0) 
-							isCorrectMolePresent = false; 
+						if (correctMoleCount <= 0)
+							isCorrectMolePresent = false;
 					}
 					GD.Print("Correct Mole Count: " + correctMoleCount.ToString());
 				};
@@ -62,45 +65,46 @@ public partial class MoleHouse : Node
 	/// <param name="correct">True if the mole hit was correct, false otherwise.</param>
 	public void UpdateScore(bool correct)
 	{
-		if (correct)
-		{
-			// Increase score for correct hits.
-			score += 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed));
-		}
-		else
-		{
-			// Decrease score for incorrect hits.
-			score -= 250;
-			score = Math.Max(0, score);
-		}
+		score += correct ? 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed)) : -250;
 		scoreLabel.Text = score.ToString();
 		timeElapsed = 0.0;
 	}
 
-	/// <summary>
-	/// Returns whether a correct mole is currently visible.
-	/// </summary>
-	/// <returns>True if a correct mole is present, false otherwise.</returns>
-	public bool IsCorrectMolePresent()
-	{
-		return isCorrectMolePresent;
-	}
+    /// <summary>
+    /// Returns whether a correct mole is currently visible.
+    /// </summary>
+    /// <returns>True if a correct mole is present, false otherwise.</returns>
+    public bool IsCorrectMolePresent()
+    {
+        lock (lockObject)
+        {
+            return isCorrectMolePresent;
+        }
+    }
 
-	/// <summary>
-	/// Returns the current score.
-	/// </summary>
-	/// <returns>Current score in the game.</returns>
-	public int GetScore()
-	{
-		return score;
-	}
+    public void ResetCorrectMoleCount()
+    {
+        lock (lockObject)
+        {
+            correctMoleCount = 0;
+        }
+    }
+
+    /// <summary>
+    /// Returns the current score.
+    /// </summary>
+    /// <returns>Current score in the game.</returns>
+    public int GetScore()
+    {
+        return score;
+    }
 
 	/// <summary>
 	/// Pauses the game, affecting all moles in the scene.
 	/// </summary>
 	public void PauseGame()
 	{
-		paused = true;
+        paused = true;
 		foreach (Node child in GetChildren())
 		{
 			if (child is Mole mole)
@@ -115,7 +119,7 @@ public partial class MoleHouse : Node
 	/// </summary>
 	public void ResumeGame()
 	{
-		paused = false;
+        paused = false;
 		foreach (Node child in GetChildren())
 		{
 			if (child is Mole mole)
@@ -125,22 +129,63 @@ public partial class MoleHouse : Node
 		}
 	}
 
-	/// <summary>
-	/// Resets the game state, including score and mole presence.
-	/// </summary>
-	public void ResetGame()
-	{
-		score = 0;
-		scoreLabel.Text = $"Score: {score}";
-		isCorrectMolePresent = false;
-		correctMoleCount = 0;
-		timeElapsed = 0.0;
-		PauseGame();
-		ResumeGame();
-	}
+    /// <summary>
+    /// Resets the game state, including score and mole presence.
+    /// </summary>
+    public void ResetGame()
+    {
+        score = 0;
+        scoreLabel.Text = $"Score: {score}";
+        isCorrectMolePresent = false;
+        correctMoleCount = 0;
+        timeElapsed = 0.0;
+        activeMolesCount = 0;
+        PauseGame();
+        ResumeGame();
+    }
 
-	public void ResetCorrectMoleCount()
-	{
-		correctMoleCount = 0;
-	}
+    /// <summary>
+    /// Sets the maximum number of active moles allowed on the screen.
+    /// </summary>
+    /// <param name="max">The maximum number of active moles.</param>
+    public void SetMaxActiveMoles(int max)
+    {
+        maxActiveMoles = max;
+    }
+
+    /// <summary>
+    /// Checks if another mole can pop up based on the maximum limit.
+    /// </summary>
+    public bool CanMolePopUp()
+    {
+        lock (lockObject)
+        {
+            GD.Print($"Checking if mole can pop up: {activeMolesCount} < {maxActiveMoles}?");
+            return activeMolesCount < maxActiveMoles;
+        }
+    }
+
+    /// <summary>
+    /// Increments the active mole count when a mole pops up.
+    /// </summary>
+    public void RegisterMoleAppearance()
+    {
+        lock (lockObject)
+        {
+            activeMolesCount++;
+            GD.Print($"Mole appeared. Active moles: {activeMolesCount}/{maxActiveMoles}");
+        }
+    }
+
+    /// <summary>
+    /// Decrements the active mole count when a mole goes down.
+    /// </summary>
+    public void RegisterMoleDisappearance()
+    {
+        lock (lockObject)
+        {
+            activeMolesCount = Math.Max(0, activeMolesCount - 1);
+            GD.Print($"Mole disappeared. Active moles: {activeMolesCount}/{maxActiveMoles}");
+        }
+    }
 }

@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://x8npjhs44sdl" path="res://scenes/UI/DisplayPig.tscn" id="9_f0fie"]
 [ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="10_ybwrh"]
 [ext_resource type="PackedScene" uid="uid://b2j3lmsfeik5p" path="res://scenes/UI/DisplayTrunk.tscn" id="11_03nod"]
-[ext_resource type="PackedScene" uid="uid://b1gcvwv7b4mtr" path="res://scenes/FlagScene.tscn" id="13_3g4rk"]
+[ext_resource type="PackedScene" path="res://scenes/FlagScene.tscn" id="13_3g4rk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vuk8l"]
 texture = ExtResource("1_h4l7p")

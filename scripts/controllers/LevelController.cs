@@ -180,47 +180,44 @@ public partial class LevelController : Node
 	/// Assigns correct and incorrect answers to the moles randomly.
 	/// </summary>
 	private void SetMoleAnswers()
-	{
-		var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
+    {
+        var invisibleMoles = moleList.Where(mole => !mole.IsHittable()).ToList();
+        if (invisibleMoles.Count == 0) return;
 
-		if (invisibleMoles.Count == 0) return; // No invisible moles to set answers for.
+        for (int i = 0; i < invisibleMoles.Count; i++)
+        {
+            if (invisibleMoles[i].GetCorrectness())
+            {
+                invisibleMoles.RemoveAt(i);
+            }
+        }
 
-		for (int i = 0; i < invisibleMoles.Count(); i++) {
-			if (invisibleMoles[i].GetCorrectness())
-			{
-				if (!moleHouse.IsCorrectMolePresent())
-				{
-					invisibleMoles[i].ForceArise();
-				}
-				// Remove the invisible mole from the list
-				invisibleMoles.RemoveAt(i);
-			}
-		}
+        if (!moleHouse.IsCorrectMolePresent())
+        {
+            // Randomly select an invisible mole to set the correct answer.
+            var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
+            correctMole.SetAnswer(correctAnswerText, true);
+        }
 
-		if (!moleHouse.IsCorrectMolePresent())
-		{
-			// Randomly select an invisible mole to set the correct answer.
-			var correctMole = invisibleMoles[random.Next(invisibleMoles.Count)];
-			correctMole.SetAnswer(correctAnswerText, true);
-			correctMole.ForceArise();
-		}
+        // Set random answers to the rest of the moles.
+        foreach (var mole in invisibleMoles)
+        {
+            if (!mole.GetCorrectness())
+            {
+                string randomAnswer = GenerateRandomAnswer();
+                int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
 
-		// Set random answers to the rest of the moles.
-		foreach (var mole in invisibleMoles)
-		{
-			if(!mole.GetCorrectness()) //if mole is not correct, set a random incorrect answer
-			{
-				string randomAnswer = GenerateRandomAnswer();
-				int randomAnswerInt = Convert.ToInt32(new DataTable().Compute(randomAnswer, null));
-
-				if(randomAnswerInt == correctAnswer) {
-					mole.SetAnswer(randomAnswer,true);
-				} else {
-					mole.SetAnswer(randomAnswer, false);
-				}
-			}
-		}
-	}
+                if (randomAnswerInt == correctAnswer)
+                {
+                    mole.SetAnswer(randomAnswer, true);
+                }
+                else
+                {
+                    mole.SetAnswer(randomAnswer, false);
+                }
+            }
+        }
+    }
 
 	/// <summary>
 	/// Generates a random incorrect answer based on the operation and the range.

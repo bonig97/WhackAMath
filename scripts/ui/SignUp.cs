@@ -32,6 +32,7 @@ public partial class SignUp : Control
 		errorLabel = GetNode<Label>("ErrorLabel");
 		languageButton = GetNode<Button>("LanguageButton");
 		showPasswordButton = GetNode<Button>("ShowPasswordButton");
+		showPasswordLabel = GetNode<Label>("ShowPasswordLabel");
 
 		signUpButton.Connect("pressed", new Callable(this, nameof(OnSignUpButtonPressedAsync)));
 		goToLoginButton.Connect("pressed", new Callable(this, nameof(OnGoToLoginButtonPressed)));
@@ -39,7 +40,6 @@ public partial class SignUp : Control
 		showPasswordButton.Connect("pressed", new Callable(this, nameof(OnShowPasswordButtonPressed)));
 
 		isPasswordShown = false;
-
 	}
 
 	private async void OnSignUpButtonPressedAsync()
@@ -94,11 +94,13 @@ public partial class SignUp : Control
 			_ => "- Connection error",
 		};
 	}
+
 	private void ChangeScene(string scenePath)
 	{
 		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath); //SaveFile.scene
 		GetTree().ChangeSceneToPacked(scene);
 	}
+
 	private void OnLanguageButtonPressed()
 	{
 		AudioManager.Singleton?.PlayButtonSound();
@@ -106,25 +108,22 @@ public partial class SignUp : Control
 		SaveFile.prevScene = signupScene;
 		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
-	private void OnShowPasswordButtonPressed() 
+
+	private void OnShowPasswordButtonPressed()
 	{
 		AudioManager.Singleton?.PlayButtonSound();
-		if(!isPasswordShown) 
+
+		if(!isPasswordShown)
 		{
 			isPasswordShown = true;
-			//set mole to go down
 			showPasswordLabel.Text = "Hide password";
 			passwordInput.Secret = false;
-			GD.Print("button pressed");
-			//change label text to "hide"
-			//code for showing the text
-		} else 
+		}
+		else
 		{
 			isPasswordShown = false;
 			showPasswordLabel.Text = "Show password";
 			passwordInput.Secret = true;
-			//make mole pop up
-
 		}
 	}
 }
