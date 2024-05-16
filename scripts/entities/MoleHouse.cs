@@ -58,17 +58,30 @@ public partial class MoleHouse : Node
 		}
 	}
 
-	/// <summary>
-	/// Updates the score based on the correctness of the mole hit. Correct hits increase the score,
-	/// while incorrect hits decrease it.
-	/// </summary>
-	/// <param name="correct">True if the mole hit was correct, false otherwise.</param>
-	public void UpdateScore(bool correct)
-	{
-		score += correct ? 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed)) : -250;
-		scoreLabel.Text = score.ToString();
-		timeElapsed = 0.0;
-	}
+    /// <summary>
+    /// Updates the score based on the correctness of the mole hit. Correct hits increase the score,
+    /// while incorrect hits decrease it. The score will not go below zero.
+    /// </summary>
+    /// <param name="correct">True if the mole hit was correct, false otherwise.</param>
+    public void UpdateScore(bool correct)
+    {
+        if (correct)
+        {
+            score += 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed));
+        }
+        else
+        {
+            score -= 250;
+
+            if (score < 0)
+            {
+                score = 0;
+            }
+        }
+
+        scoreLabel.Text = score.ToString();
+        timeElapsed = 0.0;
+    }
 
     /// <summary>
     /// Returns whether a correct mole is currently visible.
