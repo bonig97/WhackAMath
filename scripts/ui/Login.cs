@@ -69,7 +69,7 @@ public partial class Login : Control
 			UserCredential user = await FirestoreHelper.AuthenticateUser(email, password);
 			if (user != null)
 			{
-				SaveFile.LoadSaveFile();
+				await SaveFile.LoadSaveFile();
 				GD.Print("User logged in successfully");
 				AudioManager.Singleton?.PlayConfirmSound();
 				ChangeScene("res://scenes/UI/mainUI.tscn");
