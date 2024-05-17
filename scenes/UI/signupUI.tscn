@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://6kqjv7ei7jo0" path="res://assets/images/usaFlag.png" id="5_1budo"]
 [ext_resource type="Texture2D" uid="uid://xa1xnpoj8kmk" path="res://assets/images/Terrain (16x16).png" id="5_r5hjw"]
 [ext_resource type="PackedScene" uid="uid://qaku1g15627b" path="res://scenes/UI/DisplayRealMole.tscn" id="7_clvi6"]
-[ext_resource type="PackedScene" uid="uid://cjs3qd37mm6gv" path="res://scenes/FlagScene.tscn" id="8_xp8pg"]
+[ext_resource type="PackedScene" path="res://scenes/FlagScene.tscn" id="8_xp8pg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_52jd7"]
 texture = ExtResource("2_schtc")

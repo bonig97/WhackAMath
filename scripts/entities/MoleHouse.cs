@@ -52,6 +52,12 @@ public partial class MoleHouse : Node
 	public void UpdateScore(bool isCorrect)
 	{
 		score += isCorrect ? 1000 / Math.Max(1, (int)Math.Ceiling(timeElapsed)) : -250;
+
+		if (score < 0)
+		{
+			score = 0;
+		}
+
 		scoreLabel.Text = score.ToString();
 		timeElapsed = 0.0;
 	}

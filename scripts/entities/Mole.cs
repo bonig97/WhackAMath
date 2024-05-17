@@ -288,7 +288,6 @@ public partial class Mole : Area2D
 			{
 				CorrectMoleAppeared?.Invoke();
 			}
-			
 		}
 		else if (!isCorrect && oldIsCorrect)
 		{
@@ -343,6 +342,7 @@ public partial class Mole : Area2D
 		label.Visible = true;
 		sprite.Play();
 	}
+
 	public void ForceArise()
 	{
 		var moleHouse = GetParent<MoleHouse>();
@@ -356,6 +356,5 @@ public partial class Mole : Area2D
 				GD.Print("Forced Arise");
 			}
 		}
-		
 	}
 }
