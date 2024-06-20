@@ -30,7 +30,7 @@ public partial class LanguageChoice : Control
 	private void OnBackButtonPressed()
 	{
 		AudioManager.Singleton?.PlayCancelSound();
-		GetTree().ChangeSceneToPacked(SaveFile.prevScene);
+		GetTree().ChangeSceneToPacked(SaveFile.PrevScene);
 	}
 
 	private void OnEnglishButtonPressed()

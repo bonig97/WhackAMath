@@ -34,7 +34,6 @@ public partial class Login : Control
 		languageButton = GetNode<Button>("LanguageButton");
 		languageButton.Connect("pressed", new Callable(this, nameof(OnLanguageButtonPressed)));
 
-
 		loginButton = GetNode<Button>("LoginButton");
 		loginButton.Connect("pressed", new Callable(this, nameof(OnLoginButtonPressed)));
 
@@ -62,18 +61,6 @@ public partial class Login : Control
 				await SaveFile.LoadSaveFile();
 				GD.Print("User logged in successfully");
 				AudioManager.Singleton?.PlayConfirmSound();
-
-				// Load user settings and play music
-				float musicVolume = 0.5f;
-				ConfigFile configFile = new ConfigFile();
-				var err = configFile.Load("user://settings.cfg");
-				if (err == Error.Ok)
-				{
-					musicVolume = (float)configFile.GetValue("audio", "music_volume", 0.5);
-				}
-
-				AudioManager.Singleton.PlayMainMusic(musicVolume);
-
 				ChangeScene("res://scenes/UI/mainUI.tscn");
 			}
 		}
@@ -112,7 +99,7 @@ public partial class Login : Control
 	{
 		AudioManager.Singleton?.PlayButtonSound();
 		PackedScene loginScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/loginUI.tscn");
-		SaveFile.prevScene = loginScene;
+		SaveFile.PrevScene = loginScene;
 		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
 

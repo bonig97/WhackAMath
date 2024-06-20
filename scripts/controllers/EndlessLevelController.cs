@@ -430,7 +430,7 @@ public partial class EndlessLevelController : Node
 	private void OnLevelCompleteButtonPressed()
 	{
 		GD.Print("Level complete button pressed!");
-		if (moleHouse.GetScore()>1000 && SaveFile.currentLevel == SaveFile.MaxLevelUnlocked)
+		if (moleHouse.GetScore()>1000 && SaveFile.CurrentLevel == SaveFile.MaxLevelUnlocked)
 		{
 			SaveFile.UpdateMaxLevelUnlocked(SaveFile.MaxLevelUnlocked+1);
 		}
@@ -460,7 +460,7 @@ public partial class EndlessLevelController : Node
 	{
 		GD.Print("Restart button pressed!");
 		// Read the question format for the next level
-		SaveFile.currentLevel = 1;
+		SaveFile.CurrentLevel = 1;
 
 		PackedScene endless = (PackedScene)ResourceLoader.Load("res://scenes/levels/EndlessLevel.tscn");
 		GetTree().ChangeSceneToPacked(endless);

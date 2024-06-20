@@ -61,7 +61,7 @@ public partial class LevelController : Node
 		quitButton = GetNode<Button>("GamePausePanel/QuitButton");
 		resumeButton.Connect("pressed", new Callable(this, nameof(OnResumeButtonPressed)));
 		quitButton.Connect("pressed", new Callable(this, nameof(OnQuitButtonPressed)));
-		ReadQuestionFormat($"data/levels/{SaveFile.currentLevel}.txt");
+		ReadQuestionFormat($"data/levels/{SaveFile.CurrentLevel}.txt");
 		correctAnswer = GenerateQuestion();
 		moleList = new List<Mole>();
 
@@ -321,7 +321,7 @@ public partial class LevelController : Node
 	private void OnLevelCompleteButtonPressed()
 	{
 		GD.Print("Level complete button pressed!");
-		if (moleHouse.GetScore()>1000 && SaveFile.currentLevel == SaveFile.MaxLevelUnlocked)
+		if (moleHouse.GetScore()>1000 && SaveFile.CurrentLevel == SaveFile.MaxLevelUnlocked)
 		{
 			SaveFile.UpdateMaxLevelUnlocked(SaveFile.MaxLevelUnlocked+1);
 		}
