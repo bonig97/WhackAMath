@@ -10,9 +10,9 @@ namespace WhackAMath {
 		public static int MaxLevelUnlocked { get; set; }
 		public static string LanguageSelected { get; set; }
 		public static List<int> Leaderboards { get; set; }
-		public static int moleSelected { get; set; }
-		public static int currentLevel { get; set; }
-		public static PackedScene prevScene {get; set; }
+		public static int MoleSelected { get; set; }
+		public static int CurrentLevel { get; set; }
+		public static PackedScene PrevScene { get; set; }
 		public static void InitialSaveFile()
 		{
 			MaxLevelUnlocked = 1;
@@ -21,17 +21,19 @@ namespace WhackAMath {
 			{
 				0
 			};
-			moleSelected = 0;
-			currentLevel = 1;
+			MoleSelected = 0;
+			CurrentLevel = 1;
 		}
 
 		public static Dictionary<string, object> ConvertToDictionary()
 		{
-			Dictionary<string, object> saveData = new Dictionary<string, object>();
-			saveData["MaxLevelUnlocked"] = MaxLevelUnlocked;
-			saveData["LanguageSelected"] = LanguageSelected;
-			saveData["moleSelected"] = moleSelected;
-			saveData["Leaderboards"] = Leaderboards;
+			Dictionary<string, object> saveData = new()
+            {
+                ["MaxLevelUnlocked"] = MaxLevelUnlocked,
+                ["LanguageSelected"] = LanguageSelected,
+                ["moleSelected"] = MoleSelected,
+                ["Leaderboards"] = Leaderboards
+            };
 			return saveData;
 		}
 
@@ -39,7 +41,7 @@ namespace WhackAMath {
 		{
 			MaxLevelUnlocked = Convert.ToInt32(saveData["MaxLevelUnlocked"]);
 			LanguageSelected = Convert.ToString(saveData["LanguageSelected"]);
-			moleSelected = Convert.ToInt32(saveData["moleSelected"]);
+			MoleSelected = Convert.ToInt32(saveData["moleSelected"]);
 
 			if (saveData["Leaderboards"] is List<object> tempLeaderboards)
 			{
@@ -97,7 +99,7 @@ namespace WhackAMath {
 
 		public static async void UpdateMoleSelected(int mole)
 		{
-			moleSelected = mole;
+			MoleSelected = mole;
 
 			await FirestoreHelper.UpdateDocument(ConvertToDictionary());
 		}
@@ -131,8 +133,5 @@ namespace WhackAMath {
 					break;
 			}
 		}
-
-		
-
 	}
 }

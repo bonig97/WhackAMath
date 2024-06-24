@@ -97,7 +97,7 @@ public partial class SignUp : Control
 
 	private void ChangeScene(string scenePath)
 	{
-		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath); //SaveFile.scene
+		PackedScene scene = (PackedScene)ResourceLoader.Load(scenePath);
 		GetTree().ChangeSceneToPacked(scene);
 	}
 
@@ -105,7 +105,7 @@ public partial class SignUp : Control
 	{
 		AudioManager.Singleton?.PlayButtonSound();
 		PackedScene signupScene = (PackedScene)ResourceLoader.Load("res://scenes/UI/signupUI.tscn");
-		SaveFile.prevScene = signupScene;
+		SaveFile.PrevScene = signupScene;
 		ChangeScene("res://scenes/UI/languageUI.tscn");
 	}
 

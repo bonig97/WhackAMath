@@ -78,7 +78,7 @@ public partial class Mole : Area2D
 		AddChild(responseSoundTimer);
 		responseSoundTimer.Connect("timeout", new Callable(this, nameof(OnResponseSoundTimerTimeout)));
 
-		switch (SaveFile.moleSelected)
+		switch (SaveFile.MoleSelected)
 		{
 			case 0:
 				sprite = spriteChoice0;

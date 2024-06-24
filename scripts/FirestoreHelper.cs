@@ -13,9 +13,21 @@ using System.Threading.Tasks;
 
 namespace WhackAMath
 {
-	internal static class FirestoreHelper
+	internal class FirestoreHelper : IDataService
 	{
-		static string file_config = @"
+		private static FirestoreHelper _instance;
+        public static FirestoreHelper Instance
+        {
+            get
+            {
+                _instance ??= new FirestoreHelper();
+                return _instance;
+            }
+        }
+
+        private FirestoreHelper() { }
+
+		static string FileConfig = @"
 		{
 		  ""type"": ""service_account"",
 		  ""project_id"": ""whack-a-math-fddc0"",
@@ -29,20 +41,20 @@ namespace WhackAMath
 		  ""client_x509_cert_url"": ""https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-lphgl%40whack-a-math-fddc0.iam.gserviceaccount.com"",
 		  ""universe_domain"": ""googleapis.com""
 		}";
-		static string filepath = "";
-		public static FirestoreDb Database { get; private set; }
-		public static FirebaseAuthClient Auth { get; private set; }
-		public static UserCredential UserCredential { get; private set; }
-		public static CollectionReference collectionRef { get; private set; }
-		public static string collectionName = "SaveData";
+		static string Filepath = "";
+        public static FirestoreDb Database { get; private set; }
+        public static FirebaseAuthClient Auth { get; private set; }
+        public static UserCredential UserCredential { get; private set; }
+        public static CollectionReference CollectionRef { get; private set; }
+        public static string CollectionName = "SaveData";
 
 		public static void SetEnvironmentVariable()
 		{
-			filepath = Path.Combine(Path.GetTempPath(),Path.GetFileNameWithoutExtension(Path.GetRandomFileName())) + ".json";
-			File.WriteAllText(filepath, file_config);
-			File.SetAttributes(filepath, FileAttributes.Hidden);
-			System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
-			Database = FirestoreDb.Create("whack-a-math-fddc0");
+			Filepath = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetRandomFileName())) + ".json";
+            File.WriteAllText(Filepath, FileConfig);
+            File.SetAttributes(Filepath, FileAttributes.Hidden);
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Filepath);
+            Database = FirestoreDb.Create("whack-a-math-fddc0");
 
 			var config = new FirebaseAuthConfig
 			{
@@ -57,62 +69,62 @@ namespace WhackAMath
 			};
 
 			Auth = new FirebaseAuthClient(config);
-			collectionRef = Database.Collection(collectionName);
-			File.Delete(filepath);
+            CollectionRef = Database.Collection(CollectionName);
+            File.Delete(Filepath);
 		}
 
 		public static async Task<UserCredential> AuthenticateUser(string email, string password)
-		{
-			return UserCredential = await Auth.SignInWithEmailAndPasswordAsync(email, password);
-		}
+        {
+            return UserCredential = await Auth.SignInWithEmailAndPasswordAsync(email, password);
+        }
 
-		public static async Task<UserCredential> CreateUser(string email, string password)
-		{
-			return UserCredential = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
-		}
+        public static async Task<UserCredential> CreateUser(string email, string password)
+        {
+            return UserCredential = await Auth.CreateUserWithEmailAndPasswordAsync(email, password);
+        }
 
-		public static async Task SendPasswordResetEmailAsync(string email)
-		{
-			await Auth.ResetEmailPasswordAsync(email);
-		}
+        public static async Task SendPasswordResetEmailAsync(string email)
+        {
+            await Auth.ResetEmailPasswordAsync(email);
+        }
 
-		public static async Task DeleteUserAsync(string email, string password)
-		{
-			var user = await Auth.SignInWithEmailAndPasswordAsync(email, password);
-			if (user.User.Info.Uid != UserCredential.User.Info.Uid)
-			{
-				throw new FirebaseAuthException("INVALID_LOGIN_CREDENTIALS", AuthErrorReason.Unknown);
-			}
-			else
-			{
-				await collectionRef.Document(UserCredential.User.Info.Uid).DeleteAsync();
-				await UserCredential.User.DeleteAsync();
-				SaveFile.InitialSaveFile();
-			}
-		}
+        public static async Task DeleteUserAsync(string email, string password)
+        {
+            var user = await Auth.SignInWithEmailAndPasswordAsync(email, password);
+            if (user.User.Info.Uid != UserCredential.User.Info.Uid)
+            {
+                throw new FirebaseAuthException("INVALID_LOGIN_CREDENTIALS", AuthErrorReason.Unknown);
+            }
+            else
+            {
+                await CollectionRef.Document(UserCredential.User.Info.Uid).DeleteAsync();
+                await UserCredential.User.DeleteAsync();
+                SaveFile.InitialSaveFile();
+            }
+        }
 
-		public static void SignOut()
-		{
-			Auth.SignOut();
-			SaveFile.InitialSaveFile();
-		}
+        public static void SignOut()
+        {
+            Auth.SignOut();
+            SaveFile.InitialSaveFile();
+        }
 
-		public static async Task ChangePassword(string email, string oldPassword, string newPassword)
-		{
-			var user = await Auth.SignInWithEmailAndPasswordAsync(email, oldPassword);
-			if (user.User.Info.Uid != UserCredential.User.Info.Uid)
-			{
-				throw new FirebaseAuthException("INVALID_LOGIN_CREDENTIALS", AuthErrorReason.Unknown);
-			}
-			else
-			{
-				await UserCredential.User.ChangePasswordAsync(newPassword);
-			}
-		}
+        public static async Task ChangePassword(string email, string oldPassword, string newPassword)
+        {
+            var user = await Auth.SignInWithEmailAndPasswordAsync(email, oldPassword);
+            if (user.User.Info.Uid != UserCredential.User.Info.Uid)
+            {
+                throw new FirebaseAuthException("INVALID_LOGIN_CREDENTIALS", AuthErrorReason.Unknown);
+            }
+            else
+            {
+                await UserCredential.User.ChangePasswordAsync(newPassword);
+            }
+        }
 
 		public static async Task CreateDocument(Dictionary<string, object> data)
 		{
-			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			var documentRef = Database.Collection(CollectionName).Document(Auth.User.Info.Uid);
 			await documentRef.SetAsync(SaveFile.ConvertToDictionary());
 		}
 
@@ -124,7 +136,7 @@ namespace WhackAMath
 				return;
 			}
 
-			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			var documentRef = Database.Collection(CollectionName).Document(Auth.User.Info.Uid);
 
 			if (documentRef == null)
 			{
@@ -146,7 +158,7 @@ namespace WhackAMath
 
 		public static async Task<Dictionary<string, object>> GetDocument()
 		{
-			var documentRef = Database.Collection(collectionName).Document(Auth.User.Info.Uid);
+			var documentRef = Database.Collection(CollectionName).Document(Auth.User.Info.Uid);
 			DocumentSnapshot snapshot = await documentRef.GetSnapshotAsync();
 			if (snapshot.Exists)
 			{
@@ -157,5 +169,30 @@ namespace WhackAMath
 				return null;
 			}
 		}
-	}
+
+        public async Task SaveGameDataAsync(Dictionary<string, object> data)
+        {
+            var documentRef = Database.Collection(CollectionName).Document(Auth.User.Info.Uid);
+            await documentRef.SetAsync(data);
+        }
+
+        public async Task<Dictionary<string, object>> LoadGameDataAsync()
+        {
+            var documentRef = Database.Collection(CollectionName).Document(Auth.User.Info.Uid);
+            DocumentSnapshot snapshot = await documentRef.GetSnapshotAsync();
+            if (snapshot.Exists)
+            {
+                return snapshot.ToDictionary();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void Logout()
+		{
+			SignOut();
+		}
+    }
 }

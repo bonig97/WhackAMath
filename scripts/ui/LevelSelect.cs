@@ -24,7 +24,7 @@ public partial class LevelSelect : Control
 	{
 		SetupControls();
 		ConnectSignals();
-		GD.Print("Current Level: " + SaveFile.currentLevel);
+		GD.Print("Current Level: " + SaveFile.CurrentLevel);
 	}
 
 	/// <summary>
@@ -95,7 +95,7 @@ public partial class LevelSelect : Control
 		panel.Visible = true;
 		cancelButton.Disabled = false;
 		playButton.Disabled = false;
-		SaveFile.currentLevel = num;
+		SaveFile.CurrentLevel = num;
 	}
 
 	private void OnPlayButtonPressed()

@@ -41,3 +41,5 @@ Trova la talpa che dà la risposta in alto il più velocemente possibile!
 Fare clic sulla domanda che fornisce il numero","كل خلد عنده مسألة حسابية
 أعثر على الخلد اللذي يعطي الرقم الموجود فوق بأسرع وقت
 إضغط على السؤال اللذي يعطي الرقم"
+offline_mode_prompt,"Play offline","Gioca offline","العب بدون انترنت"
+online_mode_prompt,"Play online","Gioca online","العب مع الانترنت"
